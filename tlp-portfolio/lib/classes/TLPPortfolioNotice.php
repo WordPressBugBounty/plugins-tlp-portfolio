@@ -25,10 +25,10 @@ if ( ! class_exists( 'TLPPortfolioNotice' ) ):
 				'admin_init',
 				function () {
 					$current = time();
-					if ( mktime( 0, 0, 0, 11, 20, 2023 ) <= $current && $current <= mktime( 0, 0, 0, 1, 5, 2024 ) ) {
-						if ( '1' !== get_option( 'rtpf_ny_2023' ) ) {
+					if ( mktime( 0, 0, 0, 11, 20, 2024 ) <= $current && $current <= mktime( 0, 0, 0, 1, 5, 2025 ) ) {
+						if ( '1' !== get_option( 'rtpf_ny_2025' ) ) {
 							if ( ! isset( $GLOBALS['rt_pf_ny_2023_notice'] ) ) {
-								$GLOBALS['rt_pf_ny_2023_notice'] = 'rtpf_ny_2023';
+								$GLOBALS['rt_pf_ny_2023_notice'] = 'rtpf_ny_2025';
 								self::bf_notice();
 							}
 						}
@@ -216,9 +216,9 @@ if ( ! class_exists( 'TLPPortfolioNotice' ) ):
 			return remove_query_arg( [ '_wpnonce', '_wc_notice_nonce', 'wc_db_update', 'wc_db_update_nonce', 'wc-hide-notice' ], admin_url( $uri ) );
 		}
 
-		// remove the notice for the user if review already done or if the user does not want to.
+		// remove the notice for the user if review already done or if the user does not want to. wp_unslash
 		public static function rtport_spare_me() {
-			if ( ! isset( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'rtport_notice_nonce' ) ) {
+			if ( ! isset( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field ( wp_unslash( $_REQUEST['_wpnonce'] ) ) , 'rtport_notice_nonce' ) ) {
 				return;
 			}
 
@@ -269,15 +269,20 @@ if ( ! class_exists( 'TLPPortfolioNotice' ) ):
 					$plugin_name   = 'Portfolio Pro';
 					$download_link = TLPPortfolio()->pro_version_link();
 					?>
-					<div class="notice notice-info is-dismissible" data-rtpfdismissable="rtpf_ny_2023"
+					<div class="notice notice-info is-dismissible" data-rtpfdismissable="rtpf_ny_2025"
 					     style="display:grid;grid-template-columns: 100px auto;padding-top: 25px; padding-bottom: 22px;">
 						<img alt="<?php echo esc_attr( $plugin_name ); ?>" src="<?php echo esc_url( TLPPortfolio()->assetsUrl ) . 'images/portfolio-gif.gif'; ?>" width="74px" height="74px" style="grid-row: 1 / 4; align-self: center;justify-self: center"/>
-						<h3 style="margin:0;"><?php echo sprintf( '%s Black Friday Sale 2023!!', esc_html( $plugin_name ) ); ?></h3>
+						<h3 style="margin:0; display:flex; align-items: center">
+                            <?php echo sprintf( '%s - Black Friday', esc_html( $plugin_name ) ); ?>
+                            <img alt="<?php echo esc_attr( $plugin_name ); ?>" src="<?php echo esc_url( TLPPortfolio()->assetsUrl ) . 'images/deal.gif'; ?>" width="60px" />
+                        </h3>
 
 						<p style="margin:0 0 2px;">
-
-							<?php echo esc_html__( "Exciting News: Portfolio Pro Black Friday sale is now live!", 'testimonial-slider-showcase' ); ?>
-                            Get the plugin today and enjoy discounts up to <b> 50%.</b>
+                            <?php
+                            echo wp_kses_post(
+                                __( "Exciting News: <b>Portfolio Pro</b> Black Friday sale is now live! Get the plugin today and enjoy discounts up to <b>50%</b>.", 'tlp-portfolio' )
+                            );
+                            ?>
 						</p>
 
 						<p style="margin:0;">
@@ -319,7 +324,7 @@ if ( ! class_exists( 'TLPPortfolioNotice' ) ):
 				function () {
 					check_ajax_referer( 'rtpf-dismissible-notice', 'nonce' );
 
-					update_option( 'rtpf_ny_2023', '1' );
+					update_option( 'rtpf_ny_2025', '1' );
 					wp_die();
 				}
 			);

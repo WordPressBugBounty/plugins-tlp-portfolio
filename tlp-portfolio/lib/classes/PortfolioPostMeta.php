@@ -134,7 +134,7 @@ if ( ! class_exists( 'PortfolioPostMeta' ) ) :
 
 			global $TLPportfolio;
 
-			if ( ! isset( $_REQUEST['tlp_nonce'] ) || ! wp_verify_nonce( $_REQUEST['tlp_nonce'], $TLPportfolio->nonceText() ) ) {
+			if ( ! isset( $_REQUEST['tlp_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['tlp_nonce'] ) ), $TLPportfolio->nonceText() ) ) {
 				return;
 			}
 

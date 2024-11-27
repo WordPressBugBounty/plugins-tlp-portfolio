@@ -6,7 +6,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-05-08 05:52+0000\n"
+"POT-Creation-Date: 2024-11-27 06:08+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -283,24 +283,28 @@ msgid "Tags :"
 msgstr ""
 
 #. translators: %d is the page number
-#: ../lib/classes/TLPPortfolioHelper.php:511
+#: ../lib/classes/TLPPortfolioHelper.php:544
 msgid "Page %1$d of %2$d"
 msgstr ""
 
-#: ../lib/classes/TLPPortfolioHelper.php:519
+#: ../lib/classes/TLPPortfolioHelper.php:552
 msgid "First"
 msgstr ""
 
-#: ../lib/classes/TLPPortfolioHelper.php:527
+#: ../lib/classes/TLPPortfolioHelper.php:560
 msgid "Previous"
 msgstr ""
 
-#: ../lib/classes/TLPPortfolioHelper.php:543
+#: ../lib/classes/TLPPortfolioHelper.php:576
 msgid "Next"
 msgstr ""
 
-#: ../lib/classes/TLPPortfolioHelper.php:551
+#: ../lib/classes/TLPPortfolioHelper.php:584
 msgid "Last"
+msgstr ""
+
+#: ../lib/classes/TLPPortfolioNotice.php:283
+msgid "Exciting News: <b>Portfolio Pro</b> Black Friday sale is now live! Get the plugin today and enjoy discounts up to <b>50%</b>."
 msgstr ""
 
 #: ../lib/classes/TLPPortfolioOptions.php:24
@@ -619,23 +623,23 @@ msgstr ""
 msgid "Get Help"
 msgstr ""
 
-#: ../lib/classes/TLPportShortCode.php:461
+#: ../lib/classes/TLPportShortCode.php:463
 msgid "No shortCode found"
 msgstr ""
 
-#: ../lib/classes/TLPportShortCode.php:459
+#: ../lib/classes/TLPportShortCode.php:461
 msgid "Session Error !!"
 msgstr ""
 
-#: ../lib/classes/TLPportShortCode.php:455
+#: ../lib/classes/TLPportShortCode.php:457
 msgid "No portfolio found"
 msgstr ""
 
-#: ../lib/classes/TLPportShortCode.php:312
+#: ../lib/classes/TLPportShortCode.php:314
 msgid "Loading ..."
 msgstr ""
 
-#: ../lib/classes/TLPportShortCode.php:417, ../lib/classes/TLPportShortCode.php:898
+#: ../lib/classes/TLPportShortCode.php:419, ../lib/classes/TLPportShortCode.php:900
 msgid "Show all"
 msgstr ""
 

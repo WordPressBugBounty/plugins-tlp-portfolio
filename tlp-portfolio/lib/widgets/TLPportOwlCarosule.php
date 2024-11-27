@@ -34,7 +34,7 @@ if ( ! class_exists( 'TLPportOwlCarosule' ) ) :
 		public function carousel_script() {
 			global $TLPportfolio;
 
-			wp_enqueue_style( 'tlpportfolio-css', $TLPportfolio->assetsUrl . 'css/tlpportfolio.css' );
+			wp_enqueue_style( 'tlpportfolio-css', $TLPportfolio->assetsUrl . 'css/tlpportfolio.css', [], '1.0.0', 'all' );
 		}
 
 		/**

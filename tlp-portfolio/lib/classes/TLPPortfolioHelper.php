@@ -398,35 +398,68 @@ if ( ! class_exists( 'TLPPortfolioHelper' ) ) :
 		}
 
 		public function socialShare( $pLink ) {
-			$html  = null;
-			$html .= "<div class='single-portfolio-share'>
-						<div class='fb-share rt-share-item'>
-							<div class='fb-share-button' data-href='" . esc_attr( $pLink ) . "' data-layout='button_count'></div>
-						</div>
-						<div class='twitter-share rt-share-item'>
-							<a href='" . esc_url( $pLink ) . "' class='twitter-share-button'{count} data-url='https://about.twitter.com/resources/buttons#tweet'>Tweet</a>
-						</div>
-
-						<div class='linkedin-share rt-share-item'>
-							<script type='IN/Share' data-counter='right'></script>
-						</div>
-					</div>";
-			$html .= '<div id="fb-root"></div>
-			<script>(function(d, s, id) {
-				var js, fjs = d.getElementsByTagName(s)[0];
-					if (d.getElementById(id)) return;
-					js = d.createElement(s); js.id = id;
-					js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
-					fjs.parentNode.insertBefore(js, fjs);
-				}(document, "script", "facebook-jssdk"));</script>';
-			$html .= "<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-			<script>window.___gcfg = { lang: 'en-US', parsetags: 'onload', };</script>";
-			$html .= "<script src='https://apis.google.com/js/platform.js' async defer></script>";
-			$html .= '<script src="//platform.linkedin.com/in.js" type="text/javascript"> lang: en_US</script>';
-			$html .= '<script async defer src="//assets.pinterest.com/js/pinit.js"></script>';
-
+            $html = '';
+            $html  = "<div class='single-portfolio-share'>";
+            $html .= "<div class='fb-share rt-share-item'>
+                <div class='fb-share-button' data-href='" . esc_url( $pLink ) . "' data-layout='button_count'></div>
+              </div>";
+            $html .= "<div class='twitter-share rt-share-item'>
+                <a href='https://twitter.com/share?url=" . esc_url( $pLink ) . "' class='twitter-share-button'>Tweet</a>
+              </div>";
+            $html .= "<div class='linkedin-share rt-share-item'>
+                <script type='IN/Share' data-url='" . esc_url( $pLink ) . "'></script>
+              </div>";
+            $html .= "</div>";
+            $html .=  "<div id='fb-root'></div>";
+            $this->enqueueSocialScripts();
 			return $html;
 		}
+
+        private function enqueueSocialScripts() {
+            wp_enqueue_script(
+                'facebook-sdk',
+                'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5',
+                [],
+                '1.0.0',
+                true
+            );
+
+            // Enqueue Twitter widgets
+            wp_enqueue_script(
+                'twitter-widgets',
+                'https://platform.twitter.com/widgets.js',
+                [],
+                '1.0.0',
+                true
+            );
+
+            // Enqueue LinkedIn platform
+            wp_enqueue_script(
+                'linkedin-platform',
+                'https://platform.linkedin.com/in.js',
+                [],
+                '1.0.0',
+                true
+            );
+
+            // Enqueue Pinterest
+            wp_enqueue_script(
+                'pinterest-script',
+                'https://assets.pinterest.com/js/pinit.js',
+                [],
+                '1.0.0',
+                true
+            );
+
+            // Enqueue Google+ platform
+            wp_enqueue_script(
+                'google-platform',
+                'https://apis.google.com/js/platform.js',
+                [],
+                '1.0.0',
+                true
+            );
+        }
 
 		public function proFeatureList() {
 			ob_start();

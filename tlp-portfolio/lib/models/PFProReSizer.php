@@ -181,7 +181,7 @@ if ( ! class_exists( 'PFProReSizer' ) ) {
 
 				return $image;
 			} catch ( PFProException $ex ) {
-				error_log( 'rtTPGReSizer.process() error: ' . $ex->getMessage() );
+				//error_log( 'rtTPGReSizer.process() error: ' . $ex->getMessage() );
 
 				if ( $this->throwOnError ) {
 					// Bubble up exception.

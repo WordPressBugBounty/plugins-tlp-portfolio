@@ -174,6 +174,7 @@ if ( ! class_exists( 'TLPportShortCode' ) ) :
 					}
 					/* post__not_in */
 					if ( $post__not_in ) {
+                        // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in
 						$query_args['post__not_in'] = explode( ',', $post__not_in );
 					}
 
@@ -238,6 +239,7 @@ if ( ! class_exists( 'TLPportShortCode' ) ) :
 						if ( count( $taxQ ) > 1 ) {
 							$taxQ['relation'] = $relation;
 						}
+                        // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 						$query_args['tax_query'] = $taxQ;
 					}
 
@@ -834,7 +836,7 @@ if ( ! class_exists( 'TLPportShortCode' ) ) :
 
 			if ( ! empty( $atts['cat'] ) ) {
 				$cat_ids           = explode( ',', esc_html($atts['cat']) );
-				$args['tax_query'] = [
+				$args['tax_query'] = [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 					[
 						'taxonomy' => TLPPortfolio()->taxonomies['category'],
 						'field'    => 'term_id',

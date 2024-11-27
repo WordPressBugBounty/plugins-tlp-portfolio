@@ -46,7 +46,7 @@ if ( ! class_exists( 'TPLportFrontEnd' ) ) :
 		public function tlp_portfolio_wp_enqueue_scripts() {
 			global $TLPportfolio;
 
-			wp_enqueue_style( 'tlpportfolio-css', $TLPportfolio->assetsUrl . 'css/tlpportfolio.css' );
+			wp_enqueue_style( 'tlpportfolio-css', $TLPportfolio->assetsUrl . 'css/tlpportfolio.css', [], '1.0', 'all' );
 
 			$version    = '';
 			$upload_dir = wp_upload_dir();

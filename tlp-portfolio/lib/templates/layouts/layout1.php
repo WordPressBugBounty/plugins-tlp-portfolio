@@ -10,8 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'This script cannot be accessed directly.' );
 }
 
-$exFeature   = $visit_url = $imgWithHtml = $project_title = $zoom_image_icon = $short_description = null;
-$link_target = $link_target ? " target='" . $link_target . "'" : null;
+$exFeature   = $visit_url = $imgWithHtml = $project_title = $zoom_image_icon = $short_description = '';
+$link_target = $link_target ? " target='" . $link_target . "'" : '';
 
 if ( in_array( 'zoom_image', $items ) && $imgFull ) {
 	$zoom_image_icon .= sprintf( '<a class="tlp-zoom" href="%s" aria-label="%s"><i class="demo-icon icon-zoom-in"></i></a>', esc_url( $imgFull ),esc_html($title) );
@@ -55,7 +55,7 @@ if ( $exFeature ) {
 	$exFeature = sprintf( '<div class="extra-features"> %s </div>', $short_description );
 }
 
-if ( $img ) {
+if ( !empty( $img ) ) {
 	$imgWithHtml = sprintf(
 		'<div class="tlp-portfolio-thum tlp-item">
 			%s
@@ -89,7 +89,8 @@ if ( $img ) {
 			);
 			?>
 		<?php } ?>
-		<?php echo wp_kses_post( $imgWithHtml ); ?>
+		<?php
+        echo $imgWithHtml; ?>
 	</div>
 </div>
 

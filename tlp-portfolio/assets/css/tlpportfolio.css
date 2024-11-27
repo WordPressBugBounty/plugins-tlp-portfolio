@@ -410,10 +410,16 @@ button::-moz-focus-inner {
 .mfp-image-holder .mfp-close,
 .mfp-iframe-holder .mfp-close {
     color: #fff;
-    right: -6px;
+    right: 0;
     text-align: right;
     padding-right: 6px;
-    width: 100%
+    width: 44px;
+    text-align: center;
+    padding: 0;
+    height: 44px;
+    top: -4px;
+    background-color: #cc33668c;
+    font-size: 20px;
 }
 
 .mfp-counter {

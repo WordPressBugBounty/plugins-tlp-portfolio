@@ -1,12 +1,23 @@
-=== Portfolio - WordPress Portfolio Plugin ===
+=== Portfolio ===
 Contributors: techlabpro1
 Donate link:
-Tags: portfolio, portfolio plugin, wordpress portfolio plugin, filterable portfolio, best portfolio, best wp portfolio, gallery, portfolio gallery, photo gallery, image display, creative portfolio, portfolio display, portfolio slider, responsive portfolio, portfolio showcase.
-Requires at least: 4.3
-Tested up to: 6.5
-Stable tag: 2.8.18
-License: GPLv3
-License URI: http://www.gnu.org/licenses/gpl-3.0.html
+Tags: "portfolio", "portfolio plugin", "wordpress portfolio plugin", "filterable portfolio", "best portfolio".
+Stable tag: 2.8.19
+Requires at least: 5.0
+Tested up to: 6.7
+Requires PHP: 7.0
+License: GPL-2.0-or-later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Short Description: A simple and powerful WordPress plugin to create and showcase beautiful portfolios.
+
+
+== Description ==
+
+A simple and powerful WordPress portfolio plugin to showcase your work with ease.
+
+== License ==
+
+This plugin is licensed under the GPL-2.0-or-later License.
 
 Best WordPress Portfolio Plugin for WordPress to display your portfolio work in grid, filterable portfolio and slider view.
 
@@ -203,6 +214,9 @@ Check the fields on the fields' selection part, checking the fields you want to 
 
 
 == Changelog ==
+
+= 2.8.19 ( November 26, 2024 ) =
+* Added: Category & Tags rest api support
 
 = 2.8.18 ( May 5, 2024 ) =
 * Added: Category & Tags rest api support

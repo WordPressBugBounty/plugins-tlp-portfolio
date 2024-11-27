@@ -218,8 +218,13 @@ if ( ! class_exists( 'TLPPortfolioSCMeta' ) ) :
 			$mates = TLPPortfolio()->pfpScMetaFields();
 
 			foreach ( $mates as $metaKey => $field ) {
-				$rValue = ! empty( $_REQUEST[ $metaKey ] ) ? $_REQUEST[ $metaKey ] : null;
-				$value  = TLPPortfolio()->sanitize( $field, $rValue );
+                $rValue = !empty($_REQUEST[$metaKey]) ? wp_unslash($_REQUEST[$metaKey]) : null;
+                if (is_array($rValue)) {
+                    $rValue = array_map('sanitize_text_field', $rValue);
+                } elseif (!is_null($rValue)) {
+                    $rValue = sanitize_text_field($rValue);
+                }
+                $value  = TLPPortfolio()->sanitize($field, $rValue);
 
 				if ( empty( $field['multiple'] ) ) {
 					update_post_meta( $post_id, $metaKey, $value );
@@ -267,9 +272,9 @@ if ( ! class_exists( 'TLPPortfolioSCMeta' ) ) :
 					$wp_filesystem->mkdir( $upload_basedir_trailingslashit . 'tlp-portfolio' );
 				}
 
-				if ( ! $wp_filesystem->put_contents( $cssFile, $css ) ) {
-					error_log( print_r( 'Error Generated css file ', true ) );
-				}
+//				if ( ! $wp_filesystem->put_contents( $cssFile, $css ) ) {
+//					error_log( print_r( 'Error Generated css file ', true ) );
+//				}
 			}
 		}
 
