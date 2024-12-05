@@ -231,29 +231,32 @@ if ( ! class_exists( 'TlpPortfolioField' ) ) :
                     $title      = isset( $value['title'] ) && $value['title'] ? $value['title'] : '';
                     $layout     = isset( $value['layout'] ) ? $value['layout'] : '';
                     $demo_title = isset( $value['demoUrl'] ) && $value['demoUrl'] ? '<a href="' . $value['demoUrl'] . '" target="_blank">' . $title . '</a>' : $title;
-
+                    $attachment_id = attachment_url_to_postid( $value['img'] );
+                    if ( $attachment_id ) {
+                        $image_html = wp_get_attachment_image( $attachment_id, 'full', false, array( 'alt' => esc_attr( $title ) ) );
+                    } else {
+                        $image_html = '<img src="' . esc_url( $value['img'] ) . '" alt="' . esc_attr( $title ) . '">'; // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
+                    }
                     $h .= sprintf(
                         '<label data-type="%7$s" class="radio-image %7$s" for="%2$s">
-							<input type="radio" id="%2$s" %3$s name="%4$s" value="%2$s">
-							<div class="rtpfp-radio-image-pro-wrap">
-								<img src="%5$s" title="%1$s" alt="%1$s">
-								<div class="rtpfp-checked"><span class="dashicons dashicons-yes"></span></div>
-							</div>
-							<div class="rtpfp-demo-name"> %6$s </div>
-						</label>',
+                            <input type="radio" id="%2$s" %3$s name="%4$s" value="%2$s">
+                            <div class="rtpfp-radio-image-pro-wrap">
+                                %5$s
+                                <div class="rtpfp-checked"><span class="dashicons dashicons-yes"></span></div>
+                            </div>
+                            <div class="rtpfp-demo-name">%6$s </div>
+                        </label>',
                         esc_html( $title ),
                         esc_attr( $key ),
                         esc_attr( $checked ),
                         esc_attr( $this->name ),
-                        esc_url( $value['img'] ),
+                        $image_html,
                         TLPPortfolio()->htmlKses( $demo_title, 'basic' ),
                         esc_attr( $layout )
                     );
                 }
             }
-
             $h .= '</div>';
-
             return $h;
         }
 
@@ -514,25 +517,25 @@ if ( ! class_exists( 'TlpPortfolioField' ) ) :
             $h   = null;
             $h  .= "<div class='rt-image-holder'>";
             $h  .= '<input type="hidden" name="' . esc_attr( $this->name ) . '" value="' . absint( $this->value ) . '" id="' . esc_attr( $this->name ) . '" class="hidden-image-id" />';
+
             $img = null;
             $c   = 'hidden';
 
             if ( $id = absint( $this->value ) ) {
-                $aImg = wp_get_attachment_image_src( $id, 'thumbnail' );
-                $img  = '<img src="' . esc_url( $aImg[0] ) . '" >';
-                $c    = null;
+                $img = wp_get_attachment_image( $id, 'thumbnail', false, array( 'class' => 'rt-image-preview-img' ) );
+                $c   = null;
             } else {
                 $aImg = TLPPortfolio()->placeholder_img_src();
-                $img  = '<img src="' . esc_url( $aImg ) . '" >';
+                $img = '<img src="' . esc_url( $aImg ) . '" class="rt-image-preview-img">'; // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
             }
 
             $h .= "<div class='rt-image-preview'>
-					" . TLPPortfolio()->htmlKses( $img, 'image' ) . "
-					<span class='dashicons dashicons-plus-alt rtAddImage'></span>
-					<span class='dashicons dashicons-trash rtRemoveImage " . esc_attr( $c ) . "'></span>
-				</div>";
-            $h .= '</div>';
+                    " . TLPPortfolio()->htmlKses( $img, 'image' ) . "
+                    <span class='dashicons dashicons-plus-alt rtAddImage'></span>
+                    <span class='dashicons dashicons-trash rtRemoveImage " . esc_attr( $c ) . "'></span>
+                </div>";
 
+            $h .= '</div>';
             return $h;
         }
 

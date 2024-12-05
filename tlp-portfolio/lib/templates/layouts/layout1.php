@@ -77,20 +77,20 @@ if ( !empty( $img ) ) {
 	<div class="tlp-portfolio-item">
 		<?php if ( $project_title || $exFeature ) { ?>
 			<?php
-			$imgWithHtml .= sprintf(
-				'<div class="tlp-content">
-					<div class="tlp-content-holder">
-						%s
-						%s
-					</div>
-				</div>',
-				$project_title,
-				$exFeature
-			);
+                $imgWithHtml .= sprintf(
+                    '<div class="tlp-content">
+                        <div class="tlp-content-holder">
+                            %s
+                            %s
+                        </div>
+                    </div>',
+                    $project_title,
+                    $exFeature
+                );
 			?>
 		<?php } ?>
 		<?php
-        echo $imgWithHtml; ?>
+        echo wp_kses_post( $imgWithHtml ); ?>
 	</div>
 </div>
 

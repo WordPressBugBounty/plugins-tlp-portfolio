@@ -218,7 +218,7 @@ if ( ! class_exists( 'TLPPortfolioSCMeta' ) ) :
 			$mates = TLPPortfolio()->pfpScMetaFields();
 
 			foreach ( $mates as $metaKey => $field ) {
-                $rValue = !empty($_REQUEST[$metaKey]) ? wp_unslash($_REQUEST[$metaKey]) : null;
+                $rValue = !empty($_REQUEST[$metaKey]) ? wp_unslash($_REQUEST[$metaKey]) : null; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
                 if (is_array($rValue)) {
                     $rValue = array_map('sanitize_text_field', $rValue);
                 } elseif (!is_null($rValue)) {

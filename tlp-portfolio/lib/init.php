@@ -95,8 +95,7 @@ if ( ! class_exists( 'TLPPortfolio' ) ) :
 					TLPPortfolio()->generatorShortCodeCss( $scPostId );
 				}
 			}
-
-			wp_reset_query();
+            wp_reset_postdata();
 		}
 
 		public function pro_version_link() {

@@ -6,7 +6,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-11-27 06:08+0000\n"
+"POT-Creation-Date: 2024-12-05 10:53+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -218,7 +218,7 @@ msgstr ""
 msgid "Client Name"
 msgstr ""
 
-#: ../lib/classes/PortfolioPostMeta.php:88, ../lib/classes/TLPPortfolioHelper.php:384, ../lib/vendor/TlpPortfolioElementorWidget.php:773, ../lib/templates/elementor/carousel3.php:63, ../lib/templates/elementor/isotope1.php:61, ../lib/templates/elementor/isotope3.php:64, ../lib/templates/elementor/layout1.php:48, ../lib/templates/elementor/layout2.php:63, ../lib/templates/elementor/layout3.php:63
+#: ../lib/classes/PortfolioPostMeta.php:88, ../lib/classes/TLPPortfolioHelper.php:386, ../lib/vendor/TlpPortfolioElementorWidget.php:773, ../lib/templates/elementor/carousel3.php:63, ../lib/templates/elementor/isotope1.php:61, ../lib/templates/elementor/isotope3.php:64, ../lib/templates/elementor/layout1.php:48, ../lib/templates/elementor/layout2.php:63, ../lib/templates/elementor/layout3.php:63
 msgid "Completed Date"
 msgstr ""
 
@@ -262,44 +262,44 @@ msgstr ""
 msgid "Custom image size"
 msgstr ""
 
-#: ../lib/classes/TLPPortfolioHelper.php:368, ../lib/templates/elementor/carousel3.php:59, ../lib/templates/elementor/isotope1.php:57, ../lib/templates/elementor/isotope3.php:60, ../lib/templates/elementor/layout1.php:44, ../lib/templates/elementor/layout2.php:59, ../lib/templates/elementor/layout3.php:59
+#: ../lib/classes/TLPPortfolioHelper.php:370, ../lib/templates/elementor/carousel3.php:59, ../lib/templates/elementor/isotope1.php:57, ../lib/templates/elementor/isotope3.php:60, ../lib/templates/elementor/layout1.php:44, ../lib/templates/elementor/layout2.php:59, ../lib/templates/elementor/layout3.php:59
 msgid "Project URL"
 msgstr ""
 
-#: ../lib/classes/TLPPortfolioHelper.php:372
+#: ../lib/classes/TLPPortfolioHelper.php:374
 msgid "Categories: "
 msgstr ""
 
-#: ../lib/classes/TLPPortfolioHelper.php:376, ../lib/vendor/TlpPortfolioElementorWidget.php:795, ../lib/templates/elementor/carousel3.php:71, ../lib/templates/elementor/isotope1.php:69, ../lib/templates/elementor/isotope3.php:72, ../lib/templates/elementor/layout1.php:56, ../lib/templates/elementor/layout2.php:71, ../lib/templates/elementor/layout3.php:71
+#: ../lib/classes/TLPPortfolioHelper.php:378, ../lib/vendor/TlpPortfolioElementorWidget.php:795, ../lib/templates/elementor/carousel3.php:71, ../lib/templates/elementor/isotope1.php:69, ../lib/templates/elementor/isotope3.php:72, ../lib/templates/elementor/layout1.php:56, ../lib/templates/elementor/layout2.php:71, ../lib/templates/elementor/layout3.php:71
 msgid "Tools"
 msgstr ""
 
-#: ../lib/classes/TLPPortfolioHelper.php:380
+#: ../lib/classes/TLPPortfolioHelper.php:382
 msgid "Client"
 msgstr ""
 
-#: ../lib/classes/TLPPortfolioHelper.php:388
+#: ../lib/classes/TLPPortfolioHelper.php:390
 msgid "Tags :"
 msgstr ""
 
 #. translators: %d is the page number
-#: ../lib/classes/TLPPortfolioHelper.php:544
+#: ../lib/classes/TLPPortfolioHelper.php:546
 msgid "Page %1$d of %2$d"
 msgstr ""
 
-#: ../lib/classes/TLPPortfolioHelper.php:552
+#: ../lib/classes/TLPPortfolioHelper.php:554
 msgid "First"
 msgstr ""
 
-#: ../lib/classes/TLPPortfolioHelper.php:560
+#: ../lib/classes/TLPPortfolioHelper.php:562
 msgid "Previous"
 msgstr ""
 
-#: ../lib/classes/TLPPortfolioHelper.php:576
+#: ../lib/classes/TLPPortfolioHelper.php:578
 msgid "Next"
 msgstr ""
 
-#: ../lib/classes/TLPPortfolioHelper.php:584
+#: ../lib/classes/TLPPortfolioHelper.php:586
 msgid "Last"
 msgstr ""
 
@@ -643,83 +643,83 @@ msgstr ""
 msgid "Show all"
 msgstr ""
 
-#: ../lib/models/TlpPortfolioField.php:586
+#: ../lib/models/TlpPortfolioField.php:589
 msgid "Left"
 msgstr ""
 
-#: ../lib/models/TlpPortfolioField.php:587
+#: ../lib/models/TlpPortfolioField.php:590
 msgid "Right"
 msgstr ""
 
-#: ../lib/models/TlpPortfolioField.php:588
+#: ../lib/models/TlpPortfolioField.php:591
 msgid "Center"
 msgstr ""
 
-#: ../lib/models/TlpPortfolioField.php:589
+#: ../lib/models/TlpPortfolioField.php:592
 msgid "Justify"
 msgstr ""
 
-#: ../lib/models/TlpPortfolioField.php:595, ../lib/vendor/TlpPortfolioElementorWidget.php:649
+#: ../lib/models/TlpPortfolioField.php:598, ../lib/vendor/TlpPortfolioElementorWidget.php:649
 msgid "Normal"
 msgstr ""
 
-#: ../lib/models/TlpPortfolioField.php:596
+#: ../lib/models/TlpPortfolioField.php:599
 msgid "Bold"
 msgstr ""
 
-#: ../lib/models/TlpPortfolioField.php:597
+#: ../lib/models/TlpPortfolioField.php:600
 msgid "Bolder"
 msgstr ""
 
-#: ../lib/models/TlpPortfolioField.php:598
+#: ../lib/models/TlpPortfolioField.php:601
 msgid "Lighter"
 msgstr ""
 
-#: ../lib/models/TlpPortfolioField.php:599
+#: ../lib/models/TlpPortfolioField.php:602
 msgid "Inherit"
 msgstr ""
 
-#: ../lib/models/TlpPortfolioField.php:600
+#: ../lib/models/TlpPortfolioField.php:603
 msgid "Initial"
 msgstr ""
 
-#: ../lib/models/TlpPortfolioField.php:601
+#: ../lib/models/TlpPortfolioField.php:604
 msgid "Unset"
 msgstr ""
 
-#: ../lib/models/TlpPortfolioField.php:602
+#: ../lib/models/TlpPortfolioField.php:605
 msgid "100"
 msgstr ""
 
-#: ../lib/models/TlpPortfolioField.php:603
+#: ../lib/models/TlpPortfolioField.php:606
 msgid "200"
 msgstr ""
 
-#: ../lib/models/TlpPortfolioField.php:604
+#: ../lib/models/TlpPortfolioField.php:607
 msgid "300"
 msgstr ""
 
-#: ../lib/models/TlpPortfolioField.php:605
+#: ../lib/models/TlpPortfolioField.php:608
 msgid "400"
 msgstr ""
 
-#: ../lib/models/TlpPortfolioField.php:606
+#: ../lib/models/TlpPortfolioField.php:609
 msgid "500"
 msgstr ""
 
-#: ../lib/models/TlpPortfolioField.php:607
+#: ../lib/models/TlpPortfolioField.php:610
 msgid "600"
 msgstr ""
 
-#: ../lib/models/TlpPortfolioField.php:608
+#: ../lib/models/TlpPortfolioField.php:611
 msgid "700"
 msgstr ""
 
-#: ../lib/models/TlpPortfolioField.php:609
+#: ../lib/models/TlpPortfolioField.php:612
 msgid "800"
 msgstr ""
 
-#: ../lib/models/TlpPortfolioField.php:610
+#: ../lib/models/TlpPortfolioField.php:613
 msgid "900"
 msgstr ""
 
@@ -1007,35 +1007,35 @@ msgstr ""
 msgid "TPL Portfolio"
 msgstr ""
 
-#: ../lib/widgets/TLPportOwlCarosule.php:130
+#: ../lib/widgets/TLPportOwlCarosule.php:129
 msgid "No post found"
 msgstr ""
 
-#: ../lib/widgets/TLPportOwlCarosule.php:234
+#: ../lib/widgets/TLPportOwlCarosule.php:233
 msgid "Title:"
 msgstr ""
 
-#: ../lib/widgets/TLPportOwlCarosule.php:240
+#: ../lib/widgets/TLPportOwlCarosule.php:239
 msgid "Number of item per slide:"
 msgstr ""
 
-#: ../lib/widgets/TLPportOwlCarosule.php:246
+#: ../lib/widgets/TLPportOwlCarosule.php:245
 msgid "Number of item for tablet:"
 msgstr ""
 
-#: ../lib/widgets/TLPportOwlCarosule.php:252
+#: ../lib/widgets/TLPportOwlCarosule.php:251
 msgid "Number of item for mobile:"
 msgstr ""
 
-#: ../lib/widgets/TLPportOwlCarosule.php:258
+#: ../lib/widgets/TLPportOwlCarosule.php:257
 msgid "Letter limit for short description:"
 msgstr ""
 
-#: ../lib/widgets/TLPportOwlCarosule.php:264
+#: ../lib/widgets/TLPportOwlCarosule.php:263
 msgid "Total Number of item:"
 msgstr ""
 
-#: ../lib/widgets/TLPportOwlCarosule.php:271
+#: ../lib/widgets/TLPportOwlCarosule.php:270
 msgid "Slide Speed:"
 msgstr ""
 

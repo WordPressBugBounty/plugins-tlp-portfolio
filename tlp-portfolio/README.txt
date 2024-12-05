@@ -1,8 +1,8 @@
-=== Portfolio ===
+=== Portfolio - WordPress Portfolio Plugin ===
 Contributors: techlabpro1
 Donate link:
 Tags: "portfolio", "portfolio plugin", "wordpress portfolio plugin", "filterable portfolio", "best portfolio".
-Stable tag: 2.8.19
+Stable tag: 2.8.20
 Requires at least: 5.0
 Tested up to: 6.7
 Requires PHP: 7.0
@@ -23,7 +23,7 @@ Best WordPress Portfolio Plugin for WordPress to display your portfolio work in 
 
 == Description ==
 
-👉 [Plugin Demo](https://demo.radiustheme.com/wordpress/plugins/portfolios/) | [Documentation](https://radiustheme.com/how-to-setup-and-configure-tlp-portfolio-free-version-for-wordpress/) | [Get Pro Version](https://www.radiustheme.com/downloads/tlp-portfolio-pro-for-wordpress/) 👈
+👉 [Plugin Demo](https://www.radiustheme.com/demo/plugins/portfolio/) | [Documentation](https://radiustheme.com/how-to-setup-and-configure-tlp-portfolio-free-version-for-wordpress/) | [Get Pro Version](https://www.radiustheme.com/downloads/tlp-portfolio-pro-for-wordpress/) 👈
 
 == Best WordPress Portfolio Plugin ==
 
@@ -215,8 +215,11 @@ Check the fields on the fields' selection part, checking the fields you want to 
 
 == Changelog ==
 
+= 2.8.20 ( December 05, 2024 ) =
+* Fixed: Name Spilling
+
 = 2.8.19 ( November 26, 2024 ) =
-* Added: Category & Tags rest api support
+* Added: PHP Deprecated issue And Layout Style issue
 
 = 2.8.18 ( May 5, 2024 ) =
 * Added: Category & Tags rest api support

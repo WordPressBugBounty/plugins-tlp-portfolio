@@ -276,7 +276,7 @@ global $TLPportfolio;
 					<div class="rtport-testimonial">
 						<p>Plugin is easy to use, shortcode generator is very useful. I bought the pro version, and had a feature request. Emailed them & the team replied within a few days with the updated code that worked perfectly. Many thanks to the team!</p>
 						<div class="client-info">
-							<img src="<?php echo esc_url( $TLPportfolio->assetsUrl ); ?>images/admin/client1.png">
+							<img src="<?php echo esc_url( $TLPportfolio->assetsUrl ); // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage ?>images/admin/client1.png">
 							<div>
 								<div class="rtport-star">
 									<i class="dashicons dashicons-star-filled"></i>
@@ -292,7 +292,7 @@ global $TLPportfolio;
 					<div class="rtport-testimonial">
 						<p>This plugin is exactly what we needed, and when we required a little help, RadiusTheme came through with flying colours. Fast response and went the extra mile. Thanks again !</p>
 						<div class="client-info">
-							<img src="<?php echo esc_url( $TLPportfolio->assetsUrl ); ?>images/admin/client2.png">
+							<img src="<?php echo esc_url( $TLPportfolio->assetsUrl ); // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage ?>images/admin/client2.png">
 							<div>
 								<div class="rtport-star">
 									<i class="dashicons dashicons-star-filled"></i>

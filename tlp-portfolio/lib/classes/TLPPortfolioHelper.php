@@ -206,10 +206,12 @@ if ( ! class_exists( 'TLPPortfolioHelper' ) ) :
 
 				if ( $w && $h ) {
 					$imgSrc = $TLPportfolio->rtImageReSize( $imgSrc, $w, $h, $c );
-
-					if ( $imgSrc ) {
-						$image = "<img alt='{$alt}' width='{$w}' height='{$h}' class='{$img_class}' src='{$imgSrc}' />";
-					}
+                    if ( $imgSrc ) {
+                        $attachment_id = attachment_url_to_postid( $imgSrc );
+                        if ( $attachment_id ) {
+                            $image = wp_get_attachment_image( $attachment_id, array( $w, $h ), false, array( 'alt' => $alt, 'class' => $img_class ) );
+                        }
+                    }
 				}
 			}
 

@@ -83,23 +83,22 @@ if ( ! class_exists( 'TLPportOwlCarosule' ) ) :
 									$title    = get_the_title();
 									$plink    = get_permalink();
 									$sDetails = get_post_meta( get_the_ID(), 'short_description', true );
-
-									if ( has_post_thumbnail() ) {
-										$image     = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ), $fSize );
-										$timg      = $image[0];
-										$imageFull = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ), 'full' );
-										$imgFull   = $imageFull[0];
-									} else {
-										$timg = $TLPportfolio->assetsUrl . 'images/demo.jpg';
-									}
-
+                                    $attachment_id  = get_post_thumbnail_id( get_the_ID() );
+                                    if( $attachment_id ){
+                                        $image_size = $fSize;
+                                        $timg = wp_get_attachment_image( $attachment_id, $image_size, false, array( 'class' => 'img-responsive', 'alt'   => esc_attr( $title ) ) );
+                                        $imgFull = wp_get_attachment_image_src( $attachment_id, 'full' )[0];
+                                    } else{
+                                        $timg = '<img class="img-responsive" src="' . esc_url( $TLPportfolio->assetsUrl . 'images/demo.jpg' ) . '" alt="' . esc_attr( $title ) . '" />'; // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
+                                        $imgFull = $TLPportfolio->assetsUrl . 'images/demo.jpg';
+                                    }
 									$grid = ( ! empty( $instance['number'] ) ? (int) $instance['number'] : 4 );
 									$grid = round( 12 / $grid );
 									?>
 									<div class='tlp-col-sm-12 tlp-col-xs-12 tlp-equal-height'>
 										<div class="tlp-portfolio-item">
 											<div class="tlp-portfolio-thum tlp-item">
-												<img class="img-responsive" src="<?php echo esc_url( $timg ); ?>" alt="<?php echo esc_attr( $title ); ?> "/>
+                                                <?php echo wp_kses_post( $timg ); ?>
 												<div class="tlp-overlay">
 													<p class="link-icon">
 														<a class="tlp-zoom" href="<?php echo esc_url( $imgFull ); ?>"><i class="demo-icon icon-zoom-in"></i></a>
