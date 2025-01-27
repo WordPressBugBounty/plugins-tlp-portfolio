@@ -218,7 +218,7 @@ if ( ! class_exists( 'TLPPortfolioNotice' ) ):
 
 		// remove the notice for the user if review already done or if the user does not want to. wp_unslash
 		public static function rtport_spare_me() {
-			if ( ! isset( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field ( wp_unslash( $_REQUEST['_wpnonce'] ) ) , 'rtport_notice_nonce' ) ) {
+            if ( ! isset( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'rtport_notice_nonce' ) ) {
 				return;
 			}
 

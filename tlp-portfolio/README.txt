@@ -1,27 +1,19 @@
 === Portfolio - WordPress Portfolio Plugin ===
 Contributors: techlabpro1
 Donate link:
-Tags: "portfolio", "portfolio plugin", "wordpress portfolio plugin", "filterable portfolio", "best portfolio".
-Stable tag: 2.8.20
+Tags: portfolio, portfolio plugin, wordpress portfolio plugin, filterable portfolio, best portfolio
+Stable tag: 2.8.21
 Requires at least: 5.0
 Tested up to: 6.7
 Requires PHP: 7.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
-Short Description: A simple and powerful WordPress plugin to create and showcase beautiful portfolios.
 
+A simple and powerful WordPress portfolio plugin to showcase your work with different ways.
 
 == Description ==
-
-A simple and powerful WordPress portfolio plugin to showcase your work with ease.
-
-== License ==
-
-This plugin is licensed under the GPL-2.0-or-later License.
 
 Best WordPress Portfolio Plugin for WordPress to display your portfolio work in grid, filterable portfolio and slider view.
-
-== Description ==
 
 👉 [Plugin Demo](https://www.radiustheme.com/demo/plugins/portfolio/) | [Documentation](https://radiustheme.com/how-to-setup-and-configure-tlp-portfolio-free-version-for-wordpress/) | [Get Pro Version](https://www.radiustheme.com/downloads/tlp-portfolio-pro-for-wordpress/) 👈
 
@@ -181,11 +173,9 @@ Check the fields on the fields' selection part, checking the fields you want to 
 == Frequently Asked Questions ==
 
 = Need Any Help? =
-
 * Please mail us at `support@radiustheme.com`
 
 == Is this Portfolio Plugin support Isotope Filter by Category ==
-
 * Yes this Portfolio plugin support Isotope Filter by category
 
 == Is this Portfolio plugin support portfolio gallery ==
@@ -214,6 +204,9 @@ Check the fields on the fields' selection part, checking the fields you want to 
 
 
 == Changelog ==
+
+= 2.8.21 ( January 27, 2025 ) =
+* Fixed: Some error
 
 = 2.8.20 ( December 05, 2024 ) =
 * Fixed: Name Spilling
