@@ -2,9 +2,9 @@
 Contributors: techlabpro1
 Donate link:
 Tags: portfolio, portfolio plugin, wordpress portfolio plugin, filterable portfolio, best portfolio
-Stable tag: 2.8.21
+Stable tag: 2.8.22
 Requires at least: 5.0
-Tested up to: 6.7
+Tested up to: 6.8
 Requires PHP: 7.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -15,7 +15,7 @@ A simple and powerful WordPress portfolio plugin to showcase your work with diff
 
 Best WordPress Portfolio Plugin for WordPress to display your portfolio work in grid, filterable portfolio and slider view.
 
-👉 [Plugin Demo](https://www.radiustheme.com/demo/plugins/portfolio/) | [Documentation](https://radiustheme.com/how-to-setup-and-configure-tlp-portfolio-free-version-for-wordpress/) | [Get Pro Version](https://www.radiustheme.com/downloads/tlp-portfolio-pro-for-wordpress/) 👈
+👉 [Plugin Demo](https://www.radiustheme.com/demo/plugins/portfolio/) | [Documentation](https://www.radiustheme.com/docs/portfolio/) | [Get Pro Version](https://www.radiustheme.com/downloads/tlp-portfolio-pro-for-wordpress/) 👈
 
 == Best WordPress Portfolio Plugin ==
 
@@ -204,6 +204,9 @@ Check the fields on the fields' selection part, checking the fields you want to 
 
 
 == Changelog ==
+
+= 2.8.22 ( July 30, 2025 ) =
+* Fixed: Portfolio single page post meta ul( html markup ) nesting issue.
 
 = 2.8.21 ( January 27, 2025 ) =
 * Fixed: Some error

@@ -364,7 +364,6 @@ if ( ! class_exists( 'TLPPortfolioHelper' ) ) :
 			$tags           = wp_strip_all_tags( get_the_term_list( $id, $TLPportfolio->taxonomies['tag'], '', ', ' ) );
 
 			$html  = null;
-			$html .= '<ul class="single-item-meta">';
 
 			if ( $project_url ) {
 				$html .= '<li><label>' . esc_html__( 'Project URL', 'tlp-portfolio' ) . ':</label> <a  href="' . esc_url( $project_url ) . '" target="_blank">' . esc_html( $project_url ) . '</a></li>';
@@ -390,7 +389,6 @@ if ( ! class_exists( 'TLPPortfolioHelper' ) ) :
 				$html .= '<li class="tags"><label>' . esc_html__( 'Tags :', 'tlp-portfolio' ) . '</label><span>' . esc_html( $tags ) . '</span></li>';
 			}
 
-			$html .= '</ul>';
 
 			if ( $html ) {
 				$html = "<ul class='single-item-meta'>{$html}</ul>";
