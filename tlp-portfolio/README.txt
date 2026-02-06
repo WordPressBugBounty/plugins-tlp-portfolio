@@ -2,7 +2,7 @@
 Contributors: techlabpro1
 Donate link:
 Tags: portfolio, portfolio plugin, wordpress portfolio plugin, filterable portfolio, best portfolio
-Stable tag: 2.8.22
+Stable tag: 2.9.0
 Requires at least: 5.0
 Tested up to: 6.8
 Requires PHP: 7.0
@@ -204,6 +204,9 @@ Check the fields on the fields' selection part, checking the fields you want to 
 
 
 == Changelog ==
+
+= 2.9.0 ( November 19, 2025 ) =
+* Updated: Settings Page UI Change.
 
 = 2.8.22 ( July 30, 2025 ) =
 * Fixed: Portfolio single page post meta ul( html markup ) nesting issue.

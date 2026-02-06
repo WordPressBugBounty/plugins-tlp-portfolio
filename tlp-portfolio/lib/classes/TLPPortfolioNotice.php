@@ -25,7 +25,7 @@ if ( ! class_exists( 'TLPPortfolioNotice' ) ):
 				'admin_init',
 				function () {
 					$current = time();
-					if ( mktime( 0, 0, 0, 11, 20, 2024 ) <= $current && $current <= mktime( 0, 0, 0, 1, 5, 2025 ) ) {
+					if ( mktime( 0, 0, 0, 11, 15, 2025 ) <= $current && $current <= mktime( 0, 0, 0, 1, 5, 2026 ) ) {
 						if ( '1' !== get_option( 'rtpf_ny_2025' ) ) {
 							if ( ! isset( $GLOBALS['rt_pf_ny_2023_notice'] ) ) {
 								$GLOBALS['rt_pf_ny_2023_notice'] = 'rtpf_ny_2025';
@@ -269,19 +269,52 @@ if ( ! class_exists( 'TLPPortfolioNotice' ) ):
 					$plugin_name   = 'Portfolio Pro';
 					$download_link = TLPPortfolio()->pro_version_link();
 					?>
-					<div class="notice notice-info is-dismissible" data-rtpfdismissable="rtpf_ny_2025"
-					     style="display:grid;grid-template-columns: 100px auto;padding-top: 25px; padding-bottom: 22px;">
+                        <style>
+                            .pfp-black-friday{
+                                background: #ECE8FF;
+                                border: 1px solid #5d3dfd;
+                            }
+                            .pfp-black-friday .button-primary{
+                                background-color: #5d3dfd;
+                                border-color: #5d3dfd;
+                                transition: all 0.3s ease-in-out;
+                            }
+                            .pfp-black-friday .button-primary:focus,
+                            .pfp-black-friday .button-primary:active{
+                                background-color: #5d3dfd;
+                                border-color: #5d3dfd;
+                                border-width: 1px;
+                            }
+                            .pfp-black-friday  .button-primary:hover{
+                                background-color: #4e35cc;
+                                border-color: #4e35cc;
+                            }
+                            .pfp-black-friday  .button-dismiss{
+                                border-color: #5d3dfd;
+                                color: #5d3dfd;
+                                transition: all 0.3s ease-in-out;
+                            }
+                            .pfp-black-friday  .button-dismiss:hover{
+                                background-color: #4e35cc;
+                                border-color: #4e35cc;
+                                color: #fff;
+                            }
+                        </style>
+					<div class="notice notice-info is-dismissible pfp-black-friday" data-rtpfdismissable="rtpf_ny_2025"
+					     style="display:grid;grid-template-columns: 100px auto;padding-top: 10px; padding-bottom: 17px;">
 						<img alt="<?php echo esc_attr( $plugin_name ); ?>" src="<?php echo esc_url( TLPPortfolio()->assetsUrl ) . 'images/portfolio-gif.gif'; ?>" width="74px" height="74px" style="grid-row: 1 / 4; align-self: center;justify-self: center"/>
 						<h3 style="margin:0; display:flex; align-items: center">
                             <?php echo sprintf( '%s - Black Friday', esc_html( $plugin_name ) ); ?>
                             <img alt="<?php echo esc_attr( $plugin_name ); ?>" src="<?php echo esc_url( TLPPortfolio()->assetsUrl ) . 'images/deal.gif'; ?>" width="60px" />
+                            <span style="color:red;margin-left: 10px;">up to 30%</span>
                         </h3>
 
 						<p style="margin:0 0 2px;">
                             <?php
                             echo wp_kses_post(
-                                __( "Exciting News: <b>Portfolio Pro</b> Black Friday sale is now live! Get the plugin today and enjoy discounts up to <b>50%</b>.", 'tlp-portfolio' )
+                                __( "Exciting News: <b>Portfolio Pro’s Black Friday Sale Has Officially Begun!</b>", 'tlp-portfolio' )
                             );
+                            esc_html_e(' Grab the plugin today and unlock unbeatable discounts before they’re gone!', 'tlp-portfolio');
                             ?>
 						</p>
 

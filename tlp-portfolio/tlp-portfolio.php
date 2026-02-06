@@ -5,8 +5,8 @@
  * Description: Portfolio is Fully Responsive and Mobile Friendly portfolio for WordPress to display your portfolio work in Grid and Isotope Views.
  * Author: RadiusTheme
  * Author URI: https://radiustheme.com
- * Version: 2.8.22
- * Tested up to: 6.7
+ * Version: 2.9.0
+ * Tested up to: 6.8
  * Requires PHP: 7.0
  * License: GPL-2.0-or-later
  * Tag: portfolio, portfolio plugin,filterable portfolio, portfolio gallery, portfolio display, portfolio slider, responsive portfolio, portfolio showcase, wp portfolio
@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'This script cannot be accessed directly.' );
 }
 
-define( 'TLP_PORTFOLIO_VERSION', '2.8.22' );
+define( 'TLP_PORTFOLIO_VERSION', '2.9.0' );
 define( 'TLP_PORTFOLIO_PLUGIN_PATH', dirname( __FILE__ ) );
 define( 'TLP_PORTFOLIO_PLUGIN_ACTIVE_FILE_NAME', plugin_basename( __FILE__ ) );
 define( 'TLP_PORTFOLIO_PLUGIN_URL', plugins_url( '', __FILE__ ) );

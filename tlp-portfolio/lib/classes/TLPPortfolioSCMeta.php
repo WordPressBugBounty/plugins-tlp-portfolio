@@ -97,41 +97,9 @@ if ( ! class_exists( 'TLPPortfolioSCMeta' ) ) :
 		}
 
 		public function rt_plugin_portfolio_sc_pro_information( $post ) {
-			$doc     = 'https://radiustheme.com/how-to-setup-and-configure-tlp-portfolio-free-version-for-wordpress/';
-			$contact = 'https://www.radiustheme.com/contact/';
-			$fb      = 'https://www.facebook.com/groups/234799147426640/';
-			$rt      = 'https://www.radiustheme.com/';
-			if ( $post === 'settings' ) {
-				?>
-				<div class="rt-document-box rt-update-pro-btn-wrap">
-					<a href="<?php echo esc_url( TLPPortfolio()->pro_version_link() ); ?>" target="_blank" class="rt-update-pro-btn">Update Pro To Get More Features</a>
-				</div>
-			<?php } ?>
-			<div class="rt-document-box">
-				<div class="rt-box-icon"><i class="dashicons dashicons-media-document"></i></div>
-				<div class="rt-box-content">
-					<h3 class="rt-box-title">Documentation</h3>
-						<p>Get started by spending some time with the documentation we included step by step process with screenshots with video.</p>
-						<a href="<?php echo esc_url( $doc ); ?>" target="_blank" class="rt-admin-btn">Documentation</a>
-				</div>
-			</div>
 
-			<div class="rt-document-box">
-				<div class="rt-box-icon"><i class="dashicons dashicons-sos"></i></div>
-				<div class="rt-box-content">
-					<h3 class="rt-box-title">Need Help?</h3>
-					<p>Stuck with something? Please create a
-					<a href="<?php echo esc_url( $contact ); ?>">ticket here</a> or post on <a href="<?php echo esc_url( $fb ); ?>">facebook group</a>. For emergency case join our <a href="<?php echo esc_url( $rt ); ?>">live chat</a>.</p>
-					<a href="<?php echo esc_url( $contact ); ?>" target="_blank" class="rt-admin-btn">Get Support</a>
-				</div>
-			</div>
-			<?php if ( $post !== 'settings' ) { ?>
-				<div class="rt-document-box rt-update-pro-btn-wrap">
-					<a href="<?php echo esc_url( TLPPortfolio()->pro_version_link() ); ?>" target="_blank" class="rt-update-pro-btn">Update Pro To Get More Features</a>
-				</div>
-			<?php } ?>
+            TLPPortfolio()->render_view('settings-promo');
 
-			<?php
 
 		}
 
