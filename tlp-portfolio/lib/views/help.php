@@ -14,13 +14,14 @@ global $TLPportfolio;
 ?>
 	<style>
 		.rtport-help-wrapper {
-			width: 60%;
+			width: 70%;
 			margin: 0 auto;
+            overflow:hidden;
 		}
 		.rtport-help-section .embed-wrapper {
 			position: relative;
 			display: block;
-			width: calc(100% - 40px);
+			width: 100%;
 			padding: 0;
 			overflow: hidden;
 		}
@@ -37,12 +38,6 @@ global $TLPportfolio;
 			width: 100%;
 			height: 100%;
 			border: 0;
-		}
-		.rtport-help-wrapper .rt-document-box .rt-box-title {
-			margin-bottom: 30px;
-		}
-		.rtport-help-wrapper .rt-document-box .rt-box-icon {
-			margin-top: -6px;
 		}
 		.rtport-help-wrapper .rtport-help-section {
 			margin-top: 30px;
@@ -65,31 +60,43 @@ global $TLPportfolio;
 			color: #4C6FFF;
 		}
 		.rtport-pro-feature-content {
-			display: flex;
-			flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
 		}
-		.rtport-pro-feature-content .rt-document-box + .rt-document-box {
-			margin-left: 30px;
-		}
+        @media(max-width:991px){
+            .rtport-pro-feature-content{
+                grid-template-columns: repeat(2, 1fr);
+                column-gap: 20px;
+                row-gap:0;
+            }
+        }
+        @media(max-width:767px){
+            .rtport-pro-feature-content{
+                display: block;
+            }
+        }
 		.rtport-pro-feature-content .rt-document-box {
-			flex: 0 0 calc(33.3333% - 60px);
-			margin-top: 30px;
+			display:flex;
+            flex-direction:column;
 		}
 		.rtport-testimonials {
-			display: flex;
-			flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
 		}
-		.rtport-testimonials .rtport-testimonial + .rtport-testimonial  {
-			margin-left: 30px;
-		}
-		.rtport-testimonials .rtport-testimonial  {
-			flex: 0 0 calc(50% - 30px)
-		}
+        @media(max-width:991px){
+            .rtport-testimonials{
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+        }
 		.rtport-testimonial .client-info {
 			display: flex;
 			flex-wrap: wrap;
 			font-size: 14px;
 			align-items: center;
+            margin-top: auto;
 		}
 		.rtport-testimonial .client-info img {
 			width: 60px;
@@ -155,14 +162,14 @@ global $TLPportfolio;
 				width: 80%;
 			}
 		}
-		@media all and (max-width: 1025px) {
-			.rtport-pro-feature-content .rt-document-box {
-				flex: 0 0 calc(50% - 55px)
-			}
-			.rtport-pro-feature-content .rt-document-box + .rt-document-box + .rt-document-box {
-				margin-left: 0;
-			}
-		}
+		/*@media all and (max-width: 1025px) {*/
+		/*	.rtport-pro-feature-content .rt-document-box {*/
+		/*		flex: 0 0 calc(50% - 55px)*/
+		/*	}*/
+		/*	.rtport-pro-feature-content .rt-document-box + .rt-document-box + .rt-document-box {*/
+		/*		margin-left: 0;*/
+		/*	}*/
+		/*}*/
 		@media all and (max-width: 991px) {
 			.rtport-help-wrapper {
 				width: calc(100% - 40px);
@@ -206,50 +213,60 @@ global $TLPportfolio;
 				padding-top: 30px;
 				border-top: 1px solid #ddd;
 			}
-			.rtport-pro-feature-content .rt-document-box {
-				width: 100%;
-				flex: auto;
-			}
-			.rtport-pro-feature-content .rt-document-box + .rt-document-box {
-				margin-left: 0;
-			}
+			/*.rtport-pro-feature-content .rt-document-box {*/
+			/*	width: 100%;*/
+			/*	flex: auto;*/
+			/*}*/
+			/*.rtport-pro-feature-content .rt-document-box + .rt-document-box {*/
+			/*	margin-left: 0;*/
+			/*}*/
 
 			.rtport-help-wrapper .rt-document-box {
 				display: block;
 				position: relative;
 			}
 
-			.rtport-help-wrapper .rt-document-box .rt-box-icon {
-				position: absolute;
-				left: 20px;
-				top: 30px;
-				margin-top: 0;
-			}
+			/*.rtport-help-wrapper .rt-document-box .rt-box-icon {*/
+			/*	position: absolute;*/
+			/*	left: 20px;*/
+			/*	top: 30px;*/
+			/*	margin-top: 0;*/
+			/*}*/
 
-			.rt-document-box .rt-box-content .rt-box-title {
-				margin-left: 45px;
-			}
+			/*.rt-document-box .rt-box-content .rt-box-title {*/
+			/*	margin-left: 45px;*/
+			/*}*/
 		}
 	</style>
 	<div class="rtport-help-wrapper" >
 		<div class="rtport-help-section rt-document-box">
-			<div class="rt-box-icon"><i class="dashicons dashicons-media-document"></i></div>
-			<div class="rt-box-content">
-				<h3 class="rt-box-title">Thank you for installing Portfolio Plugin</h3>
-				<div class="embed-wrapper">
-					<iframe src="https://www.youtube.com/embed/tuOnwHWkgPQ" title="Portfolio Plugin" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-				</div>
-			</div>
+			<div class="rt-heading">
+                <div class="rt-box-icon"><i class="dashicons dashicons-media-document"></i></div>
+                <h3 class="rt-box-title">Thank you for installing Radius Portfolio Plugin</h3>
+            </div>
+            <div class="rt-box-content youtube-video">
+                <div class="embed-wrapper">
+                    <iframe  src="https://www.youtube.com/embed/uB4jPd4umaM?si=TLY_4ZQCs1ZTeae0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <div class="embed-wrapper">
+                    <iframe  src="https://www.youtube.com/embed/uB4jPd4umaM?si=TLY_4ZQCs1ZTeae0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
 		</div>
 		<div class="rt-document-box">
-			<div class="rt-box-icon"><i class="dashicons dashicons-megaphone"></i></div>
+            <div class="rt-heading">
+                <div class="rt-box-icon"><i class="dashicons dashicons-megaphone"></i></div>
+                <h3 class="rt-box-title">Pro Features</h3>
+            </div>
 			<div class="rt-box-content rtport-feature-list">
-				<h3 class="rt-box-title">Pro Features</h3>
 				<ul>
 					<li><i class="dashicons dashicons-saved"></i> 57 Amazing Layouts with Grid, Masonry, Slider, Isotope.</li>
 					<li><i class="dashicons dashicons-saved"></i> Gallery Image View.</li>
 					<li><i class="dashicons dashicons-saved"></i> Even and Masonry Grid.</li>
 					<li><i class="dashicons dashicons-saved"></i> Layout Preview in Shortcode Settings.</li>
+					<li><i class="dashicons dashicons-saved"></i> Elementor Widgets.</li>
+					<li><i class="dashicons dashicons-saved"></i> Portfolio Single Page Builder With Elementor.</li>
 					<li><i class="dashicons dashicons-saved"></i> Taxonomy support (Category, Tag).</li>
 					<li><i class="dashicons dashicons-saved"></i> All Text and Color control.</li>
 					<li><i class="dashicons dashicons-saved"></i> Custom image size control.</li>
@@ -269,12 +286,14 @@ global $TLPportfolio;
 			</a>
 		</div>
 		<div class="rt-document-box">
-			<div class="rt-box-icon"><i class="dashicons dashicons-thumbs-up"></i></div>
+            <div class="rt-heading">
+                <div class="rt-box-icon"><i class="dashicons dashicons-thumbs-up"></i></div>
+                <h3 class="rt-box-title">Happy clients of the Radius Portfolio Plugin</h3>
+            </div>
 			<div class="rt-box-content">
-				<h3 class="rt-box-title">Happy clients of the Portfolio Plugin</h3>
 				<div class="rtport-testimonials">
 					<div class="rtport-testimonial">
-						<p>Plugin is easy to use, shortcode generator is very useful. I bought the pro version, and had a feature request. Emailed them & the team replied within a few days with the updated code that worked perfectly. Many thanks to the team!</p>
+						<p>Great support and very clean and nice portfolio. Simple to publish photographs.</p>
 						<div class="client-info">
 							<img src="<?php echo esc_url( $TLPportfolio->assetsUrl ); // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage ?>images/admin/client1.png">
 							<div>
@@ -285,12 +304,12 @@ global $TLPportfolio;
 									<i class="dashicons dashicons-star-filled"></i>
 									<i class="dashicons dashicons-star-filled"></i>
 								</div>
-								<span class="client-name">lioweee</span>
+								<span class="client-name">lennartphotography</span>
 							</div>
 						</div>
 					</div>
 					<div class="rtport-testimonial">
-						<p>This plugin is exactly what we needed, and when we required a little help, RadiusTheme came through with flying colours. Fast response and went the extra mile. Thanks again !</p>
+						<p>I’ve used a few different portfolio apps and I like the options, simplicity and layout of this one. It works great! Thanks you!</p>
 						<div class="client-info">
 							<img src="<?php echo esc_url( $TLPportfolio->assetsUrl ); // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage ?>images/admin/client2.png">
 							<div>
@@ -301,38 +320,66 @@ global $TLPportfolio;
 									<i class="dashicons dashicons-star-filled"></i>
 									<i class="dashicons dashicons-star-filled"></i>
 								</div>
-								<span class="client-name">rollypollyjimmy</span>
+								<span class="client-name">goldgrl7</span>
 							</div>
 						</div>
 					</div>
+                    <div class="rtport-testimonial">
+                        <p>I discovered a small problem and within hours a new version was online. Sure, I provided the solution, but other plugin authors can take weeks to fix even the smallest things, even if they have the solution.</p>
+                        <div class="client-info">
+                            <img src="<?php echo esc_url( $TLPportfolio->assetsUrl ); // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage ?>images/admin/client1.png">
+                            <div>
+                                <div class="rtport-star">
+                                    <i class="dashicons dashicons-star-filled"></i>
+                                    <i class="dashicons dashicons-star-filled"></i>
+                                    <i class="dashicons dashicons-star-filled"></i>
+                                    <i class="dashicons dashicons-star-filled"></i>
+                                    <i class="dashicons dashicons-star-filled"></i>
+                                </div>
+                                <span class="client-name">mathzf</span>
+                            </div>
+                        </div>
+                    </div>
 				</div>
 			</div>
 		</div>
 		<div class="rtport-pro-feature-content">
 			<div class="rt-document-box">
-				<div class="rt-box-icon"><i class="dashicons dashicons-media-document"></i></div>
+                <div class="rt-heading">
+                    <div class="rt-box-icon"><i class="dashicons dashicons-media-document"></i></div>
+                    <h3 class="rt-box-title">Documentation</h3>
+                </div>
 				<div class="rt-box-content">
-					<h3 class="rt-box-title">Documentation</h3>
 					<p>Get started by spending some time with the documentation we included step by step process with screenshots with video.</p>
-					<a href="https://www.radiustheme.com/how-to-setup-and-configure-tlp-portfolio-free-version-for-wordpress/" target="_blank" class="rt-admin-btn">Documentation</a>
 				</div>
+                <div class="doc-button">
+                    <a href="https://www.radiustheme.com/how-to-setup-and-configure-tlp-portfolio-free-version-for-wordpress/" target="_blank" class="rt-admin-btn">Documentation</a>
+                </div>
 			</div>
 			<div class="rt-document-box">
-				<div class="rt-box-icon"><i class="dashicons dashicons-sos"></i></div>
+                <div class="rt-heading">
+                    <div class="rt-box-icon"><i class="dashicons dashicons-sos"></i></div>
+                    <h3 class="rt-box-title">Need Help?</h3>
+                </div>
 				<div class="rt-box-content">
-					<h3 class="rt-box-title">Need Help?</h3>
 					<p>Stuck with something? Please create a
 						<a href="https://www.radiustheme.com/contact/">ticket here</a> or post on <a href="https://www.facebook.com/groups/234799147426640/">facebook group</a>. For emergency case join our <a href="https://www.radiustheme.com/">live chat</a>.</p>
-					<a href="https://www.radiustheme.com/contact/" target="_blank" class="rt-admin-btn">Get Support</a>
 				</div>
+                <div class="doc-button">
+                    <a href="https://www.radiustheme.com/contact/" target="_blank" class="rt-admin-btn">Get Support</a>
+                </div>
 			</div>
 			<div class="rt-document-box">
-				<div class="rt-box-icon"><i class="dashicons dashicons-smiley"></i></div>
+                <div class="rt-heading">
+                    <div class="rt-box-icon"><i class="dashicons dashicons-smiley"></i></div>
+                    <h3 class="rt-box-title">Happy Our Work?</h3>
+                </div>
 				<div class="rt-box-content">
-					<h3 class="rt-box-title">Happy Our Work?</h3>
 					<p>If you happy with <strong>Portfolio Plugin</strong> plugin, please add a rating. It would be glad to us.</p>
-					<a href="https://wordpress.org/support/plugin/tlp-portfolio/reviews/?filter=5#new-post" class="rt-admin-btn" target="_blank">Post Review</a>
 				</div>
+                <div class="doc-button">
+                    <a href="https://wordpress.org/support/plugin/tlp-portfolio/reviews/?filter=5#new-post" class="rt-admin-btn" target="_blank">Post Review</a>
+                </div>
 			</div>
 		</div>
 	</div>

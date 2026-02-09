@@ -1,209 +1,185 @@
-=== Portfolio - WordPress Portfolio Plugin ===
-Contributors: techlabpro1
+=== Radius Portfolio - WordPress Portfolio Plugin (formerly Portfolio) ===
+Contributors: techlabpro1, mamunnu
 Donate link:
 Tags: portfolio, portfolio plugin, wordpress portfolio plugin, filterable portfolio, best portfolio
-Stable tag: 2.9.0
+Stable tag: 3.0.0
 Requires at least: 5.0
-Tested up to: 6.8
+Tested up to: 6.9
 Requires PHP: 7.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-A simple and powerful WordPress portfolio plugin to showcase your work with different ways.
+A simple and powerful WordPress portfolio plugin to showcase your creative work beautifully with different ways.
 
 == Description ==
 
-Best WordPress Portfolio Plugin for WordPress to display your portfolio work in grid, filterable portfolio and slider view.
+Best WordPress Portfolio Plugin for WordPress to display your creative work beautifully in grid layouts, isotope filters, and carousel sliders.
 
 👉 [Plugin Demo](https://www.radiustheme.com/demo/plugins/portfolio/) | [Documentation](https://www.radiustheme.com/docs/portfolio/) | [Get Pro Version](https://www.radiustheme.com/downloads/tlp-portfolio-pro-for-wordpress/) 👈
 
-== Best WordPress Portfolio Plugin ==
+[youtube https://www.youtube.com/watch?v=uB4jPd4umaM]
 
-Portfolio is a superb WordPress portfolio plugin that enables you to display your personal or company's portfolio items. It allows you to add the items easily from the admin panel. This portfolio plugin comes with a widget and the carousel slider with different settings that dictate how many items you want to display at a time, among other settings.
+== Best WordPress Portfolio Plugin for Creative Professionals ==
 
-Portfolio by RadiusTheme is fully responsive, which enables your items to appear beautifully across all devices. This Elementor portfolio plugin is fully customizable and lets you use the Elementor page builder to customize your items. You can also use the default WordPress block builder, Gutenberg. Since Portfolio supports the use of shortcodes, you can use shortcodes to add your portfolio items to your pages and posts easily. You also get a shortcode generator that allows you to create unlimited shortcodes.
+Radius Portfolio is a powerful WordPress portfolio plugin designed to showcase your creative work with style and flexibility. Whether you're a freelancer displaying client projects, a photographer presenting your gallery, or an agency highlighting case studies, this plugin gives you complete control over how your portfolio appears to potential clients.
 
-With Portfolio, you can choose whether you want a profile image or not. The image size is also left to your discretion, which enables you to limit file sizes so that your site doesn't slow down. You also get to control the precise settings of your item titles. This portfolio WordPress plugin has advanced filters that allow you to display your items by various criteria. You get to control the primary color of your portfolio display too.
-
-The free version of Portfolio comes with 4 different layouts that you can customize extensively. You can order your portfolio items by title or date and ascending or descending. This WordPress portfolio plugin has permalink control as well as custom meta fields with a single template.
-
-Portfolio PRO has a whopping 50+ layouts that include even grid, even isotope, masonry grid, masonry isotope, and carousel slider. Since it is highly customizable, you can create unlimited layout variations. Applying any of the unlimited colors allows you to make them all the more unique. The premium portfolio plugin supports drag & drop ordering for an easier user experience. It has 4 different types of pagination, including Ajax load more, Ajax number pagination, autoload on scroll, and normal number pagination.
+Built with performance and usability in mind, Portfolio works seamlessly with Gutenberg, Elementor, and shortcodes to integrate your work into any page or post. The fully responsive design ensures your portfolio items look stunning across all devices, from desktop monitors to mobile phones.
 
 
+== Why Choose This WordPress Portfolio Plugin? ==
 
-== 🏆 Features of The Portfolio Plugin ==
+Thousands of creative professionals trust Radius Portfolio to present their work online. The plugin combines ease of use with professional-grade features, allowing you to create impressive portfolio displays without touching a single line of code.
 
-**Grid Layouts:** The free version of this portfolio WordPress plugin has 3 grid layouts on which you can display your portfolio items elegantly. Since the plugin's layouts are customizable, you can come up with different unique versions.
+From photographers and graphic designers to web developers and marketing agencies, Portfolio adapts to your specific needs. The intuitive admin interface lets you add portfolio items in minutes, while the shortcode generator provides unlimited customization possibilities for your displays.
 
-**Slider Layout:** The plugin offers 3 slider layouts. These will come in handy if you want to showcase your items more attractively on sliders. Additionally, you can use eye-catching animation effects with your sliders.
 
-**Isotope Filter:** This portfolio plugin comes with 3 isotope filter layouts to work with. The isotope will display and hide portfolio items at your command. With the isotope filter, only the items that match with your criteria will be displayed.
+== Core Features ==
 
-**Shortcode Generator with Layout Preview:** The Portfolio plugin is outfitted with a shortcode generator with which you can create or generate shortcodes straightforwardly. The shortcodes allow you to create your portfolio items and put them up on any page or post. Here's how to do it:
+**Multiple Layout Options:** Choose from grid, isotope filter, and carousel slider layouts to match your creative vision. Each layout type includes multiple variations, giving you the flexibility to create a portfolio that reflects your unique brand identity.
 
-1. Fill in the details of your portfolio in the corresponding fields and then generate shortcodes using the styling, fields' selection, layout selection, and styling tabs. Save your shortcode.
+**Isotope Filtering:** Help visitors find exactly what they're looking for with category-based isotope filtering. Display and hide portfolio items dynamically based on categories, tags, or tools – perfect for showcasing diverse project types in an organized manner.
 
-2. Call up your shortcode, copy it, and use it to insert your portfolio items on any page or post on your website. This WordPress portfolio plugin lets you take a look at the previews of your items before you publish them on your website.
+**Carousel Slider:** Capture attention with smooth, animated carousel sliders. Configure display settings, animation effects, and navigation controls to create an engaging browsing experience for your portfolio visitors.
 
-**Ordering option:** The ordering option that comes with Portfolio lets you order the portfolio items by title or date and ascending or descending.
+**Shortcode Generator with Live Preview:** Create custom portfolio displays using the visual shortcode generator. Adjust layout settings, filtering options, field selections, and styling options while previewing changes in real-time before publishing.
 
-**Image Size Control:** Having images on your website is inevitable. However, too many large images will slow down your site significantly. This portfolio WordPress plugin allows you to limit the size of the images that go up on your portfolios to avoid this situation.
+**Complete Style Control:** Customize every visual aspect of your portfolio display. Set primary colors, overlay effects, button styles, typography, padding, and border options to match your website's design perfectly.
 
-**Style Control:** This WordPress portfolio plugin gives you full control over the style in which you display your portfolio. You get to customize the appearance and arrangements of all items. You can customize the colors of the layouts to match the style of your brand or website. Portfolio lets you choose the shapes of the borders in which the images appear. The way your portfolios appear on different devices is all up to you as well.
+**Responsive Design:** Configure column counts separately for desktop, tablet, and mobile views. Your portfolio automatically adapts to provide an optimal viewing experience on any screen size.
 
-**Portfolio Filter Option:** This portfolio plugin supports the display of your items by category, tags, and tools. You can filter the display by these criteria if you choose.
+**Image Size Management:** Control the dimensions of portfolio thumbnails to optimize page load times without sacrificing visual quality. Specify custom image sizes or choose from WordPress default options.
 
-**Social Share:** Portfolio enables you to display social share options on your portfolio items. Allowing your users to share your portfolio on social platforms gives you a larger audience and a wider reach to more potential customers. You can enable share options to various social platforms, including LinkedIn, Facebook, Twitter, Instagram, and more.
+**Field Display Options:** Select which information appears with each portfolio item: project title, description, client name, completion date, project URL, categories, and tags. Show only what matters most to your audience.
 
-**Translation Support:** This portfolio WordPress plugin supports the translation of your content into any language you want. This means that you can reach an unlimited number of people, regardless of their locations.
+**Page Builder Integration:** Use Portfolio with your preferred page builder. Native support for Gutenberg blocks and Elementor widgets makes adding portfolio displays to your pages straightforward and intuitive.
 
-**RTL Support:** Being translation-ready is only half of it; this portfolio plugin also supports translation into RTL languages. Among the RTL languages it supports are Hebrew, Arabic, and Persian.
+**Translation Ready:** Reach a global audience with full translation support. Portfolio is compatible with WPML and other translation plugins, including complete RTL language support for Hebrew, Arabic, and Persian.
 
-== 🏆  3 Easy Steps to Using the Portfolio Plugin ==
+**Social Sharing:** Enable social share buttons on portfolio items to expand your reach. Let visitors share your work on LinkedIn, Facebook, Twitter, and other platforms directly from your portfolio page.
 
-When using this WordPress portfolio plugin, your work is significantly less. You can create the most beautiful results in
+== How to Create Your Portfolio in 3 Steps ==
 
-**Step 1:** Start by adding the various projects that you've completed and want to showcase along with all the image and text content that should accompany it.
+**Step 1: Add Your Projects** Navigate to the Portfolio menu in your WordPress admin panel. Add each project with its title, description, featured image, and relevant details like client name and completion date.
+**Step 2: Generate Your Shortcode** Open the Shortcode Generator and configure your display preferences. Select your layout type, set filtering options, choose which fields to display, and customize the styling to match your brand.
+**Step 3: Display Your Portfolio** Copy the generated shortcode and paste it into any page or post. Alternatively, use the Gutenberg block or Elementor widget to add your portfolio with visual controls.
 
-**Step 2:** Now generate the shortcode for your whole portfolio items. Here is how you go about it:
 
-**1. Layout**
+== Available Portfolio Fields ==
 
-1. It would be best to start by choosing the layout type you want, with grid, isotope, and slider layout options available.
+Each portfolio item supports the following information fields:
 
-2. Next is to choose the particular layout variation you want from the available options by simply clicking on it.
-
-3. Choose the number of columns you want for different views, including desktop, tab, and mobile.
-
-4. You can then click to enable pagination or just leave the box unchecked if you don't want pagination.
-
-5. Choose the size limit of the images that go on your portfolio items.
-
-6. If you want to disable images on your portfolios, check the available box.
-
-7. Set the limit of the number of characters you want for your portfolio item's short description.
-
-8. Choose whether you want to enable the detail page link.
-
-9. Choose the type of detail page link that you want. The available options are inner and external links.
-
-10.	Choose the link target, whether you want it to go on the same window or a new one.
-
-**2. Filtering**
-
-1. Create a list of the post IDs that you'd like to show in the 'include only' section.
-2. List the post IDs of the portfolio items that you don't want to display in the 'exclude' section.
-
-3. The next thing is to set the limit on the number of posts to show. Leaving this part empty will show all of the portfolio posts on your site.
-
-4. Select the categories that you want to filter and leave this part unfilled to filter all categories.
-
-5. Select the tags you want to filter on your portfolios.
-
-6. Select the 'taxonomy relation' if you want over one taxonomy, such as category and tag, or tag, category, and tools.
-
-7. Choose the criteria by which you want to order your portfolio items. You can order by date or title before choosing between ascending and descending orders.
-
-**3. Fields Selection**
-
-Check the fields on the fields' selection part, checking the fields you want to display. The field options you have to work with include name, short description, client name, project URL, completed date, tools, categories, and zoom image.
-
-**4. Styling**
-
-1. Choose the parent class for adding custom CSS code.
-
-2. Select the primary color you want for your portfolio items.
-
-3. Choose the overlay color, button background color, button hover background color, button active background color, and button text color.
-
-4. Choose the size you want for your padding.
-
-5. Select the font color, font size, weight, and alignment of the name/ title, name hover, short description, icon style, and meta style.
-
-**Step 3:** Call the shortcode in the post or page you want it in with Gutenberg or the Elementor addon. Alternatively, you can copy and paste the shortcode onto the post or page.
-
-== 🏆  Available Portfolio Fields ==
-
-* Title/ Name of the portfolio items
-
-* Category
-
+* Title/Name
 * Short Description
-
+* Featured Image
+* Category Classification
+* Tags
 * Client Name
-
-* The date on which it was completed
-
 * Project URL
-
-* Custom URL [PRO]
-
+* Completion Date
+* Tools Used
+* External URL (Custom detail link) [PRO]
 * Portfolio Gallery [PRO]
 
-== 🏆 Some Features of Portfolio plugin Pro version ==
+== Perfect For ==
 
-**Layouts:** The premium version of this portfolio plugin comes with 17 grids that have grid filters, 15 Sliders & 17 Isotope layouts.
+**Freelancers and Consultants** Display completed client work to attract new business opportunities. Organize projects by industry, service type, or expertise area.
 
-**Detail page popup:** Portfolio supports multiple popups as well as single popups. The multiple popups come with the next preview buttons on the popup detail pages.
+**Photographers** Create stunning photo galleries with isotope filtering by genre, event type, or photography style. The carousel slider presents images in an elegant, professional format.
 
-**Filter by Category or Tag:** This portfolio WordPress plugin allows you to filter your portfolio items by categories or tags.
+**Design Agencies** Showcase brand identities, web designs, and marketing campaigns. Filter projects by client industry or service category to help prospects find relevant examples.
 
-**Disable Show All Button:** In Isotope or Filter layout can hide Show All button and can make a department default.
+**Web Developers** Present your development portfolio with links to live projects. Categorize by technology stack, project type, or industry sector.
 
-**AJAX pagination:** Portfolio supports various paginations for a better user experience. These paginations include number pagination, load more, and load more on scroll.
+**Artists and Illustrators** Display artwork in grid or masonry layouts. Let visitors filter by medium, style, or collection to explore your creative work.
 
-**Masonry Grid:** You can display your portfolio posts on a masonry grid. This grid is more elegant than a regular grid.
+== Pro Version Features ==
 
-**Margin Control:** This feature lets you control where the portfolio posts margins start and stop.
+* Upgrade to Portfolio Pro for advanced capabilities:
+* 50+ professional layout variations
+* Masonry grid and masonry isotope layouts
+* Gallery lightbox for multiple images per project
+* Custom URL support for external project links
+* Drag and drop ordering
+* AJAX pagination with load more and infinite scroll options
+* Detail page popup with navigation
+* Margin and gutter control
+* Extended customization options
 
-**Gutter/ Padding Control:** The intercolumnar spaces, also known as gutter margins
+= Need Any Help? =
+* For any bug, support or suggestion please submit your ticket [here](https://www.radiustheme.com/ticket-support/).
 
 
 == Installation ==
 
-1. Add plugin to the `/wp-content/plugins/` directory
-2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Create Portfolio.
-4. Add shortCode or widget to display the Portfolio.
+1. Install and activate Radius Portfolio from the WordPress plugin repository
+2. Navigate to Radius Portfolio → Add New to create your first portfolio item
+3. Fill in project details and upload a featured image
+4. Create additional portfolio items for your collection
+5. Go to Radius Portfolio → Shortcode Generator to configure your display
+6. Copy the shortcode to any page or post
+7. Preview and publish your portfolio page
 
 = Requirements =
+
 * **WordPress version:** >= 4
 * **PHP version:** >= 7.4
 
 == Frequently Asked Questions ==
 
-= Need Any Help? =
-* Please mail us at `support@radiustheme.com`
+= Does this WordPress portfolio plugin support isotope filtering? =
+* Yes. Portfolio includes three isotope filter layouts that display and hide portfolio items based on category selection. Visitors can click category buttons to view only matching projects.
 
-== Is this Portfolio Plugin support Isotope Filter by Category ==
-* Yes this Portfolio plugin support Isotope Filter by category
+= Can I display a portfolio gallery with multiple images? =
+* The Pro version supports additional image uploads for each portfolio item, creating a gallery view with lightbox functionality.
 
-== Is this Portfolio plugin support portfolio gallery ==
-* Yes Pro version support additional image upload option that work as a gallery view *
+= Is this plugin compatible with Elementor? =
+* Yes. Portfolio includes a dedicated Elementor addon widget. Add your portfolio to any Elementor-built page using the visual drag-and-drop interface.
 
-== Is this Portfolio plugin support Elementor addon ==
-* Yes we have Elementor addon you can use it
+= Does Radius Portfolio work with the WordPress block editor? =
+* Yes. Use the included Gutenberg block to insert portfolio shortcodes directly within the block editor. Configure settings visually without leaving the page editor.
 
-== Is this Portfolio plugin support Gutenberg Block ==
-* Yes you can call our shortcode using our Gutenberg Block
+= Can I use this plugin with any WordPress theme? =
+* Absolutely. TLP Portfolio is designed to work with any standard WordPress theme.
 
-== Is this plugin support masonry grid ==
-* Yes Pro version support masonry grid
+= Does the plugin support masonry grid layouts? =
+* The Pro version includes masonry grid and masonry isotope layouts for displaying portfolio items in a Pinterest-style arrangement.
 
+= Is the plugin translation ready? =
+* Portfolio supports translation into any language through standard WordPress localization. RTL languages including Hebrew, Arabic, and Persian are fully supported.
+
+= How do I order my portfolio items? =
+* Use the ordering options in the shortcode generator to sort items by title or date, in ascending or descending order. The Pro version adds drag-and-drop manual ordering.
+
+= Can visitors share my portfolio items on social media? =
+* Enable social sharing in the settings to display share buttons for LinkedIn, Facebook, Twitter, and other platforms on each portfolio item.
+
+= How can I report security issues? =
+* Report security vulnerabilities through the [Patchstack Vulnerability Disclosure Program](https://patchstack.com/database/wordpress/plugin/tlp-portfolio/vulnerabilities).
 
 
 == Screenshots ==
 
-01. Layout 01
-02. Layout 02
-03. Layout 03
-04. Layout Settings
-05. Filtering
-06. Filed selection
-07. Styling
+01. Grid Layout
+02. Isotope Layout
+03. Slider Layout
+04. Gallery Layout
+05. Masonry Layout
+06. Layout Settings
+07. Filtering Settings
+08. Field Selection
+09. Styling Settings
 
 
 == Changelog ==
+
+= 3.0.0 ( February 09, 2026 ) =
+* Updated: Get help page UI.
+* Fixed: Minor CSS issues.
+
+= 2.9.1 ( December 02, 2025 ) =
+* Updated: WordPress 6.9 compatibility check.
+* Updated: Tested up to WordPress 6.9.
+* Fixed: Minor CSS issues.
 
 = 2.9.0 ( November 19, 2025 ) =
 * Updated: Settings Page UI Change.

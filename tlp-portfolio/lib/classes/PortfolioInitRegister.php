@@ -43,8 +43,8 @@ if ( ! class_exists( 'PortfolioInitRegister' ) ) :
 		protected function register_post_type() {
 			global $TLPportfolio;
 			$labels   = [
-				'name'               => esc_html__( 'Portfolio', 'tlp-portfolio' ),
-				'singular_name'      => esc_html__( 'Portfolio', 'tlp-portfolio' ),
+				'name'               => esc_html__( 'Radius Portfolio', 'tlp-portfolio' ),
+				'singular_name'      => esc_html__( 'Radius Portfolio', 'tlp-portfolio' ),
 				'add_new'            => esc_html__( 'Add Portfolio', 'tlp-portfolio' ),
 				'all_items'          => esc_html__( 'All Portfolios', 'tlp-portfolio' ),
 				'add_new_item'       => esc_html__( 'Add Portfolio', 'tlp-portfolio' ),
@@ -70,7 +70,7 @@ if ( ! class_exists( 'PortfolioInitRegister' ) ) :
 				'show_ui'             => true,
 				'show_in_menu'        => true,
 				'menu_position'       => 20,
-				'menu_icon'           => $TLPportfolio->assetsUrl . 'images/portfolio.png',
+				'menu_icon'           => $TLPportfolio->assetsUrl . 'images/portfolio.svg',
 				'show_in_admin_bar'   => true,
 				'show_in_nav_menus'   => true,
 				'can_export'          => true,
@@ -171,7 +171,7 @@ if ( ! class_exists( 'PortfolioInitRegister' ) ) :
 		protected function register_scPT() {
 			$sc_args = [
 				'label'               => esc_html__( 'ShortCode', 'tlp-portfolio' ),
-				'description'         => esc_html__( 'TLP Portfolio ShortCode generator', 'tlp-portfolio' ),
+				'description'         => esc_html__( 'Radius Portfolio ShortCode generator', 'tlp-portfolio' ),
 				'labels'              => [
 					'all_items'          => esc_html__( 'ShortCodes', 'tlp-portfolio' ),
 					'menu_name'          => esc_html__( 'ShortCode', 'tlp-portfolio' ),
