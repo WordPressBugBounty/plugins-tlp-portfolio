@@ -284,6 +284,15 @@ if ( ! class_exists( 'PortfolioInitRegister' ) ) :
 					'tlp_date_format' => TLPPortfolio()->date_format_php_to_js(),
 				]
 			);
+            wp_localize_script(
+                'tlp-portfolio',
+                'tlp_portfolio_public_obj',
+                [
+                    'ajaxurl'         => esc_url( admin_url( 'admin-ajax.php' ) ),
+                    'nonce'           => esc_attr( wp_create_nonce( TLPPortfolio()->nonceText() ) ),
+                    'nonceId'         => esc_attr( TLPPortfolio()->nonceId() ),
+                ]
+            );
 		}
 	}
 endif;

@@ -309,7 +309,14 @@ if ( ! class_exists( 'TLPportShortCode' ) ) :
 					if ( $preview ) {
 						$html .= $this->customStyle( $layoutID, $scMeta, true, $preview );
 					}
+                    $searchFilter       = ! empty( $scMeta['pfp_filter'][0] ) ? true : false;
+                    if ( $searchFilter && ! $isCarousel ) {
+                        $html .= '<div class="rt-filter-item-wrap rt-search-filter-wrap">';
+                        $html .= "<input type='text' class='rt-search-input' placeholder='Search...'>";
 
+                        $html .= "<span class='rt-loading'></span>";
+                        $html .= '</div>';
+                    }
 					if ( $portfolioQuery->have_posts() ) {
 						$dataAttr = "data-title='" . esc_html__( 'Loading ...', 'tlp-portfolio' ) . "'";
 						$html    .= sprintf( '<div class="%s" id="%s" data-layout="%s"><div class="rt-row %s %s" %s>', implode( ' ', $class ), $layoutID, $layout, $layout, $preLoader, $dataAttr );

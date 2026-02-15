@@ -116,6 +116,20 @@ if ( ! class_exists( 'TLPPortfolioOptions' ) ) :
 					'default' => 1,
 					'options' => $this->scColumns(),
 				],
+                "pfp_filter" => array(
+                    "type"        => "checkbox",
+                    "label"       => esc_html__("Filter", 'tlp-portfolio-pro'),
+                    "multiple"    => true,
+                    "alignment"   => "vertical",
+                    "default"     => 'search',
+                    "options"     => [
+                        'search' => esc_html__('Search', 'tlp-portfolio-pro'),
+                    ],
+                    'description' => __(
+                        'Filter works only Grid & Isotope layout.',
+                        'tlp-portfolio'
+                    ),
+                ),
 				'pfp_pagination'                => [
 					'type'        => 'checkbox',
 					'label'       => esc_html__( 'Pagination', 'tlp-portfolio' ),
