@@ -12,12 +12,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $layoutID            = 'tlp-portfolio-container-' . $scID;
 $scMeta              = get_post_meta( $scID );
-$primaryColor        = isset( $scMeta['pfp_primary_color'][0] ) && ! empty( $scMeta['pfp_primary_color'][0] ) ? sanitize_text_field( $scMeta['pfp_primary_color'][0] ) : null;
-$overlayColor        = isset( $scMeta['pfp_overlay_color'][0] ) && ! empty( $scMeta['pfp_overlay_color'][0] ) ? sanitize_text_field( $scMeta['pfp_overlay_color'][0] ) : null;
-$buttonBgColor       = isset( $scMeta['pfp_button_bg_color'][0] ) && ! empty( $scMeta['pfp_button_bg_color'][0] ) ? sanitize_text_field( $scMeta['pfp_button_bg_color'][0] ) : null;
-$buttonTxtColor      = isset( $scMeta['pfp_button_text_color'][0] ) && ! empty( $scMeta['pfp_button_text_color'][0] ) ? sanitize_text_field( $scMeta['pfp_button_text_color'][0] ) : null;
-$buttonHoverBgColor  = isset( $scMeta['pfp_button_hover_bg_color'][0] ) && ! empty( $scMeta['pfp_button_hover_bg_color'][0] ) ? sanitize_text_field( $scMeta['pfp_button_hover_bg_color'][0] ) : null;
-$buttonActiveBgColor = isset( $scMeta['pfp_button_active_bg_color'][0] ) && ! empty( $scMeta['pfp_button_active_bg_color'][0] ) ? sanitize_text_field( $scMeta['pfp_button_active_bg_color'][0] ) : null;
+$primaryColor        = isset( $scMeta['pfp_primary_color'][0] ) && ! empty( $scMeta['pfp_primary_color'][0] ) ? sanitize_hex_color( $scMeta['pfp_primary_color'][0] ) : null;
+$overlayColor        = isset( $scMeta['pfp_overlay_color'][0] ) && ! empty( $scMeta['pfp_overlay_color'][0] ) ? sanitize_hex_color( $scMeta['pfp_overlay_color'][0] ) : null;
+$buttonBgColor       = isset( $scMeta['pfp_button_bg_color'][0] ) && ! empty( $scMeta['pfp_button_bg_color'][0] ) ? sanitize_hex_color( $scMeta['pfp_button_bg_color'][0] ) : null;
+$buttonTxtColor      = isset( $scMeta['pfp_button_text_color'][0] ) && ! empty( $scMeta['pfp_button_text_color'][0] ) ? sanitize_hex_color( $scMeta['pfp_button_text_color'][0] ) : null;
+$buttonHoverBgColor  = isset( $scMeta['pfp_button_hover_bg_color'][0] ) && ! empty( $scMeta['pfp_button_hover_bg_color'][0] ) ? sanitize_hex_color( $scMeta['pfp_button_hover_bg_color'][0] ) : null;
+$buttonActiveBgColor = isset( $scMeta['pfp_button_active_bg_color'][0] ) && ! empty( $scMeta['pfp_button_active_bg_color'][0] ) ? sanitize_hex_color( $scMeta['pfp_button_active_bg_color'][0] ) : null;
 $name                = isset( $scMeta['pfp_name_style'][0] ) && ! empty( $scMeta['pfp_name_style'][0] ) ? TLPPortfolio()->array_text_sanitization( $scMeta['pfp_name_style'][0] ) : [];
 
 $name_hover = isset( $scMeta['pfp_name_hover_style'][0] ) && ! empty( $scMeta['pfp_name_hover_style'][0] ) ? TLPPortfolio()->array_text_sanitization( $scMeta['pfp_name_hover_style'][0] ) : [];
@@ -162,6 +162,5 @@ if ( is_array( $meta_style ) && ! empty( $meta_style ) ) {
 
 
 if ( $style ) {
-	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-	echo sanitize_text_field( $style );
+	echo wp_strip_all_tags( $style );
 }

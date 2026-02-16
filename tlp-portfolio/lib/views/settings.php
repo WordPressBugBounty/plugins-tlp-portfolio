@@ -33,8 +33,7 @@ $settings = get_option( $TLPportfolio->options['settings'] );
                            <tr>
                                <th scope="row"><label for="slug"><?php esc_html_e( 'Slug', 'tlp-portfolio' ); ?></label></th>
                                <td class="">
-                                   <?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-                                   <input name="slug" id="slug" type="text" value="<?php echo( isset( $settings['slug'] ) ? ( $settings['slug'] ? sanitize_title_with_dashes( $settings['slug'] ) : 'portfolio' ) : 'portfolio' ); ?>" size="8" class="">
+                                   <input name="slug" id="slug" type="text" value="<?php echo( isset( $settings['slug'] ) ? ( $settings['slug'] ? esc_attr( $settings['slug'] ) : 'portfolio' ) : 'portfolio' ); ?>" size="8" class="">
                                    <p class="description"><?php esc_html_e( 'Slug configuration', 'tlp-portfolio' ); ?></p>
                                </td>
                            </tr>
@@ -82,8 +81,7 @@ $settings = get_option( $TLPportfolio->options['settings'] );
                                <th scope="row"><label for="css"><?php esc_html_e( 'Custom Css', 'tlp-portfolio' ); ?></label>
                                </th>
                                <td>
-                                   <?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?>
-                                   <textarea name="custom_css" cols="40" rows="6"><?php echo( isset( $settings['custom_css'] ) ? ( $settings['custom_css'] ? stripslashes_deep( $settings['custom_css'] ) : null ) : null ); ?></textarea>
+                                   <textarea name="custom_css" cols="40" rows="6"><?php echo( isset( $settings['custom_css'] ) && $settings['custom_css'] ? esc_textarea( stripslashes_deep( $settings['custom_css'] ) ) : '' ); ?></textarea>
                                </td>
                            </tr>
 

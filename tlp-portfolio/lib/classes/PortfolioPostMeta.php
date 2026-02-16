@@ -133,7 +133,7 @@ if ( ! class_exists( 'PortfolioPostMeta' ) ) :
 			}
 
 			global $TLPportfolio;
-            if ( ! isset( $_REQUEST['tlp_nonce'] ) || ! wp_verify_nonce( $_REQUEST['tlp_nonce'], $TLPportfolio->nonceText() ) ) {
+            if ( ! isset( $_REQUEST['tlp_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['tlp_nonce'] ) ), $TLPportfolio->nonceText() ) ) {
 				return;
 			}
 
@@ -142,7 +142,7 @@ if ( ! class_exists( 'PortfolioPostMeta' ) ) :
 			}
 
 			$meta['short_description'] = ( isset( $_POST['short_description'] ) ? wp_kses_post( wp_unslash( $_POST['short_description'] ) ) : '' );
-			$meta['project_url']       = ( isset( $_POST['project_url'] ) ? sanitize_text_field( wp_unslash( $_POST['project_url'] ) ) : '' );
+			$meta['project_url']       = ( isset( $_POST['project_url'] ) ? esc_url_raw( wp_unslash( $_POST['project_url'] ) ) : '' );
 			$meta['external_url']      = ( isset( $_POST['external_url'] ) ? '' : '' );
 			$meta['client_name']       = ( isset( $_POST['client_name'] ) ? sanitize_text_field( wp_unslash( $_POST['client_name'] ) ) : '' );
 			$meta['completed_date']    = ( isset( $_POST['completed_date'] ) ? sanitize_text_field( wp_unslash( $_POST['completed_date'] ) ) : '' );

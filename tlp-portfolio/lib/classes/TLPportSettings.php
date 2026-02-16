@@ -58,12 +58,28 @@ if ( ! class_exists( 'TLPportSettings' ) ) :
 
 			$error = true;
 
-			if ( wp_verify_nonce($TLPportfolio->getNonce(),$TLPportfolio->nonceText()) ) {
-				unset( $_REQUEST['action'] );
-				unset( $_REQUEST['tlp_nonce'] );
-				unset( $_REQUEST['_wp_http_referer'] );
+			if ( ! current_user_can( 'manage_options' ) ) {
+				$response = [
+					'error' => true,
+					'msg'   => esc_html__( 'Permission denied!!!', 'tlp-portfolio' ),
+				];
+				wp_send_json( $response );
+				die();
+			}
 
-				update_option( $TLPportfolio->options['settings'], $_REQUEST );
+			if ( wp_verify_nonce($TLPportfolio->getNonce(),$TLPportfolio->nonceText()) ) {
+				$settings = [
+					'primary_color'    => isset( $_REQUEST['primary_color'] ) ? sanitize_hex_color( wp_unslash( $_REQUEST['primary_color'] ) ) : '#0367bf',
+					'slug'             => isset( $_REQUEST['slug'] ) ? sanitize_title_with_dashes( wp_unslash( $_REQUEST['slug'] ) ) : 'portfolio',
+					'link_detail_page' => isset( $_REQUEST['link_detail_page'] ) && in_array( $_REQUEST['link_detail_page'], [ 'yes', 'no' ], true ) ? $_REQUEST['link_detail_page'] : 'yes',
+					'custom_css'       => isset( $_REQUEST['custom_css'] ) ? wp_strip_all_tags( wp_unslash( $_REQUEST['custom_css'] ) ) : '',
+				];
+
+				if ( ! empty( $_REQUEST['social_share_enable'] ) ) {
+					$settings['social_share_enable'] = 1;
+				}
+
+				update_option( $TLPportfolio->options['settings'], $settings );
 				flush_rewrite_rules();
 				$response = [
 					'error' => $error,

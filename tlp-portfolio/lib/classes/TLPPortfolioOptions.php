@@ -118,12 +118,12 @@ if ( ! class_exists( 'TLPPortfolioOptions' ) ) :
 				],
                 "pfp_filter" => array(
                     "type"        => "checkbox",
-                    "label"       => esc_html__("Filter", 'tlp-portfolio-pro'),
+                    "label"       => esc_html__("Filter", 'tlp-portfolio'),
                     "multiple"    => true,
                     "alignment"   => "vertical",
                     "default"     => 'search',
                     "options"     => [
-                        'search' => esc_html__('Search', 'tlp-portfolio-pro'),
+                        'search' => esc_html__('Search', 'tlp-portfolio'),
                     ],
                     'description' => __(
                         'Filter works only Grid & Isotope layout.',

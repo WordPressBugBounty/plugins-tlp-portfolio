@@ -341,11 +341,11 @@ if ( ! class_exists( 'TPLportFrontEnd' ) ) :
                     foreach ( $terms as $term ) {
                         if ( ! empty( $cat_ids ) ) {
                             if ( in_array( $term->term_id, $cat_ids ) && in_array( $term->term_id, $current_page_term ) ) {
-                                $filter_button .= "<button data-filter='.$term->slug'>" . $term->name . '</button>';
+                                $filter_button .= "<button data-filter='." . esc_attr( $term->slug ) . "'>" . esc_html( $term->name ) . '</button>';
                             }
                         } else {
                             if ( in_array( $term->term_id, $current_page_term ) ) {
-                                $filter_button .= "<button data-filter='.$term->slug'>" . $term->name . '</button>';
+                                $filter_button .= "<button data-filter='." . esc_attr( $term->slug ) . "'>" . esc_html( $term->name ) . '</button>';
                             }
                         }
                     }

@@ -1,8 +1,8 @@
-=== Radius Portfolio - WordPress Portfolio Plugin (formerly Portfolio) ===
+=== Radius Portfolio - WordPress Portfolio Plugin ===
 Contributors: techlabpro1, mamunnu
 Donate link:
 Tags: portfolio, portfolio plugin, wordpress portfolio plugin, filterable portfolio, best portfolio
-Stable tag: 3.1.0
+Stable tag: 3.2.0
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.0
@@ -13,7 +13,7 @@ A simple and powerful WordPress portfolio plugin to showcase your creative work 
 
 == Description ==
 
-Best WordPress Portfolio Plugin for WordPress to display your creative work beautifully in grid layouts, isotope filters, and carousel sliders.
+Portfolio Plugin for WordPress to display your creative work beautifully in grid layouts, isotope filters, and carousel sliders.
 
 👉 [Plugin Demo](https://www.radiustheme.com/demo/plugins/portfolio/) | [Documentation](https://www.radiustheme.com/docs/portfolio/) | [Get Pro Version](https://www.radiustheme.com/downloads/tlp-portfolio-pro-for-wordpress/) 👈
 
@@ -25,18 +25,22 @@ From photographers and graphic designers to web developers and marketing agencie
 
 
 ⭐⭐⭐⭐⭐
-[Great support.](https://wordpress.org/support/topic/great-support-6253/)
+**Great support**
 I discovered a small problem and within hours a new version was online. Sure, I provided the solution, but other plugin authors can take weeks to fix even the smallest things, even if they have the solution.
-â€” ***athan43***
+
+***mathzf***
 
 ⭐⭐⭐⭐⭐
-[Great Portfolio App](https://wordpress.org/support/topic/great-portfolio-app/)
+**Great Portfolio App**
 I’ve used a few different portfolio apps and I like the options, simplicity and layout of this one. It works great! Thanks you!
-â€” ***bobjgarrett***
+
+***goldgrl7***
+
+[Check out our great reviews!](https://wordpress.org/plugins/tlp-portfolio/#reviews)
 
 [youtube https://www.youtube.com/watch?v=uB4jPd4umaM]
 
-== 🌟 Best WordPress Portfolio Plugin for Creative Professionals ==
+== 🌟 Portfolio Plugin for Creative Professionals ==
 
 Radius Portfolio is a powerful WordPress portfolio plugin designed to showcase your creative work with style and flexibility. Whether you're a freelancer displaying client projects, a photographer presenting your gallery, or an agency highlighting case studies, this plugin gives you complete control over how your portfolio appears to potential clients.
 
@@ -67,11 +71,11 @@ Built with performance and usability in mind, Portfolio works seamlessly with Gu
 
 **Social Sharing:** Enable social share buttons on portfolio items to expand your reach. Let visitors share your work on LinkedIn, Facebook, Twitter, and other platforms directly from your portfolio page.
 
-== How to Create Your Portfolio in 3 Steps ==
+== 🌟 How to Create Your Portfolio in 3 Steps ==
 
-**Step 1: Add Your Projects** Navigate to the Portfolio menu in your WordPress admin panel. Add each project with its title, description, featured image, and relevant details like client name and completion date.
-**Step 2: Generate Your Shortcode** Open the Shortcode Generator and configure your display preferences. Select your layout type, set filtering options, choose which fields to display, and customize the styling to match your brand.
-**Step 3: Display Your Portfolio** Copy the generated shortcode and paste it into any page or post. Alternatively, use the Gutenberg block or Elementor widget to add your portfolio with visual controls.
+👉 **Step 1: Add Your Projects** Navigate to the Portfolio menu in your WordPress admin panel. Add each project with its title, description, featured image, and relevant details like client name and completion date.
+👉 **Step 2: Generate Your Shortcode** Open the Shortcode Generator and configure your display preferences. Select your layout type, set filtering options, choose which fields to display, and customize the styling to match your brand.
+👉 **Step 3: Display Your Portfolio** Copy the generated shortcode and paste it into any page or post. Alternatively, use the Gutenberg block or Elementor widget to add your portfolio with visual controls.
 
 
 == 🌟 Available Portfolio Fields ==
@@ -92,15 +96,15 @@ Each portfolio item supports the following information fields:
 
 == 🎯 Perfect For ==
 
-**Freelancers and Consultants** Display completed client work to attract new business opportunities. Organize projects by industry, service type, or expertise area.
+✅ **Freelancers and Consultants** Display completed client work to attract new business opportunities. Organize projects by industry, service type, or expertise area.
 
-**Photographers** Create stunning photo galleries with isotope filtering by genre, event type, or photography style. The carousel slider presents images in an elegant, professional format.
+✅ **Photographers** Create stunning photo galleries with isotope filtering by genre, event type, or photography style. The carousel slider presents images in an elegant, professional format.
 
-**Design Agencies** Showcase brand identities, web designs, and marketing campaigns. Filter projects by client industry or service category to help prospects find relevant examples.
+✅ **Design Agencies** Showcase brand identities, web designs, and marketing campaigns. Filter projects by client industry or service category to help prospects find relevant examples.
 
-**Web Developers** Present your development portfolio with links to live projects. Categorize by technology stack, project type, or industry sector.
+✅ **Web Developers** Present your development portfolio with links to live projects. Categorize by technology stack, project type, or industry sector.
 
-**Artists and Illustrators** Display artwork in grid or masonry layouts. Let visitors filter by medium, style, or collection to explore your creative work.
+✅ **Artists and Illustrators** Display artwork in grid or masonry layouts. Let visitors filter by medium, style, or collection to explore your creative work.
 
 == 💎 Pro Version Features ==
 
@@ -127,7 +131,7 @@ Need help? Access comprehensive resources:
 Join our [Facebook Community](https://www.facebook.com/groups/radiustheme) to connect with other users and get tips.
 
 
-== ⚙️ Installation ==
+== Installation ==
 
 1. Install and activate Radius Portfolio from the WordPress plugin repository
 2. Navigate to Radius Portfolio → Add New to create your first portfolio item
@@ -189,6 +193,9 @@ Join our [Facebook Community](https://www.facebook.com/groups/radiustheme) to co
 
 
 == Changelog ==
+
+= 3.2.0 ( February 16,2026 ) =
+* Updated: Improvement Security.
 
 = 3.1.0 ( February 15,2026 ) =
 * Added: Shortcode Search Filter.

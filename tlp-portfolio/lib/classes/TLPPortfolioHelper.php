@@ -248,7 +248,7 @@ if ( ! class_exists( 'TLPPortfolioHelper' ) ) :
 					} elseif ( $type == 'textarea' ) {
 						$newValue = wp_kses_post( $value );
 					} elseif ( $type == 'custom_css' ) {
-						$newValue = htmlentities( stripslashes( $value ) );
+						$newValue = wp_strip_all_tags( stripslashes( $value ) );
 					} elseif ( $type == 'image_size' ) {
 						$newValue = [];
 

@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $exFeature   = $visit_url = $imgWithHtml = $project_title = $zoom_image_icon = $short_description = '';
-$link_target = $link_target ? " target='" . $link_target . "'" : '';
+$link_target = $link_target ? " target='" . esc_attr( $link_target ) . "'" : '';
 
 if ( in_array( 'zoom_image', $items ) && $imgFull ) {
 	$zoom_image_icon .= sprintf( '<a class="tlp-zoom" href="%s" aria-label="%s"><i class="demo-icon icon-zoom-in"></i></a>', esc_url( $imgFull ),esc_html($title) );
@@ -22,11 +22,11 @@ if ( in_array( 'short_description', $items ) && $short_d ) {
 }
 
 if ( in_array( 'client_name', $items ) && $client_name ) {
-	$exFeature .= '<li class="client-name"><label>' . esc_html__( 'Client Name :', 'tlp-portfolio' ) . '</label>' . $client_name . '</li>';
+	$exFeature .= '<li class="client-name"><label>' . esc_html__( 'Client Name :', 'tlp-portfolio' ) . '</label>' . esc_html( $client_name ) . '</li>';
 }
 
 if ( in_array( 'completed_date', $items ) && $completed_date ) {
-	$exFeature .= '<li class="completed-date"><label>' . esc_html__( 'Completed Date :', 'tlp-portfolio' ) . '</label>' . $completed_date . '</li>';
+	$exFeature .= '<li class="completed-date"><label>' . esc_html__( 'Completed Date :', 'tlp-portfolio' ) . '</label>' . esc_html( $completed_date ) . '</li>';
 }
 
 if ( in_array( 'project_url', $items ) && $project_url ) {
@@ -34,11 +34,11 @@ if ( in_array( 'project_url', $items ) && $project_url ) {
 }
 
 if ( in_array( 'categories', $items ) && $categories ) {
-	$exFeature .= '<li class="tools"><label>' . esc_html__( 'Categories :', 'tlp-portfolio' ) . '</label>' . $categories . '</li>';
+	$exFeature .= '<li class="tools"><label>' . esc_html__( 'Categories :', 'tlp-portfolio' ) . '</label>' . esc_html( $categories ) . '</li>';
 }
 
 if ( in_array( 'tools', $items ) && $tools ) {
-	$exFeature .= '<li class="tools"><label>' . esc_html__( 'Tools :', 'tlp-portfolio' ) . '</label>' . $tools . '</li>';
+	$exFeature .= '<li class="tools"><label>' . esc_html__( 'Tools :', 'tlp-portfolio' ) . '</label>' . esc_html( $tools ) . '</li>';
 }
 
 if ( $item_link ) {
@@ -46,7 +46,7 @@ if ( $item_link ) {
 }
 
 if ( in_array( 'name', $items ) && $title ) {
-	$project_title = $link ? sprintf( '<h3><a href="%s" aria-label="%3$s" %s >%s</a></h3>', esc_url( $item_link ), $link_target, $title ) : sprintf( '<h3>%s</h3>', $title );
+	$project_title = $link ? sprintf( '<h3><a href="%s" aria-label="%3$s" %s >%s</a></h3>', esc_url( $item_link ), $link_target, esc_html( $title ) ) : sprintf( '<h3>%s</h3>', esc_html( $title ) );
 }
 
 if ( $exFeature ) {

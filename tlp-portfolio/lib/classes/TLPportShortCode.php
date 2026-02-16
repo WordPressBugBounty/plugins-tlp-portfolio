@@ -50,7 +50,7 @@ if ( ! class_exists( 'TLPportShortCode' ) ) :
 			if ( $scID || $preview ) {
 				$post = get_post( $scID );
 
-				if ( ( ! $preview && ! is_null( $post ) && $post->post_type === TLPPortfolio()->getScPostType() ) || ( $preview && TLPPortfolio()->verifyNonce() ) ) {
+				if ( ( ! $preview && ! is_null( $post ) && $post->post_type === TLPPortfolio()->getScPostType() ) || ( $preview && current_user_can( 'edit_posts' ) && TLPPortfolio()->verifyNonce() ) ) {
 					$rand         = wp_rand();
 					$container_id = $scID ? $scID : $preview;
 					$layoutID     = 'tlp-portfolio-container-' . $container_id;
@@ -428,11 +428,11 @@ if ( ! class_exists( 'TLPportShortCode' ) ) :
 								foreach ( $terms as $term ) {
 									if ( ! empty( $cat_ids ) ) {
 										if ( in_array( $term->term_id, $cat_ids ) && in_array( $term->term_id, $current_page_term ) ) {
-											$filter_button .= "<button data-filter='.$term->slug'>" . $term->name . '</button>';
+											$filter_button .= "<button data-filter='." . esc_attr( $term->slug ) . "'>" . esc_html( $term->name ) . '</button>';
 										}
 									} else {
 										if ( in_array( $term->term_id, $current_page_term ) ) {
-											$filter_button .= "<button data-filter='.$term->slug'>" . $term->name . '</button>';
+											$filter_button .= "<button data-filter='." . esc_attr( $term->slug ) . "'>" . esc_html( $term->name ) . '</button>';
 										}
 									}
 								}
@@ -526,18 +526,18 @@ if ( ! class_exists( 'TLPportShortCode' ) ) :
 			$style = null;
 
 			if ( $new_layout ) {
-				$primaryColor        = isset( $scMeta['pfp_primary_color'] ) && ! empty( $scMeta['pfp_primary_color'] ) ? $scMeta['pfp_primary_color'] : null;
-				$overlayColor        = isset( $scMeta['pfp_overlay_color'] ) && ! empty( $scMeta['pfp_overlay_color'] ) ? $scMeta['pfp_overlay_color'] : null;
-				$buttonBgColor       = isset( $scMeta['pfp_button_bg_color'] ) && ! empty( $scMeta['pfp_button_bg_color'] ) ? $scMeta['pfp_button_bg_color'] : null;
-				$buttonTxtColor      = isset( $scMeta['pfp_button_text_color'] ) && ! empty( $scMeta['pfp_button_text_color'] ) ? $scMeta['pfp_button_text_color'] : null;
-				$buttonHoverBgColor  = isset( $scMeta['pfp_button_hover_bg_color'] ) && ! empty( $scMeta['pfp_button_hover_bg_color'] ) ? $scMeta['pfp_button_hover_bg_color'] : null;
-				$buttonActiveBgColor = isset( $scMeta['pfp_button_active_bg_color'] ) && ! empty( $scMeta['pfp_button_active_bg_color'] ) ? $scMeta['pfp_button_active_bg_color'] : null;
-				$name                = isset( $scMeta['pfp_name_style'] ) && ! empty( $scMeta['pfp_name_style'] ) ? $scMeta['pfp_name_style'] : [];
-				$name_hover          = isset( $scMeta['pfp_name_hover_style'] ) && ! empty( $scMeta['pfp_name_hover_style'] ) ? $scMeta['pfp_name_hover_style'] : [];
+				$primaryColor        = isset( $scMeta['pfp_primary_color'] ) && ! empty( $scMeta['pfp_primary_color'] ) ? sanitize_hex_color( $scMeta['pfp_primary_color'] ) : null;
+				$overlayColor        = isset( $scMeta['pfp_overlay_color'] ) && ! empty( $scMeta['pfp_overlay_color'] ) ? sanitize_hex_color( $scMeta['pfp_overlay_color'] ) : null;
+				$buttonBgColor       = isset( $scMeta['pfp_button_bg_color'] ) && ! empty( $scMeta['pfp_button_bg_color'] ) ? sanitize_hex_color( $scMeta['pfp_button_bg_color'] ) : null;
+				$buttonTxtColor      = isset( $scMeta['pfp_button_text_color'] ) && ! empty( $scMeta['pfp_button_text_color'] ) ? sanitize_hex_color( $scMeta['pfp_button_text_color'] ) : null;
+				$buttonHoverBgColor  = isset( $scMeta['pfp_button_hover_bg_color'] ) && ! empty( $scMeta['pfp_button_hover_bg_color'] ) ? sanitize_hex_color( $scMeta['pfp_button_hover_bg_color'] ) : null;
+				$buttonActiveBgColor = isset( $scMeta['pfp_button_active_bg_color'] ) && ! empty( $scMeta['pfp_button_active_bg_color'] ) ? sanitize_hex_color( $scMeta['pfp_button_active_bg_color'] ) : null;
+				$name                = isset( $scMeta['pfp_name_style'] ) && ! empty( $scMeta['pfp_name_style'] ) ? TLPPortfolio()->array_text_sanitization( $scMeta['pfp_name_style'] ) : [];
+				$name_hover          = isset( $scMeta['pfp_name_hover_style'] ) && ! empty( $scMeta['pfp_name_hover_style'] ) ? TLPPortfolio()->array_text_sanitization( $scMeta['pfp_name_hover_style'] ) : [];
 
-				$short_desc = isset( $scMeta['pfp_short_description_style'] ) && ! empty( $scMeta['pfp_short_description_style'] ) ? $scMeta['pfp_short_description_style'] : [];
+				$short_desc = isset( $scMeta['pfp_short_description_style'] ) && ! empty( $scMeta['pfp_short_description_style'] ) ? TLPPortfolio()->array_text_sanitization( $scMeta['pfp_short_description_style'] ) : [];
 				$gutter     = isset( $scMeta['pfp_gutter'] ) && ! empty( $scMeta['pfp_gutter'] ) ? absint( $scMeta['pfp_gutter'] ) : null;
-				$iconStyle  = isset( $scMeta['pfp_icon_style'] ) && ! empty( $scMeta['pfp_icon_style'] ) ? $scMeta['pfp_icon_style'] : [];
+				$iconStyle  = isset( $scMeta['pfp_icon_style'] ) && ! empty( $scMeta['pfp_icon_style'] ) ? TLPPortfolio()->array_text_sanitization( $scMeta['pfp_icon_style'] ) : [];
 
 				$meta_style = ( isset( $scMeta['pfp_meta_style'] ) ? TLPPortfolio()->array_text_sanitization( $scMeta['pfp_meta_style'] ) : [] );
 
@@ -913,10 +913,10 @@ if ( ! class_exists( 'TLPportShortCode' ) ) :
 						foreach ( $terms as $term ) {
 							if ( ! empty( $cat_ids ) ) {
 								if ( in_array( $term->term_id, $cat_ids ) ) {
-									$html .= "<button data-filter='." . $term->slug . "'>" . $term->name . '</button>';
+									$html .= "<button data-filter='." . esc_attr( $term->slug ) . "'>" . esc_html( $term->name ) . '</button>';
 								}
 							} else {
-								$html .= "<button data-filter='.$term->slug'>" . $term->name . '</button>';
+								$html .= "<button data-filter='." . esc_attr( $term->slug ) . "'>" . esc_html( $term->name ) . '</button>';
 							}
 						}
 					}
