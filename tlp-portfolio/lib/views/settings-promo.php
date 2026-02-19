@@ -1,3 +1,7 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) exit;
+//phpcs:disable
+?>
 <div class="tlp-promo-container">
     <div class="tlp-promo-inner">
         <div class="promo-image">

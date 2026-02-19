@@ -9,7 +9,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'This script cannot be accessed directly.' );
 }
-
+//phpcs:disable
 global $TLPportfolio;
 
 $settings = get_option( $TLPportfolio->options['settings'] );

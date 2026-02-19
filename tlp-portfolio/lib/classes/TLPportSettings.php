@@ -35,8 +35,8 @@ if ( ! class_exists( 'TLPportSettings' ) ) :
 		}
 
 		public function tlp_portfolio_marketing( $links ) {
-			$links[] = '<a target="_blank" href="' . esc_url( 'https://demo.radiustheme.com/wordpress/plugins/tlp-portfolio/' ) . '">Demo</a>';
-			$links[] = '<a target="_blank" href="' . esc_url( 'https://radiustheme.com/how-to-setup-and-configure-tlp-portfolio-free-version-for-wordpress/' ) . '">Documentation</a>';
+			$links[] = '<a target="_blank" href="' . esc_url( 'https://www.radiustheme.com/demo/plugins/portfolio/' ) . '">Demo</a>';
+			$links[] = '<a target="_blank" href="' . esc_url( 'https://www.radiustheme.com/docs/portfolio/' ) . '">Documentation</a>';
 			$links[] = '<a target="_blank" style="color: #39b54a;font-weight: 700;"  href="' . esc_url( TLPPortfolio()->pro_version_link() ) . '">Get Pro</a>';
 
 			return $links;
@@ -60,18 +60,19 @@ if ( ! class_exists( 'TLPportSettings' ) ) :
 
 			if ( ! current_user_can( 'manage_options' ) ) {
 				$response = [
-					'error' => true,
+					'error' => $error,
 					'msg'   => esc_html__( 'Permission denied!!!', 'tlp-portfolio' ),
 				];
 				wp_send_json( $response );
-				die();
 			}
 
-			if ( wp_verify_nonce($TLPportfolio->getNonce(),$TLPportfolio->nonceText()) ) {
+			if ( wp_verify_nonce( $TLPportfolio->getNonce(), $TLPportfolio->nonceText() ) ) {
+				$link_detail = isset( $_REQUEST['link_detail_page'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['link_detail_page'] ) ) : 'yes';
+
 				$settings = [
 					'primary_color'    => isset( $_REQUEST['primary_color'] ) ? sanitize_hex_color( wp_unslash( $_REQUEST['primary_color'] ) ) : '#0367bf',
 					'slug'             => isset( $_REQUEST['slug'] ) ? sanitize_title_with_dashes( wp_unslash( $_REQUEST['slug'] ) ) : 'portfolio',
-					'link_detail_page' => isset( $_REQUEST['link_detail_page'] ) && in_array( $_REQUEST['link_detail_page'], [ 'yes', 'no' ], true ) ? $_REQUEST['link_detail_page'] : 'yes',
+					'link_detail_page' => in_array( $link_detail, [ 'yes', 'no' ], true ) ? $link_detail : 'yes',
 					'custom_css'       => isset( $_REQUEST['custom_css'] ) ? wp_strip_all_tags( wp_unslash( $_REQUEST['custom_css'] ) ) : '',
 				];
 
@@ -93,7 +94,6 @@ if ( ! class_exists( 'TLPportSettings' ) ) :
 			}
 
 			wp_send_json( $response );
-			die();
 		}
 
 
@@ -105,7 +105,7 @@ if ( ! class_exists( 'TLPportSettings' ) ) :
 				'edit.php?post_type=portfolio',
 				esc_html__( 'TLP Portfolio Settings', 'tlp-portfolio' ),
 				esc_html__( 'Settings', 'tlp-portfolio' ),
-				'administrator',
+				'manage_options',
 				'tlp_portfolio_settings',
 				[ $this, 'tlp_portfolio_settings' ]
 			);
@@ -114,7 +114,7 @@ if ( ! class_exists( 'TLPportSettings' ) ) :
 				'edit.php?post_type=portfolio',
 				esc_html__( 'Get Help', 'tlp-portfolio' ),
 				esc_html__( 'Get Help', 'tlp-portfolio' ),
-				'administrator',
+				'manage_options',
 				'tlp_portfolio_get_help',
 				[ $this, 'get_help' ]
 			);

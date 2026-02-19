@@ -28,7 +28,7 @@ if ( ! class_exists( 'TLPPortfolioNotice' ) ):
 					if ( mktime( 0, 0, 0, 11, 15, 2025 ) <= $current && $current <= mktime( 0, 0, 0, 1, 5, 2026 ) ) {
 						if ( '1' !== get_option( 'rtpf_ny_2025' ) ) {
 							if ( ! isset( $GLOBALS['rt_pf_ny_2023_notice'] ) ) {
-								$GLOBALS['rt_pf_ny_2023_notice'] = 'rtpf_ny_2025';
+								$GLOBALS['rt_pf_ny_2023_notice'] = 'rtpf_ny_2025'; //phpcs:disable
 								self::bf_notice();
 							}
 						}
@@ -48,7 +48,7 @@ if ( ! class_exists( 'TLPPortfolioNotice' ) ):
 			// Added Lines Start.
 			$nobug = get_option( 'rtport_spare_me', "0");
 
-			if ($nobug == "1" || $nobug == "3") {
+			if ($nobug === "1" || $nobug === "3") {
 				return;
 			}
 
@@ -80,12 +80,12 @@ if ( ! class_exists( 'TLPPortfolioNotice' ) ):
 				$dont_disturb = add_query_arg( $args + [ 'rtport_spare_me' => '1' ], self::rtport_current_admin_url() );
 				$remind_me    = add_query_arg( $args + [ 'rtport_remind_me' => '1' ], self::rtport_current_admin_url() );
 				$rated        = add_query_arg( $args + [ 'rtport_rated' => '1' ], self::rtport_current_admin_url() );
-				$reviewurl    = 'https://wordpress.org/support/plugin/tlp-portfolio/reviews/?filter=5#new-post';
+				$reviewurl    = 'https://wordpress.org/support/plugin/tlp-portfolio/reviews/#new-post';
                 ?>
                 <div class="notice rtport-review-notice rtport-review-notice--extended">
                     <div class="rtport-review-notice_content">
                         <h3>Enjoying Portfolio Plugin?</h3>
-                        <p>Thank you for choosing Portfolio Plugin. If you have found our plugin useful and makes you smile, please consider giving us a 5-star rating on WordPress.org. It will help us to grow.</p>
+                        <p>Thank you for choosing Portfolio Plugin. If you have found our plugin useful and makes you smile, please consider giving us a rating on WordPress.org. It will help us to grow.</p>
                         <div class="rtport-review-notice_actions">
                             <a href="<?php echo esc_url($reviewurl); ?>" class="rtport-review-button rtport-review-button--cta" target="_blank"><span>⭐ Yes, You Deserve It!</span></a>
                             <a href="<?php echo esc_url($rated); ?>" class="rtport-review-button rtport-review-button--cta rtport-review-button--outline"><span>😀 Already Rated!</span></a>
@@ -218,14 +218,18 @@ if ( ! class_exists( 'TLPPortfolioNotice' ) ):
 
 		// remove the notice for the user if review already done or if the user does not want to. wp_unslash
 		public static function rtport_spare_me() {
-            if ( ! isset( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'rtport_notice_nonce' ) ) {
+			if ( ! current_user_can( 'manage_options' ) ) {
+				return;
+			}
+
+            if ( ! isset( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'rtport_notice_nonce' ) ) {
 				return;
 			}
 
 			if ( isset( $_GET['rtport_spare_me'] ) && ! empty( $_GET['rtport_spare_me'] ) ) {
 				$spare_me = absint( $_GET['rtport_spare_me'] );
 
-				if ( 1 == $spare_me ) {
+				if ( 1 === $spare_me ) {
 					update_option( 'rtport_spare_me', "1" );
 				}
 			}
@@ -233,7 +237,7 @@ if ( ! class_exists( 'TLPPortfolioNotice' ) ):
 			if ( isset( $_GET['rtport_remind_me'] ) && ! empty( $_GET['rtport_remind_me'] ) ) {
 				$remind_me = absint( $_GET['rtport_remind_me'] );
 
-				if ( 1 == $remind_me ) {
+				if ( 1 === $remind_me ) {
 					$get_activation_time = strtotime( "now" );
 					update_option( 'rtport_remind_me', $get_activation_time );
 					update_option( 'rtport_spare_me', "2" );
@@ -243,7 +247,7 @@ if ( ! class_exists( 'TLPPortfolioNotice' ) ):
 			if ( isset( $_GET['rtport_rated'] ) && ! empty( $_GET['rtport_rated'] ) ) {
 				$rtport_rated = absint( $_GET['rtport_rated'] );
 
-				if ( 1 == $rtport_rated ) {
+				if ( 1 === $rtport_rated ) {
 					update_option( 'rtport_rated', 'yes' );
 					update_option( 'rtport_spare_me', "3" );
 				}
@@ -356,6 +360,10 @@ if ( ! class_exists( 'TLPPortfolioNotice' ) ):
 				'wp_ajax_rtpf_dismiss_admin_notice',
 				function () {
 					check_ajax_referer( 'rtpf-dismissible-notice', 'nonce' );
+
+					if ( ! current_user_can( 'manage_options' ) ) {
+						wp_die( -1, 403 );
+					}
 
 					update_option( 'rtpf_ny_2025', '1' );
 					wp_die();

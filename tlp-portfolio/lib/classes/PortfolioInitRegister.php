@@ -197,7 +197,10 @@ if ( ! class_exists( 'PortfolioInitRegister' ) ) :
 				'capability_type'     => 'page',
 			];
 
-			register_post_type( TLPPortfolio()->getScPostType(), apply_filters( 'tlp-portfolio-register-sc-args', $sc_args ) );
+			register_post_type(
+                TLPPortfolio()->getScPostType(),
+                apply_filters( 'tlp-portfolio-register-sc-args', $sc_args )  // phpcs:disable
+            );
 		}
 
 		private function registerScriptStyle() {

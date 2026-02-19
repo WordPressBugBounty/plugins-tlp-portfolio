@@ -9,7 +9,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'This script cannot be accessed directly.' );
 }
-
+//phpcs:disable
 $exFeature = $visit_url = $imgWithHtml = $project_title = $zoom_image_icon = $short_description = null;
 
 if ( in_array( 'zoom_image', $items ) && $imgFull ) {

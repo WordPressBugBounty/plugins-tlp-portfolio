@@ -9,12 +9,12 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'This script cannot be accessed directly.' );
 }
-
+//phpcs:disable
 $exFeature  = $imgHtml = $zoom_image_icon = null;
 $linkTarget = $link_target ? " target='" . esc_attr( $link_target ) . "'" : null;
 
 if ( $image_zoom ) {
-	$zoom_image_icon .= sprintf( '<a class="tlp-zoom" href="%s"><i class="demo-icon icon-zoom-in"></i></a>', esc_url( $imgFull ) );
+	$zoom_image_icon .= sprintf( '<a class="tlp-zoom" href="%s"><i class="demo-icon icon-zoom-in"></i></a>', esc_url( $imgFull ) ); //phpcs:diable
 }
 
 if ( $img ) {

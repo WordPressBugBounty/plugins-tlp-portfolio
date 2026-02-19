@@ -353,7 +353,7 @@ global $TLPportfolio;
 					<p>Get started by spending some time with the documentation we included step by step process with screenshots with video.</p>
 				</div>
                 <div class="doc-button">
-                    <a href="https://www.radiustheme.com/how-to-setup-and-configure-tlp-portfolio-free-version-for-wordpress/" target="_blank" class="rt-admin-btn">Documentation</a>
+                    <a href="https://www.radiustheme.com/docs/portfolio/" target="_blank" class="rt-admin-btn">Documentation</a>
                 </div>
 			</div>
 			<div class="rt-document-box">
@@ -375,10 +375,10 @@ global $TLPportfolio;
                     <h3 class="rt-box-title">Happy Our Work?</h3>
                 </div>
 				<div class="rt-box-content">
-					<p>If you happy with <strong>Portfolio Plugin</strong> plugin, please add a rating. It would be glad to us.</p>
+					<p>If you happy with <strong>Radius Portfolio Plugin</strong> plugin, please add a rating. It would be glad to us.</p>
 				</div>
                 <div class="doc-button">
-                    <a href="https://wordpress.org/support/plugin/tlp-portfolio/reviews/?filter=5#new-post" class="rt-admin-btn" target="_blank">Post Review</a>
+                    <a href="https://wordpress.org/support/plugin/tlp-portfolio/reviews/" class="rt-admin-btn" target="_blank">Post Review</a>
                 </div>
 			</div>
 		</div>

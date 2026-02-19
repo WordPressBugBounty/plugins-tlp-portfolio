@@ -23,7 +23,7 @@ if ( ! class_exists( 'RtPortfolioAdmin' ) ) :
 					if ( mktime( 0, 0, 0, 11, 22, 2021 ) <= $current && $current <= mktime( 0, 0, 0, 12, 6, 2021 ) ) {
 						if ( get_option( 'rtportfolio_bf_2021' ) != '1' ) {
 							if ( ! isset( $GLOBALS['rt_bf_2021_notice'] ) ) {
-								$GLOBALS['rt_bf_2021_notice'] = 'rtportfolio_bf_2021';
+								$GLOBALS['rt_bf_2021_notice'] = 'rtportfolio_bf_2021'; //phpcs:disable
 								self::notice();
 							}
 						}

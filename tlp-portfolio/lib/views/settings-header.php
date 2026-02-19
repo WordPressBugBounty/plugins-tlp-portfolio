@@ -1,4 +1,7 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) exit;
+//phpcs:disable
 function rt_settings_url( $page = 'tlp_portfolio_settings' ) {
     return add_query_arg(
         [

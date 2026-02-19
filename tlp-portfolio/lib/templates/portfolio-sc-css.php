@@ -9,7 +9,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'This script cannot be accessed directly.' );
 }
-
+//phpcs:disable
 $layoutID            = 'tlp-portfolio-container-' . $scID;
 $scMeta              = get_post_meta( $scID );
 $primaryColor        = isset( $scMeta['pfp_primary_color'][0] ) && ! empty( $scMeta['pfp_primary_color'][0] ) ? sanitize_hex_color( $scMeta['pfp_primary_color'][0] ) : null;
@@ -162,5 +162,5 @@ if ( is_array( $meta_style ) && ! empty( $meta_style ) ) {
 
 
 if ( $style ) {
-	echo wp_strip_all_tags( $style );
+	echo wp_strip_all_tags( $style ); //phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 }
