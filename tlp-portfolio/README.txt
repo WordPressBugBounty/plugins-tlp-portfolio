@@ -1,8 +1,8 @@
-=== Radius Portfolio – Filterable Grid, Gallery & Slider Portfolio Plugin ===
+=== Radius Portfolio – Filterable Grid, Gallery & Slider Portfolio ===
 Contributors: techlabpro1, mamunnu
 Donate link:
 Tags: portfolio, portfolio plugin, wordpress portfolio plugin, filterable portfolio, portfolio gallery
-Stable tag: 3.2.1
+Stable tag: 3.2.2
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.0
@@ -37,7 +37,9 @@ I’ve used a few different portfolio apps and I like the options, simplicity an
 
 👉 [Check out our great reviews!](https://wordpress.org/plugins/tlp-portfolio/#reviews)
 
-[youtube https://www.youtube.com/watch?v=uB4jPd4umaM]
+[youtube https://www.youtube.com/watch?v=jcrJpa1kRuc]
+
+[youtube https://www.youtube.com/watch?v=T-2t4Le5CSQ]
 
 == 🌟 Portfolio Plugin for Creative Professionals ==
 
@@ -192,6 +194,9 @@ Join our [Facebook Community](https://www.facebook.com/groups/radiustheme) to co
 
 
 == Changelog ==
+
+= 3.2.2 ( February 24,2026 ) =
+* Added: Get Help page new video added.
 
 = 3.2.1 ( February 19,2026 ) =
 * Fixed: Minor Css Issue.

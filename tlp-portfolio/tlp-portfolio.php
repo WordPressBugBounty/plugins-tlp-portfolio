@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin Name: Radius Portfolio – Filterable Grid, Gallery & Slider Portfolio Plugin
+ * Plugin Name: Radius Portfolio – Filterable Grid, Gallery & Slider Portfolio
  * Plugin URI: https://www.radiustheme.com/demo/plugins/portfolio/
  * Description: WordPress Portfolio plugin with filterable gallery, grid, isotope & slider layouts.
  * Author: RadiusTheme
  * Author URI: https://radiustheme.com
- * Version: 3.2.1
+ * Version: 3.2.2
  * Tested up to: 6.9
  * Requires PHP: 7.0
  * License: GPL-2.0-or-later
@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'This script cannot be accessed directly.' );
 }
 
-define( 'TLP_PORTFOLIO_VERSION', '3.2.1' );
+define( 'TLP_PORTFOLIO_VERSION', '3.2.2' );
 define( 'TLP_PORTFOLIO_PLUGIN_PATH', dirname( __FILE__ ) );
 define( 'TLP_PORTFOLIO_PLUGIN_ACTIVE_FILE_NAME', plugin_basename( __FILE__ ) );
 define( 'TLP_PORTFOLIO_PLUGIN_URL', plugins_url( '', __FILE__ ) );

@@ -246,10 +246,10 @@ global $TLPportfolio;
             </div>
             <div class="rt-box-content youtube-video">
                 <div class="embed-wrapper">
-                    <iframe  src="https://www.youtube.com/embed/uB4jPd4umaM?si=TLY_4ZQCs1ZTeae0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <iframe  src="https://www.youtube.com/embed/jcrJpa1kRuc?si=sk73iXbn9J9-T3vX" title="How to Create Portfolio in WordPress with Elementor and Radius Portfolio Plugin" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
                 <div class="embed-wrapper">
-                    <iframe  src="https://www.youtube.com/embed/uB4jPd4umaM?si=TLY_4ZQCs1ZTeae0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <iframe  src="https://www.youtube.com/embed/T-2t4Le5CSQ?si=GGmKjOOsV4MWQ7CK" title="How to Create WordPress Portfolio with Shortcodes - Radius Portfolio Plugin Tutorial" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
             </div>
 
