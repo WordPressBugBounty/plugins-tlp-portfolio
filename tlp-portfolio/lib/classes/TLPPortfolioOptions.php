@@ -59,7 +59,7 @@ if ( ! class_exists( 'TLPPortfolioOptions' ) ) :
 					'label'       => __( "Isotope filter (Show All item) <span style='color:red;'>Pro feature</span>", 'tlp-portfolio' ),
 					'holderClass' => 'pfp-isotope-item pfp-hidden',
 					'id'          => 'rt-tpg-sc-isotope-filter-show-all',
-					'optionLabel' => esc_html__( 'Disable', 'tlp-portfolio' ),
+					'optionLabel' => esc_html__( 'Enable', 'tlp-portfolio' ),
 					'option'      => 1,
 					'attr'        => 'disabled',
 				],

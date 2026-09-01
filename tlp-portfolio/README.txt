@@ -2,10 +2,10 @@
 Contributors: techlabpro1, mamunnu
 Donate link:
 Tags: portfolio, portfolio plugin, wordpress portfolio plugin, filterable portfolio, portfolio gallery
-Stable tag: 3.2.2
+Stable tag: 3.2.3
 Requires at least: 5.0
 Tested up to: 6.9
-Requires PHP: 7.0
+Requires PHP: 7.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -194,6 +194,10 @@ Join our [Facebook Community](https://www.facebook.com/groups/radiustheme) to co
 
 
 == Changelog ==
+
+= 3.2.3 ( September 01, 2026 ) =
+* Fixed: Isotope show all button issue.
+
 
 = 3.2.2 ( February 24,2026 ) =
 * Added: Get Help page new video added.

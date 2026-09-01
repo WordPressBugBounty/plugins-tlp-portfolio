@@ -5,11 +5,11 @@
  * Description: WordPress Portfolio plugin with filterable gallery, grid, isotope & slider layouts.
  * Author: RadiusTheme
  * Author URI: https://radiustheme.com
- * Version: 3.2.2
- * Tested up to: 6.9
- * Requires PHP: 7.0
+ * Version: 3.2.3
+ * Requires at least: 5.0
+ * Requires PHP: 7.1
  * License: GPL-2.0-or-later
- * Tag: portfolio, portfolio plugin, filterable portfolio, portfolio gallery, portfolio display, portfolio slider, responsive portfolio, portfolio showcase, wp portfolio
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: tlp-portfolio
  * Domain Path: /languages
  *
@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'This script cannot be accessed directly.' );
 }
 
-define( 'TLP_PORTFOLIO_VERSION', '3.2.2' );
+define( 'TLP_PORTFOLIO_VERSION', '3.2.3' );
 define( 'TLP_PORTFOLIO_PLUGIN_PATH', dirname( __FILE__ ) );
 define( 'TLP_PORTFOLIO_PLUGIN_ACTIVE_FILE_NAME', plugin_basename( __FILE__ ) );
 define( 'TLP_PORTFOLIO_PLUGIN_URL', plugins_url( '', __FILE__ ) );
