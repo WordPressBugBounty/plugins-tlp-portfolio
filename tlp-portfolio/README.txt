@@ -4,7 +4,7 @@ Donate link:
 Tags: portfolio, portfolio plugin, wordpress portfolio plugin, filterable portfolio, portfolio gallery
 Stable tag: 3.2.3
 Requires at least: 5.0
-Tested up to: 6.9
+Tested up to: 7.1
 Requires PHP: 7.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -176,9 +176,8 @@ Join our [Facebook Community](https://www.facebook.com/groups/radiustheme) to co
 = Can visitors share my portfolio items on social media? =
 * Enable social sharing in the settings to display share buttons for LinkedIn, Facebook, Twitter, and other platforms on each portfolio item.
 
-= How can I report security issues? =
-* Report security vulnerabilities through the [Patchstack Vulnerability Disclosure Program](https://patchstack.com/database/wordpress/plugin/tlp-portfolio/vulnerabilities).
-
+= Where do I report security bugs found in this plugin? =
+ * Please report security bugs found in the source code of the Portfolio – WordPress Portfolio Plugin plugin through the [Patchstack Vulnerability Disclosure  Program](https://patchstack.com/database/vdp/9e5fba36-fc07-4c42-9bfb-db7fcbb13f52). The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
 
 == Screenshots ==
 
