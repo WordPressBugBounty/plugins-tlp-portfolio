@@ -69,6 +69,31 @@ if ( ! class_exists( 'TLPPortfolio' ) ) :
 
 			register_activation_hook( TLP_PORTFOLIO_PLUGIN_ACTIVE_FILE_NAME, [ $this, 'activate' ] );
 			register_deactivation_hook( TLP_PORTFOLIO_PLUGIN_ACTIVE_FILE_NAME, [ $this, 'deactivate' ] );
+			add_action( 'admin_init', [ $this, 'maybeReGenerateCss' ] );
+		}
+
+		/**
+		 * Rebuild the shared shortcode stylesheet when the pro plugin wrote it last.
+		 *
+		 * Both tiers write uploads/tlp-portfolio/portfolio-sc.css, each with its own container
+		 * selectors (#tlp-portfolio-container-N here, #pfp-container-N in pro), and each records
+		 * itself in the shared `tlp_portfolio_sc_css_owner` option when it writes. Deactivating
+		 * pro runs no activation hook here when this plugin was already active, so the file kept
+		 * pro's rules, which match nothing here, and every shortcode looked unstyled until it was
+		 * saved again.
+		 */
+		public function maybeReGenerateCss() {
+			if ( 'free' === get_option( 'tlp_portfolio_sc_css_owner' ) ) {
+				return;
+			}
+
+			// Every block in the file belongs to the other tier, so start from an empty file
+			// rather than leaving its unpublished shortcodes' blocks behind.
+			$upload_dir = wp_upload_dir();
+			wp_delete_file( $upload_dir['basedir'] . '/tlp-portfolio/portfolio-sc.css' );
+
+			$this->reGenerateCss();
+			update_option( 'tlp_portfolio_sc_css_owner', 'free' );
 		}
 
 		public function activate() {

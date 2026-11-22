@@ -32,12 +32,19 @@ if ( ! class_exists( 'TPLportFrontEnd' ) ) :
 			$pc       = ( isset( $settings['primary_color'] ) ? ( $settings['primary_color'] ? $settings['primary_color'] : '#0367bf' ) : '#0367bf' );
 			$cCss     = ( isset( $settings['custom_css'] ) ? ( $settings['custom_css'] ? $settings['custom_css'] : null ) : null );
 
+			// The card layouts (1, 2 and 3) paint their overlay with a gradient, so the flat
+			// global tint below is not applied to them - it would overwrite the gradient
+			// with a solid colour on every site, since $pc always falls back to a default.
+			// Their overlays are driven by the per-shortcode Primary Colour and Overlay
+			// Colour controls instead (see TLPPortfolioHelper::cardLayoutCss). Layout 2's
+			// isotope and carousel twins were never in this list, so grid mode was also
+			// rendering differently from the same design in the other two modes.
 			if ( $cCss || $pc ) { ?>
 				<style>
 					.tlp-team .short-desc, .tlp-team .tlp-team-isotope .tlp-content, .tlp-team .button-group .selected, .tlp-team .layout1 .tlp-content, .tlp-team .tpl-social a, .tlp-team .tpl-social li a.fa,.tlp-portfolio button.selected,.tlp-portfolio .layoutisotope .tlp-portfolio-item .tlp-content,.tlp-portfolio button:hover {
 						background: <?php echo esc_html( $pc ); ?> ;
 					}
-					.tlp-portfolio .layoutisotope .tlp-overlay,.tlp-portfolio .layout1 .tlp-overlay,.tlp-portfolio .layout2 .tlp-overlay,.tlp-portfolio .layout3 .tlp-overlay, .tlp-portfolio .slider .tlp-overlay {
+					.tlp-portfolio .layoutisotope .tlp-overlay, .tlp-portfolio .slider .tlp-overlay {
 						background: <?php echo esc_html( $TLPportfolio->TLPhex2rgba( $pc, .8 ) ); ?>;
 					}
 					<?php echo esc_html( $cCss ); ?>
@@ -83,7 +90,7 @@ if ( ! class_exists( 'TPLportFrontEnd' ) ) :
             $scMeta = get_post_meta( $sc_id );
 
             $layout   = isset( $scMeta['pfp_layout'][0] ) && ! empty( $scMeta['pfp_layout'][0] ) ? sanitize_text_field( $scMeta['pfp_layout'][0] ) : 'layout1';
-            $dCol     = isset( $scMeta['pfp_desktop_column'][0] ) && ! empty( $scMeta['pfp_desktop_column'][0] ) ? absint( $scMeta['pfp_desktop_column'][0] ) : 3;
+            $dCol     = ! empty( $scMeta['pfp_desktop_column'][0] ) ? absint( $scMeta['pfp_desktop_column'][0] ) : TLPPortfolio()->defaultColumns( $layout );
             $tCol     = isset( $scMeta['pfp_tab_column'][0] ) && ! empty( $scMeta['pfp_tab_column'][0] ) ? absint( $scMeta['pfp_tab_column'][0] ) : 2;
             $mCol     = isset( $scMeta['pfp_mobile_column'][0] ) && ! empty( $scMeta['pfp_mobile_column'][0] ) ? absint( $scMeta['pfp_mobile_column'][0] ) : 1;
             $imgSize  = isset( $scMeta['pfp_image_size'][0] ) && ! empty( $scMeta['pfp_image_size'][0] ) ? sanitize_text_field( $scMeta['pfp_image_size'][0] ) : 'medium';
@@ -113,7 +120,7 @@ if ( ! class_exists( 'TPLportFrontEnd' ) ) :
             $disable_equal_height = isset( $scMeta['pfp_disable_equal_height'][0] ) && ! empty( $scMeta['pfp_disable_equal_height'][0] );
 
             if ( isset( $scMeta['pfp_item_fields'] ) ) {
-                $arg['items'] = ! empty( $scMeta['pfp_item_fields'] ) ? TLPPortfolio()->array_text_sanitization( $scMeta['pfp_item_fields'] ) : [];
+                $arg['items'] = ! empty( $scMeta['pfp_item_fields'] ) ? TLPPortfolio()->normalize_sc_item_fields( $scMeta['pfp_item_fields'] ) : [];
             } else {
                 $arg['items'] = [ 'name', 'short_description', 'zoom_image' ];
             }

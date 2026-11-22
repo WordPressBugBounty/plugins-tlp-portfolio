@@ -65,7 +65,7 @@ if ( ! class_exists( 'TLPportShortCode' ) ) :
 						// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 						$scMeta        = $_REQUEST;
 						$layout        = isset( $scMeta['pfp_layout'] ) && ! empty( $scMeta['pfp_layout'] ) ? sanitize_text_field( wp_unslash( $scMeta['pfp_layout'] ) ) : 'layout1';
-						$dCol          = isset( $scMeta['pfp_desktop_column'] ) && ! empty( $scMeta['pfp_desktop_column'] ) ? absint( $scMeta['pfp_desktop_column'] ) : 3;
+						$dCol          = ! empty( $scMeta['pfp_desktop_column'] ) ? absint( $scMeta['pfp_desktop_column'] ) : TLPPortfolio()->defaultColumns( $layout );
 						$tCol          = isset( $scMeta['pfp_tab_column'] ) && ! empty( $scMeta['pfp_tab_column'] ) ? absint( $scMeta['pfp_tab_column'] ) : 2;
 						$mCol          = isset( $scMeta['pfp_mobile_column'] ) && ! empty( $scMeta['pfp_mobile_column'] ) ? absint( $scMeta['pfp_mobile_column'] ) : 1;
 						$imgSize       = isset( $scMeta['pfp_image_size'] ) && ! empty( $scMeta['pfp_image_size'] ) ? sanitize_text_field( wp_unslash( $scMeta['pfp_image_size'] ) ) : 'medium';
@@ -101,7 +101,7 @@ if ( ! class_exists( 'TLPportShortCode' ) ) :
 					} else {
 						$scMeta = get_post_meta( $scID );
 						$layout = isset( $scMeta['pfp_layout'][0] ) && ! empty( $scMeta['pfp_layout'][0] ) ? sanitize_text_field( $scMeta['pfp_layout'][0] ) : 'layout1';
-						$dCol   = isset( $scMeta['pfp_desktop_column'][0] ) && ! empty( $scMeta['pfp_desktop_column'][0] ) ? absint( $scMeta['pfp_desktop_column'][0] ) : 3;
+						$dCol   = ! empty( $scMeta['pfp_desktop_column'][0] ) ? absint( $scMeta['pfp_desktop_column'][0] ) : TLPPortfolio()->defaultColumns( $layout );
 
 						$tCol    = isset( $scMeta['pfp_tab_column'][0] ) && ! empty( $scMeta['pfp_tab_column'][0] ) ? absint( $scMeta['pfp_tab_column'][0] ) : 2;
 						$mCol    = isset( $scMeta['pfp_mobile_column'][0] ) && ! empty( $scMeta['pfp_mobile_column'][0] ) ? absint( $scMeta['pfp_mobile_column'][0] ) : 1;
@@ -137,7 +137,7 @@ if ( ! class_exists( 'TLPportShortCode' ) ) :
 					$cat_ids = $cats;
 
 					if ( isset( $scMeta['pfp_item_fields'] ) ) {
-						$arg['items'] = ! empty( $scMeta['pfp_item_fields'] ) ? TLPPortfolio()->array_text_sanitization( $scMeta['pfp_item_fields'] ) : [];
+						$arg['items'] = ! empty( $scMeta['pfp_item_fields'] ) ? TLPPortfolio()->normalize_sc_item_fields( $scMeta['pfp_item_fields'] ) : [];
 					} else {
 						$arg['items'] = [
 							'name',
@@ -526,12 +526,8 @@ if ( ! class_exists( 'TLPportShortCode' ) ) :
 			$style = null;
 
 			if ( $new_layout ) {
-				$primaryColor        = isset( $scMeta['pfp_primary_color'] ) && ! empty( $scMeta['pfp_primary_color'] ) ? sanitize_hex_color( $scMeta['pfp_primary_color'] ) : null;
-				$overlayColor        = isset( $scMeta['pfp_overlay_color'] ) && ! empty( $scMeta['pfp_overlay_color'] ) ? sanitize_hex_color( $scMeta['pfp_overlay_color'] ) : null;
-				$buttonBgColor       = isset( $scMeta['pfp_button_bg_color'] ) && ! empty( $scMeta['pfp_button_bg_color'] ) ? sanitize_hex_color( $scMeta['pfp_button_bg_color'] ) : null;
-				$buttonTxtColor      = isset( $scMeta['pfp_button_text_color'] ) && ! empty( $scMeta['pfp_button_text_color'] ) ? sanitize_hex_color( $scMeta['pfp_button_text_color'] ) : null;
-				$buttonHoverBgColor  = isset( $scMeta['pfp_button_hover_bg_color'] ) && ! empty( $scMeta['pfp_button_hover_bg_color'] ) ? sanitize_hex_color( $scMeta['pfp_button_hover_bg_color'] ) : null;
-				$buttonActiveBgColor = isset( $scMeta['pfp_button_active_bg_color'] ) && ! empty( $scMeta['pfp_button_active_bg_color'] ) ? sanitize_hex_color( $scMeta['pfp_button_active_bg_color'] ) : null;
+				$primaryColor        = isset( $scMeta['pfp_primary_color'] ) && ! empty( $scMeta['pfp_primary_color'] ) ? TLPPortfolio()->sanitizeCssColor( $scMeta['pfp_primary_color'] ) : null;
+				$overlayColor        = isset( $scMeta['pfp_overlay_color'] ) && ! empty( $scMeta['pfp_overlay_color'] ) ? TLPPortfolio()->sanitizeCssColor( $scMeta['pfp_overlay_color'] ) : null;
 				$name                = isset( $scMeta['pfp_name_style'] ) && ! empty( $scMeta['pfp_name_style'] ) ? TLPPortfolio()->array_text_sanitization( $scMeta['pfp_name_style'] ) : [];
 				$name_hover          = isset( $scMeta['pfp_name_hover_style'] ) && ! empty( $scMeta['pfp_name_hover_style'] ) ? TLPPortfolio()->array_text_sanitization( $scMeta['pfp_name_hover_style'] ) : [];
 
@@ -551,8 +547,10 @@ if ( ! class_exists( 'TLPportShortCode' ) ) :
 					$style .= 'background:' . $primaryColor . ';';
 					$style .= '}';
 					$style .= "#{$layoutID} .tlp-portfolio-item .tlp-content .tlp-content-holder{padding:15px}";
-					$style .= "#{$layoutID} .owl-theme .owl-nav [class*=owl-]{background:{$primaryColor}}";
-					$style .= "#{$layoutID} .owl-theme .owl-dots .owl-dot.active span, #{$layoutID}  .owl-theme .owl-dots .owl-dot:hover span{background:{$primaryColor}}";
+					// The carousel arrow is a white button that fills with primary on hover (Slider 01
+					// design), so primary drives the hover state rather than the resting background.
+					$style .= "#{$layoutID} .owl-theme .owl-nav [class*=owl-]:hover{background:{$primaryColor};border-color:{$primaryColor};color:#fff;box-shadow:0 10px 22px " . TLPPortfolio()->TLPhex2rgba( $primaryColor, 0.32 ) . "}";
+					$style .= "#{$layoutID} .owl-theme .owl-dots .owl-dot.active span{background:{$primaryColor}}";
 				}
 				if ( $overlayColor ) {
 					$style .= "#{$layoutID} .tlp-overlay {";
@@ -560,37 +558,9 @@ if ( ! class_exists( 'TLPportShortCode' ) ) :
 					$style .= '}';
 				}
 
-				/* Button background color */
-				if ( $buttonBgColor ) {
-
-					$style .= "#{$layoutID} .tlp-portfolio-isotope-button button,
-								#{$layoutID} .owl-theme .owl-nav [class*=owl-],
-								#{$layoutID} .owl-theme .owl-dots .owl-dot span,
-								#{$layoutID} .tlp-pagination li span,
-								#{$layoutID} .tlp-pagination li a {";
-					$style .= "background: {$buttonBgColor};";
-					$style .= ( $buttonTxtColor ? "color: {$buttonTxtColor}" : null );
-					$style .= '}';
-				}
-
-				/* Button hover background color */
-				if ( $buttonHoverBgColor ) {
-					$style .= "#{$layoutID} .tlp-portfolio-isotope-button button:hover,
-								#{$layoutID} .owl-theme .owl-nav [class*=owl-]:hover,
-								#{$layoutID} .tlp-pagination li span:hover,
-								#{$layoutID} .tlp-pagination li a:hover {";
-					$style .= "background: {$buttonHoverBgColor};";
-					$style .= '}';
-				}
-
-				/* Button Active background color */
-				if ( $buttonActiveBgColor ) {
-					$style .= "#{$layoutID} .tlp-portfolio-isotope-button button.selected,
-								#{$layoutID} .owl-theme .owl-dots .owl-dot.active span,
-								#{$layoutID} .tlp-pagination li.active span {";
-					$style .= "background: {$buttonActiveBgColor};";
-					$style .= '}';
-				}
+				// Mirrors the persisted generator: every button colour, with each button section falling back
+				// to the All buttons colours. $scMeta is the flat $_REQUEST here; the helper reads both shapes.
+				$style .= TLPPortfolio()->buttonGroupsCss( $layoutID, $scMeta, $primaryColor );
 
 				/* gutter */
 				if ( $gutter ) {
@@ -616,7 +586,9 @@ if ( ! class_exists( 'TLPportShortCode' ) ) :
 					$style             .= $iconStyleComoncss;
 					$style             .= '}';
 					$style             .= "#{$layoutID} .tlp-portfolio-item .tlp-overlay .link-icon a, #{$layoutID} .tlp-portfolio-item .link-icon a {";
-					$style             .= 'border: 1px solid  ' . $iconStyle['color'] . ';';
+					// Guarded as in the persisted generator: an Icon style with a size but no colour
+					// raised an undefined-index warning here and printed an empty border rule.
+					$style             .= ! empty( $iconStyle['color'] ) ? 'border: 1px solid  ' . $iconStyle['color'] . ';' : '';
 					$style             .= $iconStyleComoncss;
 					$style             .= '}';
 				}
@@ -661,6 +633,14 @@ if ( ! class_exists( 'TLPportShortCode' ) ) :
 						$style .= "#{$layoutID} .tlp-portfolio-item .extra-features ul li {";
 						$style .= $metaStyleComoncss;
 						$style .= '}';
+					}
+
+					// Mirrors the persisted generator: weight and alignment go to the meta value.
+					$metaValueCss  = isset( $meta_style['weight'] ) && ! empty( $meta_style['weight'] ) ? 'font-weight:' . $meta_style['weight'] . ';' : null;
+					$metaValueCss .= isset( $meta_style['align'] ) && ! empty( $meta_style['align'] ) ? 'flex:1 1 auto;text-align:' . $meta_style['align'] . ';' : null;
+
+					if ( $metaValueCss ) {
+						$style .= "#{$layoutID} .tlp-portfolio-item .extra-features ul li .tlp-meta-value{" . $metaValueCss . '}';
 					}
 				}
 			} else {
@@ -717,6 +697,23 @@ if ( ! class_exists( 'TLPportShortCode' ) ) :
 				}
 			}
 
+			// Same card-layout rules the persisted stylesheet emits, so the live preview and
+			// the front end cannot drift. Note this scope's meta is flat, not [0]-indexed.
+			$style .= TLPPortfolio()->cardLayoutCss(
+				$layoutID,
+				( ! empty( $scMeta['pfp_layout'] ) ? sanitize_text_field( $scMeta['pfp_layout'] ) : '' ),
+				[
+					'primary_color'    => $primaryColor,
+					'overlay_color'    => $overlayColor,
+					'name_color'       => ( ! empty( $name['color'] ) ? $name['color'] : '' ),
+					'name_hover_color' => ( ! empty( $name_hover['color'] ) ? $name_hover['color'] : '' ),
+					'icon_size'        => ( ! empty( $iconStyle['size'] ) ? $iconStyle['size'] : '' ),
+					'icon_align'       => ( ! empty( $iconStyle['align'] ) ? $iconStyle['align'] : '' ),
+					'icon_color'       => ( ! empty( $iconStyle['color'] ) ? $iconStyle['color'] : '' ),
+					'image_width'      => ( ! empty( $scMeta['pfp_image_width'] ) ? $scMeta['pfp_image_width'] : '' ),
+				]
+			);
+
 			if ( ! empty( $style ) ) {
 				$style = "<style>{$style}</style>";
 			}
@@ -741,7 +738,7 @@ if ( ! class_exists( 'TLPportShortCode' ) ) :
 					'enable_page_link'       => false,
 					'link_type'              => false,
 					'link_target'            => false,
-					'col'                    => 3,
+					'col'                    => 0, // 0 = use the layout's own default.
 					'tablet_col'             => 2,
 					'mobile_col'             => 1,
 					'layout'                 => 1,
@@ -775,7 +772,7 @@ if ( ! class_exists( 'TLPportShortCode' ) ) :
 			$mCol          = absint( $atts['mobile_col'] );
 
 			if ( ! in_array( $dCol, array_keys( TLPPortfolio()->scColumns() ) ) ) {
-				$dCol = 3;
+				$dCol = 0; // resolved from the layout once it is known, below.
 			}
 
 			if ( ! in_array( $tCol, array_keys( TLPPortfolio()->scColumns() ) ) ) {
@@ -800,6 +797,10 @@ if ( ! class_exists( 'TLPportShortCode' ) ) :
 				$layout = 'isotope1';
 			} else {
 				$layout = esc_html($atts['layout']);
+			}
+
+			if ( ! $dCol ) {
+				$dCol = TLPPortfolio()->defaultColumns( $layout );
 			}
 
 			$isIsotope  = preg_match( '/isotope/', $layout );
@@ -927,7 +928,7 @@ if ( ! class_exists( 'TLPportShortCode' ) ) :
 
 				if ( $isCarousel ) {
 					$Scontrol           = json_decode( $atts['slider_settings'], true );
-					$dColItems          = ! empty( $atts['col'] ) ? absint( $atts['col']) : 3;
+					$dColItems          = ! empty( $atts['col'] ) ? absint( $atts['col']) : TLPPortfolio()->defaultColumns( $layout );
 					$tColItems          = ! empty( $atts['tablet_col'] ) ? absint($atts['tablet_col']) : 2;
 					$mColItems          = ! empty( $atts['mobile_col'] ) ? absint( $atts['mobile_col'] ) : 1;
 					$smartSpeed         = ! empty( $Scontrol['autoplay_speed'] ) ? absint($Scontrol['autoplay_speed']) : 250;
@@ -1036,7 +1037,8 @@ if ( ! class_exists( 'TLPportShortCode' ) ) :
 					$itemArg['image_area']     = $image_area;
 					$itemArg['content_area']   = $content_area;
 					$itemArg['client_name']    = ! empty( $atts['client_name'] ) ? esc_html($client_name) : '';
-					$itemArg['project_url']    = $atts['project_url'];
+					$itemArg['project_url']    = $atts['project_url']; // visibility flag, not a URL.
+					$itemArg['project_url_link'] = $project_url;       // the `project_url` post meta.
 					$itemArg['completed_date'] = ! empty( $atts['completed_date'] ) ? $completed_date : '';
 					$itemArg['tools']          = ! empty( $atts['tools'] ) ? wp_kses_post($tools) : '';
 					$itemArg['image_zoom']     = ! empty( $atts['image_zoom'] ) ? esc_html( $atts['image_zoom'] ) : '';

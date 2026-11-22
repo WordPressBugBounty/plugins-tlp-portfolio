@@ -90,6 +90,20 @@ if ( ! class_exists( 'TlpPortfolioField' ) ) :
             $this->setArgument( $key, $attr );
             $holderId = $this->name . '_holder';
 
+            // A section title inside a tab (e.g. the Styling tab's button sections). It has no input, and
+            // the save loop skips it. It keeps the rt-field-wrapper class and its holderClass so settings.js
+            // shows and hides it together with the fields under it.
+            if ( 'heading' === $this->type ) {
+                $html  = '<div class="rt-field-wrapper rt-field-heading ' . esc_attr( $this->holderClass ) . '" id="' . esc_attr( $holderId ) . '">';
+                $html .= '<h4 class="rt-field-heading-title">' . wp_kses( $this->label, TLPPortfolio()->allowedHtml() ) . '</h4>';
+                if ( $this->description ) {
+                    $html .= '<p class="description">' . wp_kses( $this->description, TLPPortfolio()->allowedHtml() ) . '</p>';
+                }
+                $html .= '</div>';
+
+                return $html;
+            }
+
             $html  = null;
             $html .= '<div class="rt-field-wrapper ' . esc_attr( $this->holderClass ) . '" id="' . esc_attr( $holderId ) . '">';
             $html .= sprintf(

@@ -2,7 +2,7 @@
 Contributors: techlabpro1, mamunnu
 Donate link:
 Tags: portfolio, portfolio plugin, wordpress portfolio plugin, filterable portfolio, portfolio gallery
-Stable tag: 3.2.3
+Stable tag: 4.0.0
 Requires at least: 5.0
 Tested up to: 7.1
 Requires PHP: 7.1
@@ -193,6 +193,25 @@ Join our [Facebook Community](https://www.facebook.com/groups/radiustheme) to co
 
 
 == Changelog ==
+
+= 4.0.0 ( November 22, 2026 ) =
+* Added: New card design for Layout 1, Isotope 1 and Carousel 1.
+* Added: New horizontal card design for Layout 2, Isotope 2 and Carousel 2.
+* Added: New hover card design for Layout 3, Isotope 3 and Carousel 3.
+* Added: Image area width (%) option for Layout 2, Isotope 2 and Carousel 2, in the shortcode generator and the Elementor widget.
+* Added: Redesigned isotope filter bar with an item count on each filter button.
+* Added: Icons on card meta rows.
+* Added: New carousel navigation arrows and dots design.
+* Improved: Desktop columns now default to 2 for the horizontal card layouts and 3 for the others, without changing a saved choice.
+* Improved: Colour options accept hex, rgb and rgba values.
+* Improved: Primary colour and icon colour options now cover the new card designs.
+* Fixed: Project URL icon linked to the portfolio page instead of the project URL.
+* Fixed: Front end kept old colours after all shortcode style options were cleared.
+* Fixed: Empty meta rows showed blank labels.
+* Fixed: Elementor colour and meta style controls not applying to the card designs.
+* Fixed: Carousel navigation overlapped the header of the shortcode preview box.
+* Fixed: Shortcode preview stayed in its loading state after a failed request.
+* Updated: Compatibility with WordPress 7.1.
 
 = 3.2.3 ( September 01, 2026 ) =
 * Fixed: Isotope show all button issue.

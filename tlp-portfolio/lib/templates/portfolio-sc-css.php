@@ -12,12 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 //phpcs:disable
 $layoutID            = 'tlp-portfolio-container-' . $scID;
 $scMeta              = get_post_meta( $scID );
-$primaryColor        = isset( $scMeta['pfp_primary_color'][0] ) && ! empty( $scMeta['pfp_primary_color'][0] ) ? sanitize_hex_color( $scMeta['pfp_primary_color'][0] ) : null;
-$overlayColor        = isset( $scMeta['pfp_overlay_color'][0] ) && ! empty( $scMeta['pfp_overlay_color'][0] ) ? sanitize_hex_color( $scMeta['pfp_overlay_color'][0] ) : null;
-$buttonBgColor       = isset( $scMeta['pfp_button_bg_color'][0] ) && ! empty( $scMeta['pfp_button_bg_color'][0] ) ? sanitize_hex_color( $scMeta['pfp_button_bg_color'][0] ) : null;
-$buttonTxtColor      = isset( $scMeta['pfp_button_text_color'][0] ) && ! empty( $scMeta['pfp_button_text_color'][0] ) ? sanitize_hex_color( $scMeta['pfp_button_text_color'][0] ) : null;
-$buttonHoverBgColor  = isset( $scMeta['pfp_button_hover_bg_color'][0] ) && ! empty( $scMeta['pfp_button_hover_bg_color'][0] ) ? sanitize_hex_color( $scMeta['pfp_button_hover_bg_color'][0] ) : null;
-$buttonActiveBgColor = isset( $scMeta['pfp_button_active_bg_color'][0] ) && ! empty( $scMeta['pfp_button_active_bg_color'][0] ) ? sanitize_hex_color( $scMeta['pfp_button_active_bg_color'][0] ) : null;
+$primaryColor        = isset( $scMeta['pfp_primary_color'][0] ) && ! empty( $scMeta['pfp_primary_color'][0] ) ? TLPPortfolio()->sanitizeCssColor( $scMeta['pfp_primary_color'][0] ) : null;
+$overlayColor        = isset( $scMeta['pfp_overlay_color'][0] ) && ! empty( $scMeta['pfp_overlay_color'][0] ) ? TLPPortfolio()->sanitizeCssColor( $scMeta['pfp_overlay_color'][0] ) : null;
 $name                = isset( $scMeta['pfp_name_style'][0] ) && ! empty( $scMeta['pfp_name_style'][0] ) ? TLPPortfolio()->array_text_sanitization( $scMeta['pfp_name_style'][0] ) : [];
 
 $name_hover = isset( $scMeta['pfp_name_hover_style'][0] ) && ! empty( $scMeta['pfp_name_hover_style'][0] ) ? TLPPortfolio()->array_text_sanitization( $scMeta['pfp_name_hover_style'][0] ) : [];
@@ -40,8 +36,10 @@ if ( $primaryColor ) {
 	$style .= 'background:' . $primaryColor . ';';
 	$style .= '}';
 	$style .= "#{$layoutID} .tlp-portfolio-item .tlp-content .tlp-content-holder{padding:15px}";
-	$style .= "#{$layoutID} .owl-theme .owl-nav [class*=owl-]{background:{$primaryColor}}";
-	$style .= "#{$layoutID} .owl-theme .owl-dots .owl-dot.active span, #{$layoutID}  .owl-theme .owl-dots .owl-dot:hover span{background:{$primaryColor}}";
+	// The carousel arrow is a white button that fills with primary on hover (Slider 01
+	// design), so primary drives the hover state rather than the resting background.
+	$style .= "#{$layoutID} .owl-theme .owl-nav [class*=owl-]:hover{background:{$primaryColor};border-color:{$primaryColor};color:#fff;box-shadow:0 10px 22px " . TLPPortfolio()->TLPhex2rgba( $primaryColor, 0.32 ) . "}";
+	$style .= "#{$layoutID} .owl-theme .owl-dots .owl-dot.active span{background:{$primaryColor}}";
 }
 
 if ( $overlayColor ) {
@@ -50,28 +48,10 @@ if ( $overlayColor ) {
 	$style .= '}';
 }
 
-/* Button background color */
-if ( $buttonBgColor ) {
-
-	$style .= "#{$layoutID} .tlp-portfolio-isotope-button button,#{$layoutID} .owl-theme .owl-nav [class*=owl-],#{$layoutID} .owl-theme .owl-dots .owl-dot span,#{$layoutID} .tlp-pagination li span, #{$layoutID} .tlp-pagination li a {";
-	$style .= "background: {$buttonBgColor};";
-	$style .= ( $buttonTxtColor ? "color: {$buttonTxtColor}" : null );
-	$style .= '}';
-}
-
-/* Button hover background color */
-if ( $buttonHoverBgColor ) {
-	$style .= "#{$layoutID} .tlp-portfolio-isotope-button button:hover, #{$layoutID} .owl-theme .owl-nav [class*=owl-]:hover, #{$layoutID} .tlp-pagination li span:hover, #{$layoutID} .tlp-pagination li a:hover {";
-	$style .= "background: {$buttonHoverBgColor};";
-	$style .= '}';
-}
-
-/* Button Active background color */
-if ( $buttonActiveBgColor ) {
-	$style .= "#{$layoutID} .tlp-portfolio-isotope-button button.selected, #{$layoutID} .owl-theme .owl-dots .owl-dot.active span, #{$layoutID} .tlp-pagination li.active span {";
-	$style .= "background: {$buttonActiveBgColor};";
-	$style .= '}';
-}
+// Buttons: the isotope filter pills, the numbered pagination and the carousel arrows and dots. Each has its own
+// colour section in the Styling tab; an empty colour there falls back to the All buttons colour, so a shortcode
+// saved before the split renders as it did. The Layout Preview (TLPportShortCode::customStyle()) makes the same call.
+$style .= TLPPortfolio()->buttonGroupsCss( $layoutID, $scMeta, $primaryColor );
 
 /* gutter */
 if ( $gutter ) {
@@ -158,8 +138,36 @@ if ( is_array( $meta_style ) && ! empty( $meta_style ) ) {
 		$style .= $metaStyleComoncss;
 		$style .= '}';
 	}
+
+	// The card layouts' meta rows are flex: a grey label, then the value pushed to the end with
+	// its own font-weight. Weight and alignment set on the row reach neither, so they go to the
+	// value - the same target as the Elementor widget's meta alignment - and the value grows into
+	// the free space so the alignment can move it. Kept in step with pro.
+	$metaValueCss  = isset( $meta_style['weight'] ) && ! empty( $meta_style['weight'] ) ? 'font-weight:' . $meta_style['weight'] . ';' : null;
+	$metaValueCss .= isset( $meta_style['align'] ) && ! empty( $meta_style['align'] ) ? 'flex:1 1 auto;text-align:' . $meta_style['align'] . ';' : null;
+
+	if ( $metaValueCss ) {
+		$style .= "#{$layoutID} .tlp-portfolio-item .extra-features ul li .tlp-meta-value{" . $metaValueCss . '}';
+	}
 }
 
+
+// The card layouts (1, 2 and 3) need primary re-targeted and the controls the card
+// markup would otherwise ignore. Emitted last so it wins over the shared rules.
+$style .= TLPPortfolio()->cardLayoutCss(
+	$layoutID,
+	( ! empty( $scMeta['pfp_layout'][0] ) ? sanitize_text_field( $scMeta['pfp_layout'][0] ) : '' ),
+	[
+		'primary_color'    => $primaryColor,
+		'overlay_color'    => $overlayColor,
+		'name_color'       => ( ! empty( $name['color'] ) ? $name['color'] : '' ),
+		'name_hover_color' => ( ! empty( $name_hover['color'] ) ? $name_hover['color'] : '' ),
+		'icon_size'        => ( ! empty( $iconStyle['size'] ) ? $iconStyle['size'] : '' ),
+		'icon_align'       => ( ! empty( $iconStyle['align'] ) ? $iconStyle['align'] : '' ),
+		'icon_color'       => ( ! empty( $iconStyle['color'] ) ? $iconStyle['color'] : '' ),
+		'image_width'      => ( ! empty( $scMeta['pfp_image_width'][0] ) ? $scMeta['pfp_image_width'][0] : '' ),
+	]
+);
 
 if ( $style ) {
 	echo wp_strip_all_tags( $style ); //phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped

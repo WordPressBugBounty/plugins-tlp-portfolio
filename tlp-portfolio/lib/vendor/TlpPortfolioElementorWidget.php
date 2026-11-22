@@ -57,13 +57,43 @@ class TlpPortfolioElementorWidget extends \Elementor\Widget_Base {
 			]
 		);
 		$this->add_control(
+			'card_image_width',
+			[
+				'label'       => esc_html__( 'Image area width', 'tlp-portfolio' ),
+				'type'        => \Elementor\Controls_Manager::SLIDER,
+				'size_units'  => [ '%' ],
+				'range'       => [
+					'%' => [
+						'min'  => 15,
+						'max'  => 85,
+						'step' => 1,
+					],
+				],
+				'default'     => [
+					'unit' => '%',
+					'size' => 40,
+				],
+				'description' => esc_html__( 'Share of the card taken by the image; the content takes the rest. Ignored on mobile, where the card stacks.', 'tlp-portfolio' ),
+				'condition'   => [
+					'layout' => [ '2', 'isotope2', 'carousel2' ],
+				],
+				// The stylesheet reads this custom property inside its desktop media query.
+				'selectors'   => [
+					'{{WRAPPER}} .rt-row' => '--tlp-card-img-w: {{SIZE}}%;',
+				],
+			]
+		);
+
+		$this->add_control(
 			'col',
 			[
 				'type'    => \Elementor\Controls_Manager::SELECT2,
 				'id'      => 'col',
 				'label'   => esc_html__( 'Desktop Column', 'tlp-portfolio' ),
-				'options' => $TLPportfolio->scColumns(),
-				'default' => 3,
+				// "Default" defers to the layout: the horizontal card layouts want 2, the
+				// rest want 3. An explicit choice here always wins.
+				'options' => [ 0 => esc_html__( 'Default', 'tlp-portfolio' ) ] + $TLPportfolio->scColumns(),
+				'default' => 0,
 			]
 		);
 		$this->add_control(
@@ -113,7 +143,7 @@ class TlpPortfolioElementorWidget extends \Elementor\Widget_Base {
 				'label_on'    => esc_html__( 'On', 'tlp-portfolio' ),
 				'label_off'   => esc_html__( 'Off', 'tlp-portfolio' ),
 				'default'     => '',
-				'description' => esc_html__( 'Loop to first item. Default: On', 'tlp-portfolio' ),
+				'description' => esc_html__( 'Show numbered page links below the grid. Not used by carousel layouts. Default: Off', 'tlp-portfolio' ),
 				'condition'   => [ 'layout!' => [ 'carousel1' ] ],
 			]
 		);
@@ -159,7 +189,7 @@ class TlpPortfolioElementorWidget extends \Elementor\Widget_Base {
 			'link_target',
 			[
 				'type'        => \Elementor\Controls_Manager::SWITCHER,
-				'label'       => esc_html__( 'Link Open in new window', 'tlp-portfolio' ),
+				'label'       => esc_html__( 'Open Link in New Tab', 'tlp-portfolio' ),
 				'label_on'    => esc_html__( 'Yes', 'tlp-portfolio' ),
 				'label_off'   => esc_html__( 'No', 'tlp-portfolio' ),
 				'default'     => '',
@@ -370,7 +400,22 @@ class TlpPortfolioElementorWidget extends \Elementor\Widget_Base {
 				'label'     => esc_html__( 'Primary Color', 'tlp-portfolio' ),
 				'type'      => \Elementor\Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .tlp-portfolio .tlp-content' => 'background: {{VALUE}}',
+					// The card grids keep their white body, so they are excluded here and given
+					// their own primary targets below — matching the shortcode behaviour.
+					'{{WRAPPER}} .tlp-portfolio .rt-row:not(.layout1):not(.carousel1):not(.isotope1):not(.layout2):not(.layout3):not(.carousel3):not(.isotope3):not(.isotope2):not(.carousel2) .tlp-content' => 'background: {{VALUE}}',
+					'{{WRAPPER}} .layout1 .tlp-badge,{{WRAPPER}} .carousel1 .tlp-badge,{{WRAPPER}} .layout1 .tlp-more,{{WRAPPER}} .carousel1 .tlp-more,{{WRAPPER}} .isotope1 .tlp-badge,{{WRAPPER}} .isotope1 .tlp-more,{{WRAPPER}} .layout2 .tlp-badge,{{WRAPPER}} .layout2 .tlp-more,{{WRAPPER}} .isotope2 .tlp-badge,{{WRAPPER}} .isotope2 .tlp-more,{{WRAPPER}} .carousel2 .tlp-badge,{{WRAPPER}} .carousel2 .tlp-more' => 'color: {{VALUE}}',
+					// Layout 2's badge is a tinted pill, so its fill has to follow the text
+					// colour too. Browsers without color-mix keep the stylesheet default.
+					'{{WRAPPER}} .layout2 .tlp-badge,{{WRAPPER}} .isotope2 .tlp-badge,{{WRAPPER}} .carousel2 .tlp-badge' => 'background-color: color-mix(in srgb, {{VALUE}} 12%, transparent)',
+					'{{WRAPPER}} .isotope1 .tlp-portfolio-item:hover .tlp-overlay,{{WRAPPER}} .layout1 .tlp-portfolio-item:hover .tlp-overlay,{{WRAPPER}} .carousel1 .tlp-portfolio-item:hover .tlp-overlay,{{WRAPPER}} .layout2 .tlp-portfolio-item:hover .tlp-overlay,{{WRAPPER}} .isotope2 .tlp-portfolio-item:hover .tlp-overlay,{{WRAPPER}} .carousel2 .tlp-portfolio-item:hover .tlp-overlay,{{WRAPPER}} .layout3 .tlp-portfolio-item:hover .tlp-overlay,{{WRAPPER}} .carousel3 .tlp-portfolio-item:hover .tlp-overlay,{{WRAPPER}} .isotope3 .tlp-portfolio-item:hover .tlp-overlay' => 'background: {{VALUE}}',
+					// The same colour at rest for the card overlays, which fade out after the pointer leaves:
+					// hover-only, they snapped back to the stylesheet's blue for the length of that fade. Same as pro.
+					'{{WRAPPER}} .layout1 .tlp-portfolio-item .tlp-overlay,{{WRAPPER}} .isotope1 .tlp-portfolio-item .tlp-overlay,{{WRAPPER}} .carousel1 .tlp-portfolio-item .tlp-overlay,{{WRAPPER}} .layout2 .tlp-portfolio-item .tlp-overlay,{{WRAPPER}} .isotope2 .tlp-portfolio-item .tlp-overlay,{{WRAPPER}} .carousel2 .tlp-portfolio-item .tlp-overlay,{{WRAPPER}} .layout3 .tlp-portfolio-item .tlp-overlay,{{WRAPPER}} .carousel3 .tlp-portfolio-item .tlp-overlay,{{WRAPPER}} .isotope3 .tlp-portfolio-item .tlp-overlay' => 'background: {{VALUE}}',
+					'{{WRAPPER}} .isotope1 .tlp-portfolio-item:hover,{{WRAPPER}} .layout1 .tlp-portfolio-item:hover,{{WRAPPER}} .layout2 .tlp-portfolio-item:hover,{{WRAPPER}} .isotope2 .tlp-portfolio-item:hover,{{WRAPPER}} .carousel2 .tlp-portfolio-item:hover,{{WRAPPER}} .layout3 .tlp-portfolio-item:hover,{{WRAPPER}} .carousel3 .tlp-portfolio-item:hover,{{WRAPPER}} .isotope3 .tlp-portfolio-item:hover' => 'box-shadow: 0 18px 40px {{VALUE}}',
+					// Layout 3 has no badge or "view project" link; its accents are the caption
+					// title hover and the icon hover, which inverts against the overlay.
+					'{{WRAPPER}} .layout3 .tlp-portfolio-item:hover .tlp-content h3,{{WRAPPER}} .carousel3 .tlp-portfolio-item:hover .tlp-content h3,{{WRAPPER}} .isotope3 .tlp-portfolio-item:hover .tlp-content h3,{{WRAPPER}} .layout3 .tlp-portfolio-item:hover .tlp-content h3 a,{{WRAPPER}} .carousel3 .tlp-portfolio-item:hover .tlp-content h3 a,{{WRAPPER}} .isotope3 .tlp-portfolio-item:hover .tlp-content h3 a' => 'color: {{VALUE}}',
+					'{{WRAPPER}} .layout3 .tlp-overlay .link-icon a:hover,{{WRAPPER}} .carousel3 .tlp-overlay .link-icon a:hover,{{WRAPPER}} .isotope3 .tlp-overlay .link-icon a:hover' => 'background: #fff;border-color: #fff;color: {{VALUE}}',
 				],
 			]
 		);
@@ -382,6 +427,12 @@ class TlpPortfolioElementorWidget extends \Elementor\Widget_Base {
 				'type'      => \Elementor\Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tlp-portfolio .tlp-overlay' => 'background-color: {{VALUE}}',
+					// The card layouts paint their overlay with a gradient, and background-color
+					// paints *under* an image - so those need the shorthand to clear it. Same selectors as
+					// Primary's card overlay rules, at rest and on hover: at equal specificity this control,
+					// registered later, wins - an explicit overlay colour beats Primary, as in the shortcode
+					// and pro. Less specific than Primary's, it lost on hover whenever both were set.
+					'{{WRAPPER}} .layout1 .tlp-portfolio-item .tlp-overlay,{{WRAPPER}} .isotope1 .tlp-portfolio-item .tlp-overlay,{{WRAPPER}} .carousel1 .tlp-portfolio-item .tlp-overlay,{{WRAPPER}} .layout2 .tlp-portfolio-item .tlp-overlay,{{WRAPPER}} .isotope2 .tlp-portfolio-item .tlp-overlay,{{WRAPPER}} .carousel2 .tlp-portfolio-item .tlp-overlay,{{WRAPPER}} .layout3 .tlp-portfolio-item .tlp-overlay,{{WRAPPER}} .carousel3 .tlp-portfolio-item .tlp-overlay,{{WRAPPER}} .isotope3 .tlp-portfolio-item .tlp-overlay,{{WRAPPER}} .layout1 .tlp-portfolio-item:hover .tlp-overlay,{{WRAPPER}} .isotope1 .tlp-portfolio-item:hover .tlp-overlay,{{WRAPPER}} .carousel1 .tlp-portfolio-item:hover .tlp-overlay,{{WRAPPER}} .layout2 .tlp-portfolio-item:hover .tlp-overlay,{{WRAPPER}} .isotope2 .tlp-portfolio-item:hover .tlp-overlay,{{WRAPPER}} .carousel2 .tlp-portfolio-item:hover .tlp-overlay,{{WRAPPER}} .layout3 .tlp-portfolio-item:hover .tlp-overlay,{{WRAPPER}} .carousel3 .tlp-portfolio-item:hover .tlp-overlay,{{WRAPPER}} .isotope3 .tlp-portfolio-item:hover .tlp-overlay' => 'background: {{VALUE}}',
 				],
 			]
 		);
@@ -393,6 +444,9 @@ class TlpPortfolioElementorWidget extends \Elementor\Widget_Base {
 				'type'      => \Elementor\Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tlp-portfolio-isotope-button button, {{WRAPPER}} .owl-theme .owl-nav [class*=owl-], {{WRAPPER}} .owl-theme .owl-dots .owl-dot span, {{WRAPPER}} .tlp-pagination li span, {{WRAPPER}} .tlp-pagination li a' => 'background: {{VALUE}}',
+					// Fallback tint for the active pill when no Active colour is set; the
+					// Active control is registered later so it wins when both are set.
+					'{{WRAPPER}} .tlp-portfolio-isotope-button button.selected, {{WRAPPER}} .tlp-pagination li.active span' => 'box-shadow: 0 6px 16px color-mix(in srgb, {{VALUE}} 32%, transparent)',
 				],
 			]
 		);
@@ -413,6 +467,9 @@ class TlpPortfolioElementorWidget extends \Elementor\Widget_Base {
 				'type'      => \Elementor\Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tlp-portfolio-isotope-button button.selected, {{WRAPPER}} .owl-theme .owl-dots .owl-dot.active span, {{WRAPPER}} .tlp-pagination li.active span' => 'background: {{VALUE}}',
+					// The active pill's shadow is the button's own colour in the design, so it
+					// must follow this control rather than staying the stock blue.
+					'{{WRAPPER}} .tlp-portfolio-isotope-button button.selected, {{WRAPPER}} .tlp-pagination li.active span' => 'box-shadow: 0 6px 16px color-mix(in srgb, {{VALUE}} 32%, transparent)',
 				],
 			]
 		);
@@ -595,6 +652,8 @@ class TlpPortfolioElementorWidget extends \Elementor\Widget_Base {
 				'type'      => \Elementor\Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tlp-portfolio ul li' => 'color: {{VALUE}}',
+					// The card layouts' meta rules are more specific, so they need naming too.
+					'{{WRAPPER}} .tlp-portfolio .extra-features ul li, {{WRAPPER}} .tlp-portfolio .extra-features ul li label, {{WRAPPER}} .tlp-portfolio .extra-features a.tlp-meta-link' => 'color: {{VALUE}}',
 				],
 			]
 		);
@@ -606,6 +665,7 @@ class TlpPortfolioElementorWidget extends \Elementor\Widget_Base {
 				'options'   => $TLPportfolio->scFontSize(),
 				'selectors' => [
 					'{{WRAPPER}} .tlp-portfolio ul li' => 'font-size: {{VALUE}}px',
+					'{{WRAPPER}} .tlp-portfolio .extra-features ul li' => 'font-size: {{VALUE}}px',
 				],
 			]
 		);
@@ -618,6 +678,8 @@ class TlpPortfolioElementorWidget extends \Elementor\Widget_Base {
 				'options'   => $TLPportfolio->scAlignment(),
 				'selectors' => [
 					'{{WRAPPER}} .tlp-portfolio ul li' => 'text-align: {{VALUE}}',
+					// The card layouts' rows are flex, so alignment moves the value instead.
+					'{{WRAPPER}} .tlp-portfolio .extra-features ul li .tlp-meta-value' => 'text-align: {{VALUE}}',
 				],
 			]
 		);
@@ -629,6 +691,7 @@ class TlpPortfolioElementorWidget extends \Elementor\Widget_Base {
 				'size_units' => [ 'px', '%', 'em' ],
 				'selectors'  => [
 					'{{WRAPPER}} .tlp-portfolio ul li' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} .tlp-portfolio .extra-features ul li' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 			]
 		);

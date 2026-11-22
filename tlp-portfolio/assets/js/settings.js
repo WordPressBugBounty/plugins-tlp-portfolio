@@ -131,6 +131,37 @@
         }
     }
 
+    // Desktop column default per layout. The horizontal card layouts are far too tight
+    // three-up, so choosing one moves the column select to 2 - but only while the value
+    // still matches the previous layout's default, so a deliberate choice is never lost.
+    var pfpPrevLayout = null;
+
+    function pfpDefaultColumnsFor( layout ) {
+        return ( layout === 'layout2' || layout === 'isotope2' || layout === 'carousel2' ) ? '2' : '3';
+    }
+
+    function useEffectDefaultColumns() {
+        var layout = $("#rtpfp-pfp_layout input[name=pfp_layout]:checked").val(),
+            $sel   = $("#pfp_desktop_column");
+
+        // The first pass only records what was loaded; a saved value is never touched.
+        if ( pfpPrevLayout !== null && layout !== pfpPrevLayout && $sel.length ) {
+            if ( String( $sel.val() ) === pfpDefaultColumnsFor( pfpPrevLayout ) ) {
+                $sel.val( pfpDefaultColumnsFor( layout ) ).trigger( 'change' );
+            }
+        }
+
+        pfpPrevLayout = layout;
+    }
+
+    // The image/content split only exists on the horizontal card layouts, which are
+    // chosen by layout rather than by layout type.
+    function useEffectCardSplit() {
+        var layout = $("#rtpfp-pfp_layout input[name=pfp_layout]:checked").val(),
+            isCard = ( layout === 'layout2' || layout === 'isotope2' || layout === 'carousel2' );
+        $(".rt-field-wrapper.tlp-card-split-item").toggle( !! isCard );
+    }
+
     function useEffectLayout() {
         var layout = $("#rtpfp-pfp_layout_type input[name=pfp_layout_type]:checked").val(),
             // layout_type = $("#rtpfp-pfp_layout input[name=pfp_layout]:checked").val(),
@@ -169,6 +200,9 @@
             RTP_FPuselayoutType();
         }
 
+
+        useEffectCardSplit();
+        useEffectDefaultColumns();
 
         if ($("#pfp_pagination").is(':checked') && ! ( isCarousel || isIsotope ) ) {
             $(".rt-field-wrapper.pfp-pagination-item").show();
@@ -228,6 +262,10 @@
                 previewHolder.removeClass('loading');
                 response.removeClass('is-active');
                 callack(data);
+            },
+            error: function () {
+                previewHolder.removeClass('loading');
+                response.removeClass('is-active');
             }
         });
     }
@@ -285,6 +323,11 @@
     // $("#rtpfp-pfp_layout input[name=pfp_layout]").on('change', function () {
     //     useEffectLayout();
     // });
+
+    $(document).on('change', "#rtpfp-pfp_layout input[name=pfp_layout]", function () {
+        useEffectCardSplit();
+        useEffectDefaultColumns();
+    });
 
     $("#pfp_pagination").on('change', function () {
         if (this.checked) {

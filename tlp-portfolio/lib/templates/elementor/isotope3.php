@@ -1,6 +1,11 @@
 <?php
 /**
- * Elementor Isotope Layout 3
+ * Elementor Isotope Layout 3 — hover grid card
+ *
+ * Mirrors lib/templates/layouts/isotope3.php, which is grid layout 3's card in
+ * isotope mode: a white card whose cover reveals a gradient overlay on hover
+ * carrying the title, the short description and the action icons, with the title
+ * and category line in the caption below.
  *
  * @package RT_Portfolio
  */
@@ -10,82 +15,88 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'This script cannot be accessed directly.' );
 }
 //phpcs:disable
-$html = null;
+$icon_zoom = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>';
+$icon_link = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>';
 
-$html .= "<div class='tlp-item tlp-single-item tlp-isotope-item tlp-col-md-{$grid} tlp-col-sm-{$tgrid} tlp-col-xs-{$mgrid} {$catClass}'>";
-$html .= '<div class="tlp-portfolio-item">';
-
-if ( $img ) {
-	$html .= '<div class="tlp-portfolio-thum tlp-item">';
-	$html .= '<figure>';
-	$html .= $img;
-	$html .= '</figure>';
-	$html .= '<div class="tlp-overlay">';
-	$html .= '<p class="link-icon">';
-
-	if ( $image_zoom ) {
-		$html .= '<a class="tlp-zoom" href="' . $imgFull . '"><i class="demo-icon icon-zoom-in"></i></a>';
-	}
-
-	if ( ! empty( $enable_page_link ) ) {
-		$html .= '<a target="' . $link_target . '" href="' . $plink . '"><i class="demo-icon icon-link-ext"></i></a>';
-	}
-
-	$html .= '</p>';
-	$html .= '</div>';
-	$html .= '</div>';
+$metaRows = [];
+if ( ! empty( $client_name ) ) {
+	$metaRows[] = [ 'class' => 'client-name', 'icon' => 'client', 'label' => esc_html__( 'Client Name' . ':', 'tlp-portfolio' ), 'value' => esc_html( $client_name ) ];
 }
-
-$description_html = sprintf( '<div class="tlp-portfolio-sd">%s</div>', $short_d );
+if ( ! empty( $completed_date ) ) {
+	$metaRows[] = [ 'class' => 'completed-date', 'icon' => 'date', 'label' => esc_html__( 'Completed Date' . ':', 'tlp-portfolio' ), 'value' => esc_html( $completed_date ) ];
+}
+if ( ! empty( $categories ) ) {
+	$metaRows[] = [ 'class' => 'categories', 'icon' => 'category', 'label' => esc_html__( 'Categories :', 'tlp-portfolio' ), 'value' => esc_html( trim( wp_strip_all_tags( $categories ) ) ) ];
+}
+if ( ! empty( $tools ) ) {
+	$metaRows[] = [ 'class' => 'tools', 'icon' => 'tool', 'label' => esc_html__( 'Tools' . ':', 'tlp-portfolio' ), 'value' => esc_html( wp_strip_all_tags( $tools ) ) ];
+}
+if ( ! empty( $project_url ) ) {
+	$metaRows[] = [ 'class' => 'project-url', 'icon' => 'globe', 'label' => esc_html__( 'Project URL' . ':', 'tlp-portfolio' ), 'url' => $project_url_link ];
+}
+$optional_field   = TLPPortfolio()->pfpMetaList( $metaRows );
+$description_html = ! empty( $short_d ) ? sprintf( '<div class="tlp-portfolio-sd">%s</div>', $short_d ) : '';
 
 if ( ! empty( $enable_page_link ) ) {
 	$display_title = sprintf(
-		'<h3><a target="%s" href="%s">%s </a></h3>',
-		$link_target,
-		$plink,
-		$title
+		'<h3><a target="%s"%s href="%s">%s</a></h3>',
+		esc_attr( $link_target ),
+		TLPPortfolio()->pfpLinkRel( $link_target ),
+		esc_url( $plink ),
+		esc_html( $title )
 	);
 } else {
-	$display_title = sprintf( '<h3>%s</h3>', $title );
+	$display_title = sprintf( '<h3>%s</h3>', esc_html( $title ) );
 }
 
-$optional_field   = null;
-$optional_content = null;
+// The overlay repeats the title over the cover, as the design does.
+$overlay_title = ! empty( $title ) ? sprintf( '<h3>%s</h3>', esc_html( $title ) ) : '';
 
-if ( ! empty( $client_name ) ) {
-	$optional_content .= '<li class="client-name"><label>' . esc_html__( 'Client Name', 'tlp-portfolio' ) . ':</label>' . $client_name . '</li>';
-}
+// The caption carries the categories as a single line under the title.
+$category_line = ! empty( $categories ) ? '<span class="tlp-cat">' . esc_html( trim( wp_strip_all_tags( $categories ) ) ) . '</span>' : '';
 
-if ( ! empty( $project_url ) ) {
-	$optional_content .= '<li class="client-name"><label>' . esc_html__( 'Project URL', 'tlp-portfolio' ) . ':</label><a  href="' . esc_url( $plink ) . '" target="_blank">' . esc_url( $plink ) . '</a></li>';
-}
+// The description lives in the overlay, which only exists when there is a cover.
+// With the image off it falls back into the caption so it is never lost.
+$caption_desc = $img ? '' : $description_html;
+?>
+<div class="tlp-item tlp-single-item tlp-isotope-item tlp-col-md-<?php echo esc_attr( $grid ); ?> tlp-col-sm-<?php echo esc_attr( $tgrid ); ?> tlp-col-xs-<?php echo esc_attr( $mgrid ); ?> <?php echo esc_attr( $catClass ); ?>">
+	<div class="tlp-portfolio-item">
 
-if ( ! empty( $completed_date ) ) {
-	$optional_content .= '<li class="client-name"><label>' . esc_html__( 'Completed Date', 'tlp-portfolio' ) . ':</label>' . $completed_date . '</li>';
-}
+		<?php if ( $img ) : ?>
+			<div class="tlp-portfolio-thum tlp-item">
 
-if ( ! empty( $categories ) ) {
-	$optional_content .= '<li class="pfp-categories"><label>' . esc_html__( 'Categories :', 'tlp-portfolio' ) . '</label>' . $categories . '</li>';
-}
+				<?php echo wp_kses_post( $img ); ?>
 
-if ( ! empty( $tools ) ) {
-	$optional_content .= '<li class="client-name"><label>' . esc_html__( 'Tools', 'tlp-portfolio' ) . ':</label>' . $tools . '</li>';
-}
+				<div class="tlp-overlay">
+					<?php echo wp_kses_post( (string) $overlay_title ); ?>
+					<?php echo wp_kses_post( (string) $description_html ); ?>
 
-if ( $optional_content ) {
-	$optional_field = sprintf( '<ul>%s</ul>', $optional_content );
-}
+					<?php if ( $image_zoom || ! empty( $enable_page_link ) ) : ?>
+						<p class="link-icon">
+							<?php if ( $image_zoom ) : ?>
+								<a class="tlp-zoom" href="<?php echo esc_url( $imgFull ); ?>"
+								   aria-label="<?php echo esc_attr( $title ); ?>"><?php echo $icon_zoom; ?></a>
+							<?php endif; ?>
 
-if ( ! empty( $title ) || ! empty( $short_d ) || ! empty( $optional_field ) ) {
-	$html .= sprintf(
-		'<div class="tlp-content"><div class="tlp-content-holder">%s %s %s</div></div>',
-		! empty( $title ) ? $display_title : '',
-		! empty( $short_d ) ? $description_html : '',
-		$optional_field
-	);
-}
+							<?php if ( ! empty( $enable_page_link ) ) : ?>
+								<a target="<?php echo esc_attr( $link_target ); ?>"<?php echo TLPPortfolio()->pfpLinkRel( $link_target ); ?> href="<?php echo esc_url( $plink ); ?>"
+								   aria-label="<?php echo esc_attr( $title ); ?>"><?php echo $icon_link; ?></a>
+							<?php endif; ?>
+						</p>
+					<?php endif; ?>
+				</div>
+			</div>
+		<?php endif; ?>
 
-$html .= '</div>';
-$html .= '</div>';
-
-echo wp_kses_post( $html );
+		<?php if ( ! empty( $title ) || $category_line || $caption_desc || $optional_field ) : ?>
+			<div class="tlp-content">
+				<div class="tlp-content-holder">
+					<?php echo wp_kses_post( (string) $display_title ); ?>
+					<?php echo wp_kses_post( (string) $category_line ); ?>
+					<?php echo wp_kses_post( (string) $caption_desc ); ?>
+					<?php echo $optional_field; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- inline SVG, escaped when built. ?>
+				</div>
+			</div>
+		<?php endif; ?>
+	</div>
+</div>

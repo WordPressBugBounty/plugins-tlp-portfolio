@@ -102,7 +102,7 @@ if ( ! class_exists( 'TLPportOwlCarosule' ) ) :
 												<div class="tlp-overlay">
 													<p class="link-icon">
 														<a class="tlp-zoom" href="<?php echo esc_url( $imgFull ); ?>"><i class="demo-icon icon-zoom-in"></i></a>
-														<a target="_blank" href="<?php echo esc_url( $plink ); ?>"><i class="demo-icon icon-link-ext"></i></a>
+														<a target="_blank" rel="noopener noreferrer" href="<?php echo esc_url( $plink ); ?>"><i class="demo-icon icon-link-ext"></i></a>
 													</p>
 												</div>
 											</div>

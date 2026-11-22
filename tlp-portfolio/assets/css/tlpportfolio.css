@@ -72,13 +72,17 @@ h3.title.color-white{
 }
 
 .tlp-portfolio .carousel2  .rt-row ,
-.tlp-portfolio .isotope2  .rt-row ,
-.tlp-portfolio .layout2 .rt-row {
+.tlp-portfolio .isotope2  .rt-row {
     margin-left: 0;
     margin-right: 0;
     -webkit-box-align: start;
         -ms-flex-align: start;
             align-items: flex-start;
+}
+/* layout2 keeps the flush gutter but must stay stretch, so its cards match height. */
+.tlp-portfolio .layout2.rt-row {
+    margin-left: 0;
+    margin-right: 0;
 }
 
 .rt-container-fluid .rt-row[class*=isotope],
@@ -977,39 +981,57 @@ img.mfp-img {
 .icon-link-ext:before { content: '\f08e'; } /* '' */
 
 /* ============== Pagination ============== */
+/* Shared by every layout — shortcode and Elementor alike. */
 
 .tlp-portfolio-container .tlp-pagination-wrap .tlp-pagination {
     display: flex;
-    margin: 20px 0;
+    flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin: 48px 0 0;
+    padding: 0;
+    list-style: none;
 }
 
 .tlp-portfolio-container .tlp-pagination-wrap .tlp-pagination > li {
-    display: inline-block;
+    display: inline-flex;
     margin: 0;
-}
-
-.tlp-portfolio-container .tlp-pagination-wrap .tlp-pagination > .disabled > span,
-.tlp-portfolio-container .tlp-pagination-wrap .tlp-pagination > .disabled > span:hover,
-.tlp-portfolio-container .tlp-pagination-wrap .tlp-pagination > .disabled > span:focus,
-.tlp-portfolio-container .tlp-pagination-wrap .tlp-pagination > .disabled > a,
-.tlp-portfolio-container .tlp-pagination-wrap .tlp-pagination > .disabled > a:hover,
-.tlp-portfolio-container .tlp-pagination-wrap .tlp-pagination > .disabled > a:focus {
-    color: #777777;
-    background-color: #ffffff;
-    border-color: #dddddd;
-    cursor: not-allowed;
+    list-style: none;
 }
 
 .tlp-portfolio-container .tlp-pagination-wrap .tlp-pagination > li > a,
 .tlp-portfolio-container .tlp-pagination-wrap .tlp-pagination > li > span {
     position: relative;
-    padding: 6px 12px;
-    line-height: 1.42857143;
+    min-width: 44px;
+    height: 44px;
+    padding: 0 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1;
     text-decoration: none;
-    color: #337ab7;
+    color: #14181f;
     background-color: #ffffff;
-    border: 0;
+    border: 1px solid #e7e9ee;
+    border-radius: 10px;
+    -webkit-transition: color 0.18s ease, background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+    transition: color 0.18s ease, background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.tlp-portfolio-container .tlp-pagination-wrap .tlp-pagination > li > a svg,
+.tlp-portfolio-container .tlp-pagination-wrap .tlp-pagination > li > span svg {
+    width: 18px;
+    height: 18px;
+    display: block;
+}
+
+.tlp-portfolio-container .tlp-pagination-wrap .tlp-pagination > li > a:hover {
+    border-color: #c9d2e3;
+    color: #004bff;
+    background-color: #ffffff;
 }
 
 .tlp-portfolio-container .tlp-pagination-wrap .tlp-pagination > .active > a,
@@ -1020,694 +1042,1216 @@ img.mfp-img {
 .tlp-portfolio-container .tlp-pagination-wrap .tlp-pagination > .active > span:focus {
     z-index: 3;
     color: #ffffff;
-    background-color: #337ab7;
+    background-color: #004bff;
+    border-color: #004bff;
+    box-shadow: 0 6px 16px rgba(0, 75, 255, 0.26);
     cursor: default;
 }
 
+.tlp-portfolio-container .tlp-pagination-wrap .tlp-pagination > .disabled > span,
+.tlp-portfolio-container .tlp-pagination-wrap .tlp-pagination > .disabled > span:hover,
+.tlp-portfolio-container .tlp-pagination-wrap .tlp-pagination > .disabled > span:focus,
+.tlp-portfolio-container .tlp-pagination-wrap .tlp-pagination > .disabled > a,
+.tlp-portfolio-container .tlp-pagination-wrap .tlp-pagination > .disabled > a:hover,
+.tlp-portfolio-container .tlp-pagination-wrap .tlp-pagination > .disabled > a:focus {
+    opacity: 0.4;
+    color: #14181f;
+    background-color: #ffffff;
+    border-color: #e7e9ee;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
 /********************* end common css ******************/
-/************************ Layout 1 ******************************/
-.tlp-portfolio .layout1 .tlp-portfolio-thum {
-    background: #ccc;
+/**************** Layout 1 / Isotope 1 (card grid) *********************/
+/* One design in two modes - grid and isotope - so they deliberately share these
+   rules. Changing one changes both. */
+.tlp-portfolio .layout1 [class*='tlp-col-'],
+.tlp-portfolio .isotope1 [class*='tlp-col-'],
+.tlp-portfolio .carousel1 [class*='tlp-col-'] {
+    margin-bottom: 30px;
+    display: flex;
+}
+
+.tlp-portfolio .layout1 .tlp-portfolio-item,
+.tlp-portfolio .isotope1 .tlp-portfolio-item,
+.tlp-portfolio .carousel1 .tlp-portfolio-item {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    border: 1px solid #e7e9ee;
+    border-radius: 14px;
     overflow: hidden;
-    position: relative;
-    width: 100%;
+    box-shadow: 0 1px 2px rgba(20, 24, 31, 0.04);
+    -webkit-transition: -webkit-transform 0.3s cubic-bezier(0.4, 0.22, 0.28, 1), box-shadow 0.3s cubic-bezier(0.4, 0.22, 0.28, 1);
+    transition: transform 0.3s cubic-bezier(0.4, 0.22, 0.28, 1), box-shadow 0.3s cubic-bezier(0.4, 0.22, 0.28, 1);
 }
 
-.tlp-portfolio .layout1 .tlp-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    color: #fff;
-    text-align: center;
-    background-color: rgba(217, 35, 45, 0.85);
-    -webkit-transition: all 0.5s ease-out 0.15s;
-    -moz-transition: all 0.5s ease-out 0.15s;
-    -ms-transition: all 0.5s ease-out 0.15s;
-    -o-transition: all 0.5s ease-out 0.15s;
-    transition: all 0.5s ease-out 0.15s;
+.tlp-portfolio .layout1 .tlp-portfolio-item:hover,
+.tlp-portfolio .isotope1 .tlp-portfolio-item:hover,
+.tlp-portfolio .carousel1 .tlp-portfolio-item:hover {
+    -webkit-transform: translateY(-6px);
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(20, 24, 31, 0.12);
 }
 
-.tlp-portfolio .layout1 .tlp-portfolio-thum .tlp-overlay,
-.tlp-portfolio .layout1 .tlp-portfolio-thum .link-icon {
-    -webkit-opacity: 0;
-    -moz-opacity: 0;
-    opacity: 0;
-}
-
-.tlp-portfolio .layout1 .tlp-portfolio-thum:hover .tlp-overlay,
-.tlp-portfolio .layout1 .tlp-portfolio-thum:hover .link-icon {
-    -webkit-opacity: 1;
-    -moz-opacity: 1;
-    opacity: 1;
-}
-
-
-.tlp-portfolio .layout1 .tlp-overlay .link-icon a {
-    text-align: center;
-    color: #fff;
-    text-decoration: none;
-    padding: 0;
-    margin-right: 4px;
-    margin-left: 4px;
-    font-size: 20px;
-    width: 45px;
-    height: 45px;
-    line-height: 43px;
-    border: 1px solid #fff;
-    border-radius: 50%;
-    -moz-border-radius: 50%;
-    -webkit-border-radius: 50%;
-}
-
-.tlp-portfolio .layout1 .tlp-portfolio-item:hover .tlp-overlay {
-    left: 0;
-}
-
-.tlp-portfolio .layout1 .tlp-portfolio-thum img {
-    -webkit-transition: all 1.1s ease;
-    -moz-transition: all 1.1s ease;
-    -o-transition: all 1.1s ease;
-    -ms-transition: all 1.1s ease;
-    transition: all 1.1s ease;
-    max-width: 100%;
-}
-
-.tlp-portfolio .layout1 .tlp-portfolio-thum:hover img {
-    -webkit-transform: scale(1.1);
-    -moz-transform: scale(1.1);
-    -ms-transform: scale(1.1);
-    -o-transform: scale(1.1);
-    transform: scale(1.1);
-}
-
-.tlp-portfolio .layout1 .tlp-content {
-    width: 100%;
-    position: relative;
-}
-
-.tlp-portfolio .layout1 .tlp-content h3 {
-    margin: 0 0px 6px 0;
-    font-size: 22px;
-    font-weight: 400;
-    text-decoration: none;
-}
-
-.tlp-portfolio .layout1 .tlp-content h3 a {
-    text-decoration: none;
-    border: none;
-    box-shadow: none;
-}
-
-.tlp-portfolio .layout1 .tlp-content p {
-    padding: 0;
-    margin: 0;
-}
-
-.tlp-portfolio .layout1 .tlp-content .tlp-content-holder {
-    padding: 15px 0;
-    display: block;
-}
-
-/*********************** Layout 2 ****************************/
-.tlp-portfolio .carousel2 .tlp-portfolio-thum ,
-.tlp-portfolio .isotope2 .tlp-portfolio-thum,
-.tlp-portfolio .layout2 .tlp-portfolio-thum {
-    overflow: hidden;
-    position: relative;
-    padding-left: 0;
-    padding-right: 0;
-}
-
-.tlp-portfolio .carousel2 .tlp-overlay ,
-.tlp-portfolio .isotope2 .tlp-overlay ,
-.tlp-portfolio .layout2 .tlp-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    color: #fff;
-    background-color: rgba(217, 35, 45, 0.85);
-    -webkit-transition: all 0.5s ease-out 0.15s;
-    -moz-transition: all 0.5s ease-out 0.15s;
-    -ms-transition: all 0.5s ease-out 0.15s;
-    -o-transition: all 0.5s ease-out 0.15s;
-    transition: all 0.5s ease-out 0.15s;
-    text-align: center;
-}
-
-.tlp-portfolio .carousel2 .tlp-portfolio-thum .tlp-overlay,
-.tlp-portfolio .carousel2 .tlp-portfolio-thum .link-icon,
-.tlp-portfolio .isotope2 .tlp-portfolio-thum .tlp-overlay,
-.tlp-portfolio .isotope2 .tlp-portfolio-thum .link-icon,
-.tlp-portfolio .layout2 .tlp-portfolio-thum .tlp-overlay,
-.tlp-portfolio .layout2 .tlp-portfolio-thum .link-icon {
-    -webkit-opacity: 0;
-    -moz-opacity: 0;
-    opacity: 0;
-}
-
-
-.tlp-portfolio .carousel2 .tlp-portfolio-thum:hover .tlp-overlay,
-.tlp-portfolio .carousel2 .tlp-portfolio-thum:hover .link-icon,
-.tlp-portfolio .isotope2 .tlp-portfolio-thum:hover .tlp-overlay,
-.tlp-portfolio .isotope2 .tlp-portfolio-thum:hover .link-icon,
-.tlp-portfolio .layout2 .tlp-portfolio-thum:hover .tlp-overlay,
-.tlp-portfolio .layout2 .tlp-portfolio-thum:hover .link-icon {
-    -webkit-opacity: 1;
-    -moz-opacity: 1;
-    opacity: 1;
-}
-
-.tlp-portfolio .carousel2 .tlp-overlay .link-icon a,
-.tlp-portfolio .isotope2 .tlp-overlay .link-icon a,
-.tlp-portfolio .layout2 .tlp-overlay .link-icon a {
-    text-align: center;
-    color: #fff;
-    text-decoration: none;
-    padding: 0;
-    margin-right: 4px;
-    margin-left: 4px;
-    font-size: 20px;
-    width: 45px;
-    height: 45px;
-    line-height: 43px;
-    border: 1px solid #fff;
-    border-radius: 50%;
-    -moz-border-radius: 50%;
-    -webkit-border-radius: 50%;
-}
-
-.tlp-portfolio .tlp-portfolio-item .tlp-overlay .link-icon a {
-    line-height: 0;
-    display: -webkit-inline-box;
-    display: -ms-inline-flexbox;
-    display: inline-flex;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-}
-.tlp-portfolio .tlp-overlay .link-icon a i {
-    display: -webkit-inline-box;
-    display: -ms-inline-flexbox;
-    display: inline-flex;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    line-height: 0;
-}
-
-.tlp-portfolio .carousel2 .tlp-overlay .link-icon ,
-.tlp-portfolio .isotope2 .tlp-overlay .link-icon ,
-.tlp-portfolio .layout2 .tlp-overlay .link-icon {
-    text-align: center;
-    display: block;
-    padding: 0;
-}
-
-.tlp-portfolio .layout2 .tlp-overlay .link-icon li {
-    list-style: none;
-    display: inline-block;
-    margin-right: 4px;
-    font-size: 16px;
-    width: 40px;
-    height: 40px;
-    border: 1px solid #fff;
-    border-radius: 50%;
-    -moz-border-radius: 50%;
-    -webkit-border-radius: 50%;
-}
-
-.tlp-portfolio .layout2 .tlp-overlay .link-icon li a {
-    text-align: center;
-    color: #fff;
-    text-decoration: none;
-    display: block;
-    padding: 4px;
-}
-
-/* .tlp-portfolio .layout2 .tlp-portfolio-item:hover .tlp-overlay {
-    left: 0;  
-} */
-
-.tlp-portfolio .carousel2 .tlp-portfolio-thum img ,
-.tlp-portfolio .isotope2 .tlp-portfolio-thum img ,
-.tlp-portfolio .layout2 .tlp-portfolio-thum img {
-    -webkit-transition: all 1.1s ease;
-    -moz-transition: all 1.1s ease;
-    -o-transition: all 1.1s ease;
-    -ms-transition: all 1.1s ease;
-    transition: all 1.1s ease;
-    max-width: 100%;
-}
-
-.tlp-portfolio .carousel2 .tlp-portfolio-thum:hover img ,
-.tlp-portfolio .isotope2 .tlp-portfolio-thum:hover img ,
-.tlp-portfolio .layout2 .tlp-portfolio-thum:hover img {
-    -webkit-transform: scale(1.1);
-    -moz-transform: scale(1.1);
-    -ms-transform: scale(1.1);
-    -o-transform: scale(1.1);
-    transform: scale(1.1);
-}
-
-.tlp-portfolio .carousel2 .tlp-content2 p ,
-.tlp-portfolio .isotope2 .tlp-content2 p ,
-.tlp-portfolio .layout2 .tlp-content2 p {
-    padding: 0;
-    margin: 0 0px 12px 0px
-}
-
-.tlp-portfolio .carousel2 .tlp-content2 h3 ,
-.tlp-portfolio .isotope2 .tlp-content2 h3 ,
-.tlp-portfolio .layout2 .tlp-content2 h3 {
-    margin: 0 0 10px;
-    padding: 0;
-    font-size: 24px;
-    font-weight: 400;
-}
-
-.tlp-portfolio .carousel2 .tlp-content2 h3 a ,
-.tlp-portfolio .isotope2 .tlp-content2 h3 a ,
-.tlp-portfolio .layout2 .tlp-content2 h3 a {
-    text-decoration: none;
-    border: none;
-    box-shadow: none;
-}
-
-.tlp-portfolio .carousel2 .tlp-content-holder ,
-.tlp-portfolio .isotope2 .tlp-content-holder ,
-.tlp-portfolio .layout2 .tlp-content-holder {
-    padding: 0 5px;
-}
-
-.tlp-portfolio .carousel2 .tlp-portfolio-sd,
-.tlp-portfolio .isotope2 .tlp-portfolio-sd,
-.tlp-portfolio .layout2 .tlp-portfolio-sd{
-    padding: 0 0px 10px;
-    margin: 0;
-    font-size: 16px;
-}
-
-
-
-/************************ Layout 3 ******************************/
-
-.tlp-portfolio .isotope3 .tlp-portfolio-thum ,
-.tlp-portfolio .carousel3 .tlp-portfolio-thum ,
-.tlp-portfolio .layout3 .tlp-portfolio-thum {
-    overflow: hidden;
-    position: relative;
-    width: 100%;
-}
-
-.tlp-portfolio .isotope3 .tlp-overlay ,
-.tlp-portfolio .carousel3 .tlp-overlay ,
-.tlp-portfolio .layout3 .tlp-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    color: #fff;
-    text-align: center;
-    background-color: rgba(217, 35, 45, 0.85);
-    -webkit-transition: all 0.5s ease-out 0.15s;
-    -moz-transition: all 0.5s ease-out 0.15s;
-    -ms-transition: all 0.5s ease-out 0.15s;
-    -o-transition: all 0.5s ease-out 0.15s;
-    transition: all 0.5s ease-out 0.15s;
-}
-.tlp-portfolio .isotope3 .tlp-portfolio-thum .tlp-overlay,
-.tlp-portfolio .isotope3 .tlp-portfolio-thum .link-icon,
-.tlp-portfolio .carousel3 .tlp-portfolio-thum .tlp-overlay,
-.tlp-portfolio .carousel3 .tlp-portfolio-thum .link-icon,
-.tlp-portfolio .layout3 .tlp-portfolio-thum .tlp-overlay,
-.tlp-portfolio .layout3 .tlp-portfolio-thum .link-icon {
-    -webkit-opacity: 0;
-    -moz-opacity: 0;
-    opacity: 0;
-    -webkit-transition: all 0.3s ease-out 0.5s;
-    -moz-transition: all 0.3s ease-out 0.1s;
-    -ms-transition: all 0.3s ease-out 0.1s;
-    -o-transition: all 0.3s ease-out 0.1s;
-    transition: all 0.3s ease-out 0.1s;
-}
-.tlp-portfolio .isotope3 .tlp-portfolio-thum:hover .tlp-overlay,
-.tlp-portfolio .isotope3 .tlp-portfolio-thum:hover .link-icon ,
-.tlp-portfolio .carousel3 .tlp-portfolio-thum:hover .tlp-overlay,
-.tlp-portfolio .carousel3 .tlp-portfolio-thum:hover .link-icon ,
-.tlp-portfolio .layout3 .tlp-portfolio-thum:hover .tlp-overlay,
-.tlp-portfolio .layout3 .tlp-portfolio-thum:hover .link-icon {
-    -webkit-opacity: 1;
-    -moz-opacity: 1;
-    opacity: 1;
-}
-.tlp-portfolio .isotope3 .tlp-portfolio-thum:hover .link-icon ,
-.tlp-portfolio .carousel3 .tlp-portfolio-thum:hover .link-icon ,
-.tlp-portfolio .layout3 .tlp-portfolio-thum:hover .link-icon {
-    -webkit-transform: scale(1) translateY(-50%);
-    -moz-transform: scale(1) translateY(-50%);
-    -ms-transform: scale(1) translateY(-50%);
-    -o-transform: scale(1) translateY(-50%);
-}
-.tlp-portfolio .isotope3 .tlp-overlay .link-icon ,
-.tlp-portfolio .carousel3 .tlp-overlay .link-icon ,
-.tlp-portfolio .layout3 .tlp-overlay .link-icon {
-    text-align: center;
-    display: block;
-    padding: 0;
-    -webkit-transform: rotate(90deg);
-    -moz-transform: rotate(90deg);
-    -ms-transform: rotate(90deg);
-    -o-transform: rotate(90deg);
-}
-
-.tlp-portfolio .isotope3 .tlp-overlay .link-icon a ,
-.tlp-portfolio .carousel3 .tlp-overlay .link-icon a ,
-.tlp-portfolio .layout3 .tlp-overlay .link-icon a {
-    text-align: center;
-    color: #fff;
-    text-decoration: none;
-    margin-right: 4px;
-    margin-left: 4px;
-    font-size: 20px;
-    width: 40px;
-    height: 40px;
-    line-height: 38px;
-    border: 1px solid #fff;
-    border-radius: 50%;
-    -moz-border-radius: 50%;
-    -webkit-border-radius: 50%;
-}
-
-.tlp-portfolio .isotope3 .tlp-portfolio-item:hover .tlp-overlay ,
-.tlp-portfolio .carousel3 .tlp-portfolio-item:hover .tlp-overlay ,
-.tlp-portfolio .layout3 .tlp-portfolio-item:hover .tlp-overlay {
-    left: 0;
-}
-
-.tlp-portfolio .isotope3 .tlp-portfolio-thum img ,
-.tlp-portfolio .carousel3 .tlp-portfolio-thum img ,
-.tlp-portfolio .layout3 .tlp-portfolio-thum img {
-    -webkit-transition: all 1.1s ease;
-    -moz-transition: all 1.1s ease;
-    -o-transition: all 1.1s ease;
-    -ms-transition: all 1.1s ease;
-    transition: all 1.1s ease;
-    max-width: 100%;
-}
-
-.tlp-portfolio .isotope3 .tlp-portfolio-thum:hover img ,
-.tlp-portfolio .carousel3 .tlp-portfolio-thum:hover img ,
-.tlp-portfolio .layout3 .tlp-portfolio-thum:hover img {
-    -webkit-transform: scale(1.1);
-    -moz-transform: scale(1.1);
-    -ms-transform: scale(1.1);
-    -o-transform: scale(1.1);
-    transform: scale(1.1);
-}
-
-.tlp-portfolio .isotope3 h3 ,
-.tlp-portfolio .carousel3 h3 ,
-.tlp-portfolio .layout3 h3 {
-    padding: 0;
-    margin: 0;
-}
-
-.tlp-portfolio .isotope3 .tlp-content ,
-.tlp-portfolio .carousel3 .tlp-content ,
-.tlp-portfolio .layout3 .tlp-content {
-    width: 100%;
-    position: relative;
-}
-
-.tlp-portfolio .isotope3 .tlp-content h3 ,
-.tlp-portfolio .carousel3 .tlp-content h3 ,
-.tlp-portfolio .layout3 .tlp-content h3 {
-    margin: 0;
-    padding: 0;
-    font-size: 24px;
-    font-weight: 400;
-    text-decoration: none;
-}
-
-.tlp-portfolio .isotope3 .tlp-content h3 a ,
-.tlp-portfolio .carousel3 .tlp-content h3 a ,
-.tlp-portfolio .layout3 .tlp-content h3 a {
-    text-decoration: none;
-    border: none;
-    box-shadow: none;
-}
-
-.tlp-portfolio .isotope3 .tlp-content p ,
-.tlp-portfolio .carousel3 .tlp-content p ,
-.tlp-portfolio .layout3 .tlp-content p {
-    padding: 0 0 6px;
-    margin: 0;
-}
-
-.tlp-portfolio .isotope3 .tlp-content .tlp-content-holder ,
-.tlp-portfolio .carousel3 .tlp-content .tlp-content-holder ,
-.tlp-portfolio .layout3 .tlp-content .tlp-content-holder {
-    padding: 15px 0;
-}
-
-/************************ Isotope 1 ******************************/
-.tlp-portfolio .isotope1 .tlp-portfolio-thum {
-    background: #ccc;
-    overflow: hidden;
-    position: relative;
-    width: 100%;
-}
-
-.tlp-portfolio .isotope1 .tlp-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    color: #fff;
-    text-align: center;
-    background-color: rgba(217, 35, 45, 0.85);
-    -webkit-transition: all 0.5s ease-out 0.15s;
-    -moz-transition: all 0.5s ease-out 0.15s;
-    -ms-transition: all 0.5s ease-out 0.15s;
-    -o-transition: all 0.5s ease-out 0.15s;
-    transition: all 0.5s ease-out 0.15s;
-}
-
-.tlp-portfolio .isotope1 .tlp-portfolio-thum .tlp-overlay,
-.tlp-portfolio .isotope1 .tlp-portfolio-thum .link-icon {
-    -webkit-opacity: 0;
-    -moz-opacity: 0;
-    opacity: 0;
-}
-
-.tlp-portfolio .isotope1 .tlp-portfolio-thum:hover .tlp-overlay,
-.tlp-portfolio .isotope1 .tlp-portfolio-thum:hover .link-icon {
-    -webkit-opacity: 1;
-    -moz-opacity: 1;
-    opacity: 1;
-}
-
-.tlp-portfolio .isotope1 .tlp-overlay .link-icon {
-    text-align: center;
-    display: block;
-    padding: 0;
-}
-
-.tlp-portfolio .isotope1 .tlp-overlay .link-icon a {
-    text-align: center;
-    color: #fff;
-    text-decoration: none;
-    margin-right: 4px;
-    margin-left: 4px;
-    font-size: 20px;
-    width: 45px;
-    height: 45px;
-    line-height: 43px;
-    border: 1px solid #fff;
-    border-radius: 50%;
-    -moz-border-radius: 50%;
-    -webkit-border-radius: 50%;
-}
-
-.tlp-portfolio .isotope1 .tlp-portfolio-item:hover .tlp-overlay {
-    left: 0;
-}
-
-.tlp-portfolio .isotope1 .tlp-portfolio-thum img {
-    -webkit-transition: all 1.1s ease;
-    -moz-transition: all 1.1s ease;
-    -o-transition: all 1.1s ease;
-    -ms-transition: all 1.1s ease;
-    transition: all 1.1s ease;
-    max-width: 100%;
-}
-
-.tlp-portfolio .isotope1 .tlp-portfolio-thum:hover img {
-    -webkit-transform: scale(1.1);
-    -moz-transform: scale(1.1);
-    -ms-transform: scale(1.1);
-    -o-transform: scale(1.1);
-    transform: scale(1.1);
-}
-
-
-.tlp-portfolio .isotope1 .tlp-content {
-    width: 100%;
-    position: relative;
-    /* color: #fff; */
-}
-
-.tlp-portfolio .isotope1 .tlp-content h3 {
-    margin: 0 0 6px 0;
-    font-size: 22px;
-    font-weight: 400;
-    text-decoration: none;
-}
-
-.tlp-portfolio .isotope1 .tlp-content h3 a {
-    /* color: #fff; */
-    text-decoration: none;
-    border: none;
-    box-shadow: none;
-}
-
-.tlp-portfolio .isotope1 .tlp-content p {
-    padding: 0;
-    margin: 0;
-}
-
-.tlp-portfolio .isotope1 .tlp-content .tlp-content-holder {
-    padding: 15px 0;
-}
-
-
-/************************ Layout 1 ******************************/
+/* ---- cover ---- */
+.tlp-portfolio .layout1 .tlp-portfolio-thum,
+.tlp-portfolio .isotope1 .tlp-portfolio-thum,
 .tlp-portfolio .carousel1 .tlp-portfolio-thum {
-    background: #ccc;
-    overflow: hidden;
     position: relative;
     width: 100%;
+    overflow: hidden;
+    background: #eef0f4;
+    aspect-ratio: 4 / 3;
 }
 
+.tlp-portfolio .layout1 .tlp-portfolio-thum > a,
+.tlp-portfolio .isotope1 .tlp-portfolio-thum > a,
+.tlp-portfolio .layout1 .tlp-portfolio-thum > img,
+.tlp-portfolio .isotope1 .tlp-portfolio-thum > img,
+.tlp-portfolio .carousel1 .tlp-portfolio-thum > a,
+.tlp-portfolio .carousel1 .tlp-portfolio-thum > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.tlp-portfolio .layout1 .tlp-portfolio-thum img,
+.tlp-portfolio .isotope1 .tlp-portfolio-thum img,
+.tlp-portfolio .carousel1 .tlp-portfolio-thum img {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    object-fit: cover;
+    display: block;
+    -webkit-transition: -webkit-transform 0.6s cubic-bezier(0.4, 0.22, 0.28, 1);
+    transition: transform 0.6s cubic-bezier(0.4, 0.22, 0.28, 1);
+}
+
+.tlp-portfolio .layout1 .tlp-portfolio-item:hover .tlp-portfolio-thum img,
+.tlp-portfolio .isotope1 .tlp-portfolio-item:hover .tlp-portfolio-thum img,
+.tlp-portfolio .carousel1 .tlp-portfolio-item:hover .tlp-portfolio-thum img {
+    -webkit-transform: scale(1.09);
+    transform: scale(1.09);
+}
+
+/* ---- category badge ---- */
+.tlp-portfolio .layout1 .tlp-badge,
+.tlp-portfolio .isotope1 .tlp-badge,
+.tlp-portfolio .carousel1 .tlp-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 2;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.6;
+    letter-spacing: 0.3px;
+    color: #004bff;
+    background: rgba(255, 255, 255, 0.94);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    padding: 5px 12px;
+    border-radius: 999px;
+}
+
+/* ---- hover overlay ---- */
+.tlp-portfolio .layout1 .tlp-overlay,
+.tlp-portfolio .isotope1 .tlp-overlay,
 .tlp-portfolio .carousel1 .tlp-overlay {
     position: absolute;
-    bottom: 0;
+    top: 0;
     left: 0;
+    right: 0;
+    bottom: 0;
     height: 100%;
     width: 100%;
-    color: #fff;
-    text-align: center;
-    background-color: rgba(217, 35, 45, 0.85);
-    -webkit-transition: all 0.5s ease-out 0.15s;
-    -moz-transition: all 0.5s ease-out 0.15s;
-    -ms-transition: all 0.5s ease-out 0.15s;
-    -o-transition: all 0.5s ease-out 0.15s;
-    transition: all 0.5s ease-out 0.15s;
-}
-
-.tlp-portfolio .carousel1 .tlp-portfolio-thum .tlp-overlay,
-.tlp-portfolio .carousel1 .tlp-portfolio-thum .link-icon {
-    -webkit-opacity: 0;
-    -moz-opacity: 0;
+    background: linear-gradient(180deg, rgba(0, 30, 120, 0.18), rgba(0, 35, 130, 0.66));
     opacity: 0;
+    -webkit-transition: opacity 0.32s cubic-bezier(0.4, 0.22, 0.28, 1);
+    transition: opacity 0.32s cubic-bezier(0.4, 0.22, 0.28, 1);
 }
 
-.tlp-portfolio .carousel1 .tlp-portfolio-thum:hover .tlp-overlay,
-.tlp-portfolio .carousel1 .tlp-portfolio-thum:hover .link-icon {
-    -webkit-opacity: 1;
-    -moz-opacity: 1;
+.tlp-portfolio .layout1 .tlp-portfolio-item:hover .tlp-overlay,
+.tlp-portfolio .isotope1 .tlp-portfolio-item:hover .tlp-overlay,
+.tlp-portfolio .carousel1 .tlp-portfolio-item:hover .tlp-overlay {
     opacity: 1;
 }
 
+.tlp-portfolio .layout1 .tlp-overlay .link-icon,
+.tlp-portfolio .isotope1 .tlp-overlay .link-icon,
 .tlp-portfolio .carousel1 .tlp-overlay .link-icon {
-    text-align: center;
-    display: block;
-    padding: 0;
-}
-
-
-.tlp-portfolio .carousel1 .tlp-overlay .link-icon a {
-    text-align: center;
-    color: #fff;
-    text-decoration: none;
-    padding: 0;
-    margin-right: 4px;
-    margin-left: 4px;
-    font-size: 20px;
-    width: 45px;
-    height: 45px;
-    line-height: 43px;
-    border: 1px solid #fff;
-    border-radius: 50%;
-    -moz-border-radius: 50%;
-    -webkit-border-radius: 50%;
-    line-height: 0;
-}
-
-.tlp-portfolio .carousel1 .tlp-overlay .link-icon a i {
-    line-height: 0;
-}
-
-.tlp-portfolio .carousel1 .tlp-portfolio-item:hover .tlp-overlay {
+    position: absolute;
+    top: 50%;
     left: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
 }
 
-.tlp-portfolio .carousel1 .tlp-portfolio-thum img {
-    -webkit-transition: all 1.1s ease;
-    -moz-transition: all 1.1s ease;
-    -o-transition: all 1.1s ease;
-    -ms-transition: all 1.1s ease;
-    transition: all 1.1s ease;
-    max-width: 100%;
+.tlp-portfolio .layout1 .tlp-overlay .link-icon a,
+.tlp-portfolio .isotope1 .tlp-overlay .link-icon a,
+.tlp-portfolio .carousel1 .tlp-overlay .link-icon a {
+    width: 50px;
+    height: 50px;
+    font-size: 22px;
+    line-height: 1;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #004bff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+    opacity: 0;
+    -webkit-transform: translateY(14px);
+    transform: translateY(14px);
+    -webkit-transition: -webkit-transform 0.32s cubic-bezier(0.4, 0.22, 0.28, 1), opacity 0.32s cubic-bezier(0.4, 0.22, 0.28, 1), background 0.18s ease, color 0.18s ease;
+    transition: transform 0.32s cubic-bezier(0.4, 0.22, 0.28, 1), opacity 0.32s cubic-bezier(0.4, 0.22, 0.28, 1), background 0.18s ease, color 0.18s ease;
 }
 
-.tlp-portfolio .carousel1 .tlp-portfolio-thum:hover img {
-    -webkit-transform: scale(1.1);
-    -moz-transform: scale(1.1);
-    -ms-transform: scale(1.1);
-    -o-transform: scale(1.1);
-    transform: scale(1.1);
+.tlp-portfolio .layout1 .tlp-portfolio-item:hover .tlp-overlay .link-icon a,
+.tlp-portfolio .isotope1 .tlp-portfolio-item:hover .tlp-overlay .link-icon a,
+.tlp-portfolio .carousel1 .tlp-portfolio-item:hover .tlp-overlay .link-icon a {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
 }
 
+.tlp-portfolio .layout1 .tlp-overlay .link-icon a + a,
+.tlp-portfolio .isotope1 .tlp-overlay .link-icon a + a,
+.tlp-portfolio .carousel1 .tlp-overlay .link-icon a + a {
+    -webkit-transition-delay: 0.06s;
+    transition-delay: 0.06s;
+}
+
+.tlp-portfolio .layout1 .tlp-overlay .link-icon a:hover,
+.tlp-portfolio .isotope1 .tlp-overlay .link-icon a:hover,
+.tlp-portfolio .carousel1 .tlp-overlay .link-icon a:hover {
+    background: #004bff;
+    color: #ffffff;
+}
+
+.tlp-portfolio .layout1 .tlp-overlay .link-icon a svg,
+.tlp-portfolio .isotope1 .tlp-overlay .link-icon a svg,
+.tlp-portfolio .carousel1 .tlp-overlay .link-icon a svg {
+    width: 1em;
+    height: 1em;
+    display: block;
+}
+
+/* ---- body ---- */
+.tlp-portfolio .layout1 .tlp-content,
+.tlp-portfolio .isotope1 .tlp-content,
 .tlp-portfolio .carousel1 .tlp-content {
     width: 100%;
     position: relative;
+    background: transparent;
+    color: inherit;
+    flex: 1 1 auto;
 }
 
+.tlp-portfolio .layout1 .tlp-content .tlp-content-holder,
+.tlp-portfolio .isotope1 .tlp-content .tlp-content-holder,
+.tlp-portfolio .carousel1 .tlp-content .tlp-content-holder {
+    padding: 22px 24px 26px;
+}
+
+.tlp-portfolio .layout1 .tlp-content h3,
+.tlp-portfolio .isotope1 .tlp-content h3,
 .tlp-portfolio .carousel1 .tlp-content h3 {
-    margin: 0 0px 6px 0;
-    font-size: 22px;
+    margin: 0 0 9px;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.2px;
+    text-decoration: none;
+    color: #14181f;
+}
+
+.tlp-portfolio .layout1 .tlp-content h3 a,
+.tlp-portfolio .isotope1 .tlp-content h3 a,
+.tlp-portfolio .carousel1 .tlp-content h3 a {
+    color: #14181f;
+    text-decoration: none;
+    -webkit-transition: color 0.18s ease;
+    transition: color 0.18s ease;
+}
+
+.tlp-portfolio .layout1 .tlp-portfolio-item:hover .tlp-content h3,
+.tlp-portfolio .isotope1 .tlp-portfolio-item:hover .tlp-content h3,
+.tlp-portfolio .layout1 .tlp-portfolio-item:hover .tlp-content h3 a,
+.tlp-portfolio .isotope1 .tlp-portfolio-item:hover .tlp-content h3 a,
+.tlp-portfolio .carousel1 .tlp-portfolio-item:hover .tlp-content h3,
+.tlp-portfolio .carousel1 .tlp-portfolio-item:hover .tlp-content h3 a {
+    color: #004bff;
+}
+
+.tlp-portfolio .layout1 .tlp-content .tlp-portfolio-sd,
+.tlp-portfolio .isotope1 .tlp-content .tlp-portfolio-sd,
+.tlp-portfolio .layout1 .tlp-content p,
+.tlp-portfolio .isotope1 .tlp-content p,
+.tlp-portfolio .carousel1 .tlp-content .tlp-portfolio-sd,
+.tlp-portfolio .carousel1 .tlp-content p {
+    margin: 0;
+    padding: 0;
+    color: #5b6472;
+    font-size: 16px;
+    line-height: 1.62;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.tlp-portfolio .layout1 .tlp-more,
+.tlp-portfolio .isotope1 .tlp-more,
+.tlp-portfolio .carousel1 .tlp-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 18px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #004bff;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.tlp-portfolio .layout1 .tlp-more svg,
+.tlp-portfolio .isotope1 .tlp-more svg,
+.tlp-portfolio .carousel1 .tlp-more svg {
+    width: 16px;
+    height: 16px;
+    -webkit-transition: -webkit-transform 0.2s ease;
+    transition: transform 0.2s ease;
+}
+
+.tlp-portfolio .layout1 .tlp-more:hover svg,
+.tlp-portfolio .isotope1 .tlp-more:hover svg,
+.tlp-portfolio .carousel1 .tlp-more:hover svg {
+    -webkit-transform: translateX(4px);
+    transform: translateX(4px);
+}
+
+@media (prefers-reduced-motion: reduce) {.tlp-portfolio .layout1 *,
+.tlp-portfolio .isotope1 * {
+        -webkit-transition-duration: 0.001ms !important;
+        transition-duration: 0.001ms !important;
+    }
+}
+
+
+/************ Layout 2 / Isotope 2 / Carousel 2 (horizontal list card) ****************/
+/* One design in three modes - grid, isotope and carousel - so they deliberately share
+   these rules. Changing one changes all three. */
+/* The outer grid column. The thumb/content columns inside the card match the same
+   [class*='tlp-col-'] pattern,
+so they are reset immediately below. */
+.tlp-portfolio .layout2 [class*='tlp-col-'],
+.tlp-portfolio .isotope2 [class*='tlp-col-'],
+.tlp-portfolio .carousel2 [class*='tlp-col-'] {
+    margin-bottom: 26px;
+    display: flex;
+}
+.tlp-portfolio .layout2 .tlp-portfolio-thum,
+.tlp-portfolio .isotope2 .tlp-portfolio-thum,
+.tlp-portfolio .carousel2 .tlp-portfolio-thum,
+.tlp-portfolio .layout2 .tlp-content,
+.tlp-portfolio .isotope2 .tlp-content,
+.tlp-portfolio .carousel2 .tlp-content {
+    display: block;
+    margin-bottom: 0;
+    float: none;
+    padding-left: 0;
+    padding-right: 0;
+}
+.tlp-portfolio .layout2 .tlp-portfolio-item,
+.tlp-portfolio .isotope2 .tlp-portfolio-item,
+.tlp-portfolio .carousel2 .tlp-portfolio-item {
+    width: 100%;
+    display: flex;
+    align-items: stretch;
+    background: #ffffff;
+    border: 1px solid #e7e9ee;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(20, 24, 31, 0.04);
+    -webkit-transition: -webkit-transform 0.3s cubic-bezier(0.4, 0.22, 0.28, 1), box-shadow 0.3s cubic-bezier(0.4, 0.22, 0.28, 1), border-color 0.3s cubic-bezier(0.4, 0.22, 0.28, 1);
+    transition: transform 0.3s cubic-bezier(0.4, 0.22, 0.28, 1), box-shadow 0.3s cubic-bezier(0.4, 0.22, 0.28, 1), border-color 0.3s cubic-bezier(0.4, 0.22, 0.28, 1);
+}
+.tlp-portfolio .layout2 .tlp-portfolio-item:hover,
+.tlp-portfolio .isotope2 .tlp-portfolio-item:hover,
+.tlp-portfolio .carousel2 .tlp-portfolio-item:hover {
+    -webkit-transform: translateY(-4px);
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px rgba(20, 24, 31, 0.12);
+    border-color: #d8deea;
+}
+
+/* ---- cover ---- */
+.tlp-portfolio .layout2 .tlp-portfolio-thum,
+/* ---- cover ---- */
+.tlp-portfolio .isotope2 .tlp-portfolio-thum,
+/* ---- cover ---- */
+.tlp-portfolio .carousel2 .tlp-portfolio-thum {
+    position: relative;
+    overflow: hidden;
+    background: #eef0f4;
+    min-height: 220px;
+    flex: 0 0 auto;
+}
+.tlp-portfolio .layout2 .tlp-portfolio-thum figure,
+.tlp-portfolio .isotope2 .tlp-portfolio-thum figure,
+.tlp-portfolio .carousel2 .tlp-portfolio-thum figure {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+.tlp-portfolio .layout2 .tlp-portfolio-thum img,
+.tlp-portfolio .isotope2 .tlp-portfolio-thum img,
+.tlp-portfolio .carousel2 .tlp-portfolio-thum img {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    object-fit: cover;
+    display: block;
+    -webkit-transition: -webkit-transform 0.6s cubic-bezier(0.4, 0.22, 0.28, 1);
+    transition: transform 0.6s cubic-bezier(0.4, 0.22, 0.28, 1);
+}
+.tlp-portfolio .layout2 .tlp-portfolio-item:hover .tlp-portfolio-thum img,
+.tlp-portfolio .isotope2 .tlp-portfolio-item:hover .tlp-portfolio-thum img,
+.tlp-portfolio .carousel2 .tlp-portfolio-item:hover .tlp-portfolio-thum img {
+    -webkit-transform: scale(1.09);
+    transform: scale(1.09);
+}
+
+/* ---- hover overlay ---- */
+.tlp-portfolio .layout2 .tlp-overlay,
+/* ---- hover overlay ---- */
+.tlp-portfolio .isotope2 .tlp-overlay,
+/* ---- hover overlay ---- */
+.tlp-portfolio .carousel2 .tlp-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(180deg, rgba(0, 30, 120, 0.16), rgba(0, 35, 130, 0.6));
+    opacity: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-transition: opacity 0.32s cubic-bezier(0.4, 0.22, 0.28, 1);
+    transition: opacity 0.32s cubic-bezier(0.4, 0.22, 0.28, 1);
+}
+.tlp-portfolio .layout2 .tlp-portfolio-item:hover .tlp-overlay,
+.tlp-portfolio .isotope2 .tlp-portfolio-item:hover .tlp-overlay,
+.tlp-portfolio .carousel2 .tlp-portfolio-item:hover .tlp-overlay {
+    opacity: 1;
+}
+.tlp-portfolio .layout2 .tlp-overlay .link-icon,
+.tlp-portfolio .isotope2 .tlp-overlay .link-icon,
+.tlp-portfolio .carousel2 .tlp-overlay .link-icon {
+    position: static;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    -webkit-transform: none;
+    -ms-transform: none;
+    transform: none;
+}
+.tlp-portfolio .layout2 .tlp-overlay .link-icon a,
+.tlp-portfolio .isotope2 .tlp-overlay .link-icon a,
+.tlp-portfolio .carousel2 .tlp-overlay .link-icon a {
+    width: 46px;
+    height: 46px;
+    font-size: 20px;
+    line-height: 1;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #004bff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    -webkit-transform: translateY(12px);
+    transform: translateY(12px);
+    -webkit-transition: -webkit-transform 0.32s cubic-bezier(0.4, 0.22, 0.28, 1), opacity 0.32s cubic-bezier(0.4, 0.22, 0.28, 1), background 0.18s ease, color 0.18s ease;
+    transition: transform 0.32s cubic-bezier(0.4, 0.22, 0.28, 1), opacity 0.32s cubic-bezier(0.4, 0.22, 0.28, 1), background 0.18s ease, color 0.18s ease;
+}
+.tlp-portfolio .layout2 .tlp-portfolio-item:hover .tlp-overlay .link-icon a,
+.tlp-portfolio .isotope2 .tlp-portfolio-item:hover .tlp-overlay .link-icon a,
+.tlp-portfolio .carousel2 .tlp-portfolio-item:hover .tlp-overlay .link-icon a {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+}
+.tlp-portfolio .layout2 .tlp-overlay .link-icon a + a,
+.tlp-portfolio .isotope2 .tlp-overlay .link-icon a + a,
+.tlp-portfolio .carousel2 .tlp-overlay .link-icon a + a {
+    -webkit-transition-delay: 0.06s;
+    transition-delay: 0.06s;
+}
+.tlp-portfolio .layout2 .tlp-overlay .link-icon a:hover,
+.tlp-portfolio .isotope2 .tlp-overlay .link-icon a:hover,
+.tlp-portfolio .carousel2 .tlp-overlay .link-icon a:hover {
+    background: #004bff;
+    color: #ffffff;
+}
+.tlp-portfolio .layout2 .tlp-overlay .link-icon a svg,
+.tlp-portfolio .isotope2 .tlp-overlay .link-icon a svg,
+.tlp-portfolio .carousel2 .tlp-overlay .link-icon a svg {
+    width: 1em;
+    height: 1em;
+    display: block;
+}
+
+/* ---- body ---- */
+.tlp-portfolio .layout2 .tlp-content2,
+/* ---- body ---- */
+.tlp-portfolio .isotope2 .tlp-content2,
+/* ---- body ---- */
+.tlp-portfolio .carousel2 .tlp-content2 {
+    background: transparent;
+    color: inherit;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+.tlp-portfolio .layout2 .tlp-content-holder,
+.tlp-portfolio .isotope2 .tlp-content-holder,
+.tlp-portfolio .carousel2 .tlp-content-holder {
+    padding: 24px 26px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.tlp-portfolio .layout2 .tlp-badge,
+.tlp-portfolio .isotope2 .tlp-badge,
+.tlp-portfolio .carousel2 .tlp-badge {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.6;
+    letter-spacing: 0.3px;
+    color: #004bff;
+    background: #eaf0ff;
+    padding: 4px 11px;
+    border-radius: 999px;
+    margin-bottom: 12px;
+}
+.tlp-portfolio .layout2 .tlp-content2 h3,
+.tlp-portfolio .isotope2 .tlp-content2 h3,
+.tlp-portfolio .carousel2 .tlp-content2 h3 {
+    margin: 0 0 8px;
+    padding: 0;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.2px;
+    color: #14181f;
+}
+.tlp-portfolio .layout2 .tlp-content2 h3 a,
+.tlp-portfolio .isotope2 .tlp-content2 h3 a,
+.tlp-portfolio .carousel2 .tlp-content2 h3 a {
+    color: #14181f;
+    text-decoration: none;
+    -webkit-transition: color 0.18s ease;
+    transition: color 0.18s ease;
+}
+.tlp-portfolio .layout2 .tlp-portfolio-item:hover .tlp-content2 h3,
+.tlp-portfolio .isotope2 .tlp-portfolio-item:hover .tlp-content2 h3,
+.tlp-portfolio .carousel2 .tlp-portfolio-item:hover .tlp-content2 h3,
+.tlp-portfolio .layout2 .tlp-portfolio-item:hover .tlp-content2 h3 a,
+.tlp-portfolio .isotope2 .tlp-portfolio-item:hover .tlp-content2 h3 a,
+.tlp-portfolio .carousel2 .tlp-portfolio-item:hover .tlp-content2 h3 a {
+    color: #004bff;
+}
+.tlp-portfolio .layout2 .tlp-portfolio-sd,
+.tlp-portfolio .isotope2 .tlp-portfolio-sd,
+.tlp-portfolio .carousel2 .tlp-portfolio-sd {
+    padding: 0;
+    margin: 0;
+    color: #5b6472;
+    font-size: 16px;
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ---- meta list (shared by every card layout) ----
+   Icon-tile rows from the Meta Grid design, used by layouts 1, 2 and 3 and by
+   layout 1's and layout 2's isotope/carousel modes.
+   `.extra-features > ul > li`, the per-field li classes and the <label> element are kept
+   because the Meta Style / Client Name Style controls and the Elementor meta selectors all
+   target them. The value span is given no colour of its own so the value colour set on the
+   li still reaches it. */
+.tlp-portfolio .layout1 .extra-features,
+.tlp-portfolio .isotope1 .extra-features,
+.tlp-portfolio .layout2 .extra-features,
+.tlp-portfolio .isotope2 .extra-features,
+.tlp-portfolio .carousel2 .extra-features,
+.tlp-portfolio .layout3 .extra-features,
+.tlp-portfolio .isotope3 .extra-features,
+.tlp-portfolio .carousel1 .extra-features,
+.tlp-portfolio .carousel3 .extra-features {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid #e7e9ee;
+    width: 100%;
+}
+.tlp-portfolio .layout1 .extra-features ul,
+.tlp-portfolio .isotope1 .extra-features ul,
+.tlp-portfolio .layout2 .extra-features ul,
+.tlp-portfolio .isotope2 .extra-features ul,
+.tlp-portfolio .carousel2 .extra-features ul,
+.tlp-portfolio .layout3 .extra-features ul,
+.tlp-portfolio .isotope3 .extra-features ul,
+.tlp-portfolio .carousel1 .extra-features ul,
+.tlp-portfolio .carousel3 .extra-features ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+.tlp-portfolio .layout1 .extra-features ul li,
+.tlp-portfolio .isotope1 .extra-features ul li,
+.tlp-portfolio .layout2 .extra-features ul li,
+.tlp-portfolio .isotope2 .extra-features ul li,
+.tlp-portfolio .carousel2 .extra-features ul li,
+.tlp-portfolio .layout3 .extra-features ul li,
+.tlp-portfolio .isotope3 .extra-features ul li,
+.tlp-portfolio .carousel1 .extra-features ul li,
+.tlp-portfolio .carousel3 .extra-features ul li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #14181f;
+}
+.tlp-portfolio .layout1 .extra-features .tlp-meta-ico,
+.tlp-portfolio .isotope1 .extra-features .tlp-meta-ico,
+.tlp-portfolio .layout2 .extra-features .tlp-meta-ico,
+.tlp-portfolio .isotope2 .extra-features .tlp-meta-ico,
+.tlp-portfolio .carousel2 .extra-features .tlp-meta-ico,
+.tlp-portfolio .layout3 .extra-features .tlp-meta-ico,
+.tlp-portfolio .isotope3 .extra-features .tlp-meta-ico,
+.tlp-portfolio .carousel1 .extra-features .tlp-meta-ico,
+.tlp-portfolio .carousel3 .extra-features .tlp-meta-ico {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: #eaf0ff;
+    color: #004bff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.tlp-portfolio .layout1 .extra-features .tlp-meta-ico svg,
+.tlp-portfolio .isotope1 .extra-features .tlp-meta-ico svg,
+.tlp-portfolio .layout2 .extra-features .tlp-meta-ico svg,
+.tlp-portfolio .isotope2 .extra-features .tlp-meta-ico svg,
+.tlp-portfolio .carousel2 .extra-features .tlp-meta-ico svg,
+.tlp-portfolio .layout3 .extra-features .tlp-meta-ico svg,
+.tlp-portfolio .isotope3 .extra-features .tlp-meta-ico svg,
+.tlp-portfolio .carousel1 .extra-features .tlp-meta-ico svg,
+.tlp-portfolio .carousel3 .extra-features .tlp-meta-ico svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+}
+.tlp-portfolio .layout1 .extra-features label,
+.tlp-portfolio .isotope1 .extra-features label,
+.tlp-portfolio .layout2 .extra-features label,
+.tlp-portfolio .isotope2 .extra-features label,
+.tlp-portfolio .carousel2 .extra-features label,
+.tlp-portfolio .layout3 .extra-features label,
+.tlp-portfolio .isotope3 .extra-features label,
+.tlp-portfolio .carousel1 .extra-features label,
+.tlp-portfolio .carousel3 .extra-features label {
+    margin: 0;
+    padding: 0;
+    /* The row's size, so Meta style's size reaches the label too. Themes style a bare label (Astra: 14px),
+       which the Layout Preview never sees. */
+    font-size: inherit;
     font-weight: 400;
+    color: #5b6472;
+    /* Two-word labels such as "Project URL" must not wrap; the value takes the slack. */
+    white-space: nowrap;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+}
+.tlp-portfolio .layout1 .extra-features .tlp-meta-value,
+.tlp-portfolio .isotope1 .extra-features .tlp-meta-value,
+.tlp-portfolio .layout2 .extra-features .tlp-meta-value,
+.tlp-portfolio .isotope2 .extra-features .tlp-meta-value,
+.tlp-portfolio .carousel2 .extra-features .tlp-meta-value,
+.tlp-portfolio .layout3 .extra-features .tlp-meta-value,
+.tlp-portfolio .isotope3 .extra-features .tlp-meta-value,
+.tlp-portfolio .carousel1 .extra-features .tlp-meta-value,
+.tlp-portfolio .carousel3 .extra-features .tlp-meta-value {
+    margin-left: auto;
+    text-align: right;
+    font-weight: 500;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+.tlp-portfolio .layout1 .extra-features .tlp-meta-value a,
+.tlp-portfolio .isotope1 .extra-features .tlp-meta-value a,
+.tlp-portfolio .layout2 .extra-features .tlp-meta-value a,
+.tlp-portfolio .isotope2 .extra-features .tlp-meta-value a,
+.tlp-portfolio .carousel2 .extra-features .tlp-meta-value a,
+.tlp-portfolio .layout3 .extra-features .tlp-meta-value a,
+.tlp-portfolio .isotope3 .extra-features .tlp-meta-value a,
+.tlp-portfolio .carousel1 .extra-features .tlp-meta-value a,
+.tlp-portfolio .carousel3 .extra-features .tlp-meta-value a {
+    color: inherit;
+    text-decoration: none;
+}
+.tlp-portfolio .layout1 .extra-features .tlp-meta-value a:hover,
+.tlp-portfolio .isotope1 .extra-features .tlp-meta-value a:hover,
+.tlp-portfolio .layout2 .extra-features .tlp-meta-value a:hover,
+.tlp-portfolio .isotope2 .extra-features .tlp-meta-value a:hover,
+.tlp-portfolio .carousel2 .extra-features .tlp-meta-value a:hover,
+.tlp-portfolio .layout3 .extra-features .tlp-meta-value a:hover,
+.tlp-portfolio .isotope3 .extra-features .tlp-meta-value a:hover,
+.tlp-portfolio .carousel1 .extra-features .tlp-meta-value a:hover,
+.tlp-portfolio .carousel3 .extra-features .tlp-meta-value a:hover {
+    text-decoration: underline;
+}
+
+/* A project URL is masked behind this button - the address is long enough to double the
+   card's height. The href and title carry it, so hovering shows it and clicking opens it. */.tlp-portfolio .layout1 .extra-features a.tlp-meta-link,
+.tlp-portfolio .isotope1 .extra-features a.tlp-meta-link,
+.tlp-portfolio .layout2 .extra-features a.tlp-meta-link,
+.tlp-portfolio .isotope2 .extra-features a.tlp-meta-link,
+.tlp-portfolio .carousel2 .extra-features a.tlp-meta-link,
+.tlp-portfolio .layout3 .extra-features a.tlp-meta-link,
+.tlp-portfolio .isotope3 .extra-features a.tlp-meta-link,
+.tlp-portfolio .carousel1 .extra-features a.tlp-meta-link,
+.tlp-portfolio .carousel3 .extra-features a.tlp-meta-link {
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    border: 1px solid #e7e9ee;
+    background: #ffffff;
+    color: #004bff;
+    text-decoration: none;
+    -webkit-transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+    transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+.tlp-portfolio .layout1 .extra-features a.tlp-meta-link svg,
+.tlp-portfolio .isotope1 .extra-features a.tlp-meta-link svg,
+.tlp-portfolio .layout2 .extra-features a.tlp-meta-link svg,
+.tlp-portfolio .isotope2 .extra-features a.tlp-meta-link svg,
+.tlp-portfolio .carousel2 .extra-features a.tlp-meta-link svg,
+.tlp-portfolio .layout3 .extra-features a.tlp-meta-link svg,
+.tlp-portfolio .isotope3 .extra-features a.tlp-meta-link svg,
+.tlp-portfolio .carousel1 .extra-features a.tlp-meta-link svg,
+.tlp-portfolio .carousel3 .extra-features a.tlp-meta-link svg {
+    width: 14px;
+    height: 14px;
+    display: block;
+}
+.tlp-portfolio .layout1 .extra-features a.tlp-meta-link:hover,
+.tlp-portfolio .isotope1 .extra-features a.tlp-meta-link:hover,
+.tlp-portfolio .layout2 .extra-features a.tlp-meta-link:hover,
+.tlp-portfolio .isotope2 .extra-features a.tlp-meta-link:hover,
+.tlp-portfolio .carousel2 .extra-features a.tlp-meta-link:hover,
+.tlp-portfolio .layout3 .extra-features a.tlp-meta-link:hover,
+.tlp-portfolio .isotope3 .extra-features a.tlp-meta-link:hover,
+.tlp-portfolio .carousel1 .extra-features a.tlp-meta-link:hover,
+.tlp-portfolio .carousel3 .extra-features a.tlp-meta-link:hover {
+    background: #004bff;
+    border-color: #004bff;
+    color: #ffffff;
     text-decoration: none;
 }
 
-.tlp-portfolio .carousel1 .tlp-content h3 a {
+.tlp-portfolio .layout2 .tlp-more,
+.tlp-portfolio .isotope2 .tlp-more,
+.tlp-portfolio .carousel2 .tlp-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: auto;
+    padding-top: 18px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #004bff;
+    text-decoration: none;
+    white-space: nowrap;
+}
+.tlp-portfolio .layout2 .tlp-more svg,
+.tlp-portfolio .isotope2 .tlp-more svg,
+.tlp-portfolio .carousel2 .tlp-more svg {
+    width: 16px;
+    height: 16px;
+    -webkit-transition: -webkit-transform 0.2s ease;
+    transition: transform 0.2s ease;
+}
+.tlp-portfolio .layout2 .tlp-more:hover svg,
+.tlp-portfolio .isotope2 .tlp-more:hover svg,
+.tlp-portfolio .carousel2 .tlp-more:hover svg {
+    -webkit-transform: translateX(4px);
+    transform: translateX(4px);
+}
+
+/* Image / content split. Driven by --tlp-card-img-w so one value can be set from the
+   shortcode's dynamic CSS or from Elementor. Only above the stacking breakpoint. */
+@media (min-width: 768px) {
+    .tlp-portfolio .layout2 .tlp-portfolio-thum,
+    .tlp-portfolio .isotope2 .tlp-portfolio-thum,
+    .tlp-portfolio .carousel2 .tlp-portfolio-thum {
+        -ms-flex: 0 0 var(--tlp-card-img-w, 40%);
+        flex: 0 0 var(--tlp-card-img-w, 40%);
+        width: var(--tlp-card-img-w, 40%);
+        max-width: var(--tlp-card-img-w, 40%);
+    }
+    .tlp-portfolio .layout2 .tlp-content2,
+    .tlp-portfolio .isotope2 .tlp-content2,
+    .tlp-portfolio .carousel2 .tlp-content2 {
+        -ms-flex: 0 0 calc(100% - var(--tlp-card-img-w, 40%));
+        flex: 0 0 calc(100% - var(--tlp-card-img-w, 40%));
+        width: calc(100% - var(--tlp-card-img-w, 40%));
+        max-width: calc(100% - var(--tlp-card-img-w, 40%));
+    }
+}
+@media (max-width: 767px) {
+    .tlp-portfolio .layout2 .tlp-portfolio-item,
+.tlp-portfolio .isotope2 .tlp-portfolio-item,
+.tlp-portfolio .carousel2 .tlp-portfolio-item {
+        display: block;
+    }
+    .tlp-portfolio .layout2 .tlp-portfolio-thum,
+.tlp-portfolio .isotope2 .tlp-portfolio-thum,
+.tlp-portfolio .carousel2 .tlp-portfolio-thum {
+        width: 100%;
+        min-height: 0;
+        aspect-ratio: 16 / 9;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .tlp-portfolio .layout2 *,
+.tlp-portfolio .isotope2 *,
+.tlp-portfolio .carousel2 * {
+        -webkit-transition-duration: 0.001ms !important;
+        transition-duration: 0.001ms !important;
+    }
+}
+
+/************************ Layout 3 (hover grid card) ******************************/
+/* White card, 4:3 cover. The overlay carries the title, the short description and
+   the action icons and fades in on card hover; the caption below keeps the title,
+   the category line and any extra meta the Field Selection tab has switched on. */
+.tlp-portfolio .layout3 [class*='tlp-col-'],
+.tlp-portfolio .isotope3 [class*='tlp-col-'],
+.tlp-portfolio .carousel3 [class*='tlp-col-'] {
+    margin-bottom: 30px;
+    display: flex;
+}
+
+.tlp-portfolio .layout3 .tlp-portfolio-item,
+.tlp-portfolio .isotope3 .tlp-portfolio-item,
+.tlp-portfolio .carousel3 .tlp-portfolio-item {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    border: 1px solid #e7e9ee;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(20, 24, 31, 0.04);
+    -webkit-transition: -webkit-transform 0.3s cubic-bezier(0.4, 0.22, 0.28, 1), box-shadow 0.3s cubic-bezier(0.4, 0.22, 0.28, 1), border-color 0.3s cubic-bezier(0.4, 0.22, 0.28, 1);
+    transition: transform 0.3s cubic-bezier(0.4, 0.22, 0.28, 1), box-shadow 0.3s cubic-bezier(0.4, 0.22, 0.28, 1), border-color 0.3s cubic-bezier(0.4, 0.22, 0.28, 1);
+}
+
+.tlp-portfolio .layout3 .tlp-portfolio-item:hover,
+.tlp-portfolio .isotope3 .tlp-portfolio-item:hover,
+.tlp-portfolio .carousel3 .tlp-portfolio-item:hover {
+    -webkit-transform: translateY(-6px);
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(20, 24, 31, 0.12);
+    border-color: #d8deea;
+}
+
+/* ---- cover ---- */
+.tlp-portfolio .layout3 .tlp-portfolio-thum,
+.tlp-portfolio .isotope3 .tlp-portfolio-thum,
+.tlp-portfolio .carousel3 .tlp-portfolio-thum {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: #eef0f4;
+    aspect-ratio: 4 / 3;
+}
+
+.tlp-portfolio .layout3 .tlp-portfolio-thum > a,
+.tlp-portfolio .layout3 .tlp-portfolio-thum > img,
+.tlp-portfolio .isotope3 .tlp-portfolio-thum > a,
+.tlp-portfolio .isotope3 .tlp-portfolio-thum > img,
+.tlp-portfolio .carousel3 .tlp-portfolio-thum > a,
+.tlp-portfolio .carousel3 .tlp-portfolio-thum > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.tlp-portfolio .layout3 .tlp-portfolio-thum img,
+.tlp-portfolio .isotope3 .tlp-portfolio-thum img,
+.tlp-portfolio .carousel3 .tlp-portfolio-thum img {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    object-fit: cover;
+    display: block;
+    -webkit-transition: -webkit-transform 0.7s cubic-bezier(0.4, 0.22, 0.28, 1);
+    transition: transform 0.7s cubic-bezier(0.4, 0.22, 0.28, 1);
+}
+
+.tlp-portfolio .layout3 .tlp-portfolio-item:hover .tlp-portfolio-thum img,
+.tlp-portfolio .isotope3 .tlp-portfolio-item:hover .tlp-portfolio-thum img,
+.tlp-portfolio .carousel3 .tlp-portfolio-item:hover .tlp-portfolio-thum img {
+    -webkit-transform: scale(1.08);
+    transform: scale(1.08);
+}
+
+/* ---- hover overlay ---- */
+.tlp-portfolio .layout3 .tlp-overlay,
+.tlp-portfolio .isotope3 .tlp-overlay,
+.tlp-portfolio .carousel3 .tlp-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    padding: 24px 24px;
+    background: linear-gradient(165deg, rgba(0, 49, 168, 0.92), rgba(0, 33, 120, 0.95));
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    opacity: 0;
+    -webkit-transition: opacity 0.34s cubic-bezier(0.4, 0.22, 0.28, 1);
+    transition: opacity 0.34s cubic-bezier(0.4, 0.22, 0.28, 1);
+}
+
+.tlp-portfolio .layout3 .tlp-portfolio-item:hover .tlp-overlay,
+.tlp-portfolio .isotope3 .tlp-portfolio-item:hover .tlp-overlay,
+.tlp-portfolio .carousel3 .tlp-portfolio-item:hover .tlp-overlay {
+    opacity: 1;
+}
+
+.tlp-portfolio .layout3 .tlp-overlay h3,
+.tlp-portfolio .isotope3 .tlp-overlay h3,
+.tlp-portfolio .carousel3 .tlp-overlay h3 {
+    margin: 0 0 8px;
+    padding: 0;
+    flex: 0 0 auto;
+    font-size: 21px;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.2px;
+    color: #ffffff;
+    -webkit-transform: translateY(12px);
+    transform: translateY(12px);
+    -webkit-transition: -webkit-transform 0.34s cubic-bezier(0.4, 0.22, 0.28, 1) 0.04s;
+    transition: transform 0.34s cubic-bezier(0.4, 0.22, 0.28, 1) 0.04s;
+}
+
+.tlp-portfolio .layout3 .tlp-overlay .tlp-portfolio-sd,
+.tlp-portfolio .isotope3 .tlp-overlay .tlp-portfolio-sd,
+.tlp-portfolio .carousel3 .tlp-overlay .tlp-portfolio-sd {
+    margin: 0;
+    padding: 0;
+    flex: 0 1 auto;
+    min-height: 0;
+    font-size: 16px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.86);
+    display: block;
+    overflow: hidden;
+    /* The description shrinks to whatever the cover leaves it, so it can be cut
+       mid-line. Fade the last few pixels so the cut reads as intentional. */
+    -webkit-mask-image: -webkit-linear-gradient(top, #000 calc(100% - 11px), transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 11px), transparent 100%);
+    -webkit-transform: translateY(14px);
+    transform: translateY(14px);
+    -webkit-transition: -webkit-transform 0.34s cubic-bezier(0.4, 0.22, 0.28, 1) 0.08s;
+    transition: transform 0.34s cubic-bezier(0.4, 0.22, 0.28, 1) 0.08s;
+}
+
+.tlp-portfolio .layout3 .tlp-overlay .tlp-portfolio-sd p,
+.tlp-portfolio .isotope3 .tlp-overlay .tlp-portfolio-sd p,
+.tlp-portfolio .carousel3 .tlp-overlay .tlp-portfolio-sd p {
+    margin: 0;
+    padding: 0;
+    color: inherit;
+}
+
+.tlp-portfolio .layout3 .tlp-portfolio-item:hover .tlp-overlay h3,
+.tlp-portfolio .layout3 .tlp-portfolio-item:hover .tlp-overlay .tlp-portfolio-sd,
+.tlp-portfolio .isotope3 .tlp-portfolio-item:hover .tlp-overlay h3,
+.tlp-portfolio .isotope3 .tlp-portfolio-item:hover .tlp-overlay .tlp-portfolio-sd,
+.tlp-portfolio .carousel3 .tlp-portfolio-item:hover .tlp-overlay h3,
+.tlp-portfolio .carousel3 .tlp-portfolio-item:hover .tlp-overlay .tlp-portfolio-sd {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+}
+
+/* ---- action icons ---- */
+.tlp-portfolio .layout3 .tlp-overlay .link-icon,
+.tlp-portfolio .isotope3 .tlp-overlay .link-icon,
+.tlp-portfolio .carousel3 .tlp-overlay .link-icon {
+    /* The shared overlay rule absolutely centres this row; layout 3 wants it in
+       normal flow, pinned to the bottom of the cover under the description. */
+    position: static;
+    top: auto;
+    left: auto;
+    right: auto;
+    width: 100%;
+    margin: auto 0 0;
+    padding: 14px 0 0;
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    -webkit-transform: translateY(16px);
+    transform: translateY(16px);
+    -webkit-transition: -webkit-transform 0.34s cubic-bezier(0.4, 0.22, 0.28, 1) 0.12s;
+    transition: transform 0.34s cubic-bezier(0.4, 0.22, 0.28, 1) 0.12s;
+}
+
+.tlp-portfolio .layout3 .tlp-portfolio-item:hover .tlp-overlay .link-icon,
+.tlp-portfolio .isotope3 .tlp-portfolio-item:hover .tlp-overlay .link-icon,
+.tlp-portfolio .carousel3 .tlp-portfolio-item:hover .tlp-overlay .link-icon {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+}
+
+.tlp-portfolio .layout3 .tlp-overlay .link-icon a,
+.tlp-portfolio .isotope3 .tlp-overlay .link-icon a,
+.tlp-portfolio .carousel3 .tlp-overlay .link-icon a {
+    width: 46px;
+    height: 46px;
+    font-size: 19px;
+    line-height: 1;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255, 255, 255, 0.55);
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    -webkit-transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+    transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+}
+
+.tlp-portfolio .layout3 .tlp-overlay .link-icon a:hover,
+.tlp-portfolio .isotope3 .tlp-overlay .link-icon a:hover,
+.tlp-portfolio .carousel3 .tlp-overlay .link-icon a:hover {
+    background: #ffffff;
+    color: #004bff;
+    border-color: #ffffff;
+}
+
+.tlp-portfolio .layout3 .tlp-overlay .link-icon a svg,
+.tlp-portfolio .isotope3 .tlp-overlay .link-icon a svg,
+.tlp-portfolio .carousel3 .tlp-overlay .link-icon a svg {
+    width: 1em;
+    height: 1em;
+    display: block;
+}
+
+/* ---- caption ---- */
+.tlp-portfolio .layout3 .tlp-content,
+.tlp-portfolio .isotope3 .tlp-content,
+.tlp-portfolio .carousel3 .tlp-content {
+    width: 100%;
+    position: relative;
+    background: transparent;
+    color: inherit;
+    flex: 1 1 auto;
+}
+
+.tlp-portfolio .layout3 .tlp-content .tlp-content-holder,
+.tlp-portfolio .isotope3 .tlp-content .tlp-content-holder,
+.tlp-portfolio .carousel3 .tlp-content .tlp-content-holder {
+    padding: 20px 24px 22px;
+}
+
+.tlp-portfolio .layout3 .tlp-content h3,
+.tlp-portfolio .isotope3 .tlp-content h3,
+.tlp-portfolio .carousel3 .tlp-content h3 {
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.2px;
+    color: #14181f;
+    text-decoration: none;
+}
+
+.tlp-portfolio .layout3 .tlp-content h3 a,
+.tlp-portfolio .isotope3 .tlp-content h3 a,
+.tlp-portfolio .carousel3 .tlp-content h3 a {
+    color: #14181f;
     text-decoration: none;
     border: none;
     box-shadow: none;
+    -webkit-transition: color 0.18s ease;
+    transition: color 0.18s ease;
 }
 
-.tlp-portfolio .carousel1 .tlp-content p {
-    padding: 0;
-    margin: 0;
+.tlp-portfolio .layout3 .tlp-portfolio-item:hover .tlp-content h3,
+.tlp-portfolio .layout3 .tlp-portfolio-item:hover .tlp-content h3 a,
+.tlp-portfolio .isotope3 .tlp-portfolio-item:hover .tlp-content h3,
+.tlp-portfolio .isotope3 .tlp-portfolio-item:hover .tlp-content h3 a,
+.tlp-portfolio .carousel3 .tlp-portfolio-item:hover .tlp-content h3,
+.tlp-portfolio .carousel3 .tlp-portfolio-item:hover .tlp-content h3 a {
+    color: #004bff;
 }
 
-.tlp-portfolio .carousel1 .tlp-content .tlp-content-holder {
-    padding: 15px 0;
+.tlp-portfolio .layout3 .tlp-content .tlp-cat,
+.tlp-portfolio .isotope3 .tlp-content .tlp-cat,
+.tlp-portfolio .carousel3 .tlp-content .tlp-cat {
     display: block;
-    text-align: left;
+    margin-top: 5px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: #5b6472;
+}
+
+/* Description falls back into the caption when the cover is hidden. */
+.tlp-portfolio .layout3 .tlp-content .tlp-portfolio-sd,
+.tlp-portfolio .isotope3 .tlp-content .tlp-portfolio-sd,
+.tlp-portfolio .carousel3 .tlp-content .tlp-portfolio-sd {
+    margin: 10px 0 0;
+    padding: 0;
+    font-size: 16px;
+    line-height: 1.62;
+    color: #5b6472;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-transform: none;
+    transform: none;
+}
+
+
+.tlp-portfolio .layout3 .tlp-content p,
+.tlp-portfolio .isotope3 .tlp-content p,
+.tlp-portfolio .carousel3 .tlp-content p {
+    margin: 0;
+    padding: 0;
+}
+
+@media (max-width: 767px) {
+    .tlp-portfolio .layout3 .tlp-overlay,
+    .tlp-portfolio .isotope3 .tlp-overlay,
+    .tlp-portfolio .carousel3 .tlp-overlay {
+        padding: 18px 16px;
+    }
+
+    .tlp-portfolio .layout3 .tlp-overlay .link-icon,
+    .tlp-portfolio .isotope3 .tlp-overlay .link-icon,
+    .tlp-portfolio .carousel3 .tlp-overlay .link-icon {
+        padding-top: 12px;
+        gap: 8px;
+    }
+
+    .tlp-portfolio .layout3 .tlp-overlay .link-icon a,
+    .tlp-portfolio .isotope3 .tlp-overlay .link-icon a,
+    .tlp-portfolio .carousel3 .tlp-overlay .link-icon a {
+        width: 40px;
+        height: 40px;
+        font-size: 17px;
+    }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tlp-portfolio .layout3 *,
+    .tlp-portfolio .isotope3 *,
+    .tlp-portfolio .carousel3 * {
+        -webkit-transition-duration: 0.001ms !important;
+        transition-duration: 0.001ms !important;
+    }
+
+    .tlp-portfolio .layout3 .tlp-overlay h3,
+    .tlp-portfolio .layout3 .tlp-overlay .tlp-portfolio-sd,
+    .tlp-portfolio .layout3 .tlp-overlay .link-icon,
+    .tlp-portfolio .isotope3 .tlp-overlay h3,
+    .tlp-portfolio .isotope3 .tlp-overlay .tlp-portfolio-sd,
+    .tlp-portfolio .isotope3 .tlp-overlay .link-icon,
+    .tlp-portfolio .carousel3 .tlp-overlay h3,
+    .tlp-portfolio .carousel3 .tlp-overlay .tlp-portfolio-sd,
+    .tlp-portfolio .carousel3 .tlp-overlay .link-icon {
+        -webkit-transform: none !important;
+        transform: none !important;
+    }
+}
+
+/* Carousel 3 shares grid layout 3's card - see the Layout 3 block above.
+   The slider owns the slide width and spacing, so only the grid gutter is undone. */
+.tlp-portfolio .carousel3 [class*='tlp-col-'] {
+    margin-bottom: 0;
+}
+/* Isotope 1 shares grid layout 1's card - see the Layout 1 block above. */
+
+/* Carousel 1 shares grid layout 1's card - see the Layout 1 block above.
+   The slider owns the slide width and spacing, so the grid gutter is undone, and the
+   per-item lift shadow is dropped: inside a slider the cards sit flat on the page. */
+.tlp-portfolio .carousel1 [class*='tlp-col-'] {
+    margin-bottom: 0;
+}
+
+.tlp-portfolio .carousel1 .tlp-portfolio-item,
+.tlp-portfolio .carousel1 .tlp-portfolio-item:hover,
+.tlp-portfolio .carousel3 .tlp-portfolio-item,
+.tlp-portfolio .carousel3 .tlp-portfolio-item:hover {
+    box-shadow: none;
 }
 
 .is-carousel .pfp-pre-loader {
@@ -1730,8 +2274,11 @@ img.mfp-img {
 
 .tlp-portfolio-container .pfp-carousel .owl-nav {
     position: absolute;
-    right: 10px;
-    top: -60px;
+    right: 0;
+    top: -72px;
+    display: flex;
+    gap: 12px;
+    margin: 0;
 }
 .tlp-portfolio-container .pfp-carousel.owl-rtl .owl-nav {
     right: inherit;
@@ -1740,10 +2287,6 @@ img.mfp-img {
     flex-direction: row-reverse;
 }
 
-.pfp-carousel.owl-theme .owl-nav [class*=owl-] {
-    font-size: 18px;
-    padding: 8px !important;
-}
 
 /************************ Widget 1 ******************************/
 .tlp-portfolio .slider .tlp-portfolio-thum {
@@ -1883,8 +2426,21 @@ img.mfp-img {
     border: none;
 }
 
-.pfp-carousel.owl-theme .owl-nav .owl-next, 
-.pfp-carousel.owl-theme .owl-nav .owl-prev {
+/* ---- Carousel nav buttons + dots (Slider 01 design) ----
+   One design for every carousel layout. The arrow is inline SVG sized in em off the
+   button's font-size, so the shortcode and Elementor icon-size controls still drive it. */
+.pfp-carousel.owl-theme .owl-nav [class*='owl-'] {
+    width: 52px;
+    height: 52px;
+    margin: 0;
+    padding: 0 !important;
+    border-radius: 14px;
+    border: 1px solid #e7e9ee;
+    background: #ffffff;
+    color: #14181f;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
     display: -webkit-inline-box;
     display: -ms-inline-flexbox;
     display: inline-flex;
@@ -1894,12 +2450,90 @@ img.mfp-img {
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
-    border: 1px solid;
+    box-shadow: 0 1px 2px rgba(20, 24, 31, 0.05);
+    -webkit-transition: background 0.18s cubic-bezier(0.4, 0.22, 0.28, 1), color 0.18s cubic-bezier(0.4, 0.22, 0.28, 1), border-color 0.18s cubic-bezier(0.4, 0.22, 0.28, 1), -webkit-transform 0.18s cubic-bezier(0.4, 0.22, 0.28, 1), box-shadow 0.18s cubic-bezier(0.4, 0.22, 0.28, 1), opacity 0.18s cubic-bezier(0.4, 0.22, 0.28, 1);
+    transition: background 0.18s cubic-bezier(0.4, 0.22, 0.28, 1), color 0.18s cubic-bezier(0.4, 0.22, 0.28, 1), border-color 0.18s cubic-bezier(0.4, 0.22, 0.28, 1), transform 0.18s cubic-bezier(0.4, 0.22, 0.28, 1), box-shadow 0.18s cubic-bezier(0.4, 0.22, 0.28, 1), opacity 0.18s cubic-bezier(0.4, 0.22, 0.28, 1);
 }
 
-.pfp-carousel.owl-theme .owl-nav .owl-next i, 
-.pfp-carousel.owl-theme .owl-nav .owl-prev i{
-    line-height: 0;
+.pfp-carousel.owl-theme .owl-nav [class*='owl-'] svg {
+    width: 1em;
+    height: 1em;
+    display: block;
+}
+
+.pfp-carousel.owl-theme .owl-nav [class*='owl-']:hover {
+    background: #004bff;
+    color: #ffffff;
+    border-color: #004bff;
+    -webkit-transform: translateY(-2px);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(0, 75, 255, 0.32);
+}
+
+.pfp-carousel.owl-theme .owl-nav [class*='owl-']:active {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+}
+
+.pfp-carousel.owl-theme .owl-nav [class*='owl-'].disabled {
+    opacity: 0.4;
+    cursor: default;
+    pointer-events: none;
+}
+
+.pfp-carousel.owl-theme .owl-dots {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    gap: 9px;
+    margin-top: 38px;
+}
+
+.pfp-carousel.owl-theme .owl-dots .owl-dot {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    margin: 0;
+}
+
+.pfp-carousel.owl-theme .owl-dots .owl-dot span {
+    width: 9px;
+    height: 9px;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 999px;
+    background: #c4cad6;
+    display: block;
+    -webkit-transition: background 0.25s cubic-bezier(0.4, 0.22, 0.28, 1), width 0.3s cubic-bezier(0.4, 0.22, 0.28, 1);
+    transition: background 0.25s cubic-bezier(0.4, 0.22, 0.28, 1), width 0.3s cubic-bezier(0.4, 0.22, 0.28, 1);
+}
+
+.pfp-carousel.owl-theme .owl-dots .owl-dot:hover span {
+    background: #9aa3b5;
+}
+
+.pfp-carousel.owl-theme .owl-dots .owl-dot.active span {
+    width: 30px;
+    background: #004bff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pfp-carousel.owl-theme .owl-nav [class*='owl-'],
+    .pfp-carousel.owl-theme .owl-dots .owl-dot span {
+        -webkit-transition-duration: 0.001ms !important;
+        transition-duration: 0.001ms !important;
+    }
+    .pfp-carousel.owl-theme .owl-nav [class*='owl-']:hover {
+        -webkit-transform: none !important;
+        transform: none !important;
+    }
 }
 
 .tlp-portfolio button:focus,
@@ -1915,8 +2549,88 @@ img.mfp-img {
     outline: 0;
 }
 
+/* ---- isotope filter bar (Isotope 1 design) ----
+   A pill group in a rounded white bar. The count badge is rendered from the
+   data-filter-counter attribute the isotope JS writes, so no extra markup is needed. */
 .tlp-portfolio .tlp-portfolio-isotope-button {
-    margin: 0 15px 30px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 auto 48px;
+    padding: 6px;
+    background: #ffffff;
+    border: 1px solid #e7e9ee;
+    border-radius: 999px;
+    box-shadow: 0 1px 2px rgba(20, 24, 31, 0.05);
+}
+
+.tlp-portfolio .tlp-portfolio-isotope-button button {
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding: 10px 22px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: #5b6472;
+    background: transparent;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    white-space: nowrap;
+    text-transform: none;
+    -webkit-transition: color 0.25s cubic-bezier(0.4, 0.22, 0.28, 1), background-color 0.3s cubic-bezier(0.4, 0.22, 0.28, 1), box-shadow 0.3s cubic-bezier(0.4, 0.22, 0.28, 1);
+    transition: color 0.25s cubic-bezier(0.4, 0.22, 0.28, 1), background-color 0.3s cubic-bezier(0.4, 0.22, 0.28, 1), box-shadow 0.3s cubic-bezier(0.4, 0.22, 0.28, 1);
+}
+
+.tlp-portfolio .tlp-portfolio-isotope-button button[data-filter-counter]:not([data-filter-counter=""])::after {
+    content: attr(data-filter-counter);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    padding: 3px 7px;
+    border-radius: 999px;
+    background: #f1f1f1;
+    color: #5b6472;
+    -webkit-transition: background 0.25s ease, color 0.25s ease;
+    transition: background 0.25s ease, color 0.25s ease;
+}
+
+.tlp-portfolio .tlp-portfolio-isotope-button button:not(.selected):hover {
+    color: #14181f;
+    background: #f1f1f1;
+}
+
+.tlp-portfolio .tlp-portfolio-isotope-button button.selected {
+    color: #ffffff;
+    background: #3858e9;
+    box-shadow: 0 6px 16px rgba(56, 88, 233, 0.32);
+}
+
+.tlp-portfolio .tlp-portfolio-isotope-button button.selected::after {
+    background: rgba(255, 255, 255, 0.22);
+    color: #ffffff;
+}
+
+@media (max-width: 600px) {
+    .tlp-portfolio .tlp-portfolio-isotope-button {
+        -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: flex-start;
+        width: 100%;
+    }
 }
 
 .tlp-portfolio-container .tlp-pagination-wrap .tlp-pagination > li span.hidden-xs {
@@ -2205,12 +2919,11 @@ img.mfp-img {
 
 @media (max-width: 767px) {
     .tlp-portfolio .carousel2 .tlp-portfolio-item.rt-row .tlp-content ,
-    .tlp-portfolio .isotope2 .tlp-portfolio-item.rt-row .tlp-content ,
-    .tlp-portfolio .layout2 .tlp-portfolio-item.rt-row .tlp-content {
+    .tlp-portfolio .isotope2 .tlp-portfolio-item.rt-row .tlp-content {
         padding: 0;
     }
 
-    .tlp-portfolio .carousel2 .tlp-portfolio-thum, .tlp-portfolio .isotope2 .tlp-portfolio-thum, .tlp-portfolio .layout2 .tlp-portfolio-thum{
+    .tlp-portfolio .carousel2 .tlp-portfolio-thum, .tlp-portfolio .isotope2 .tlp-portfolio-thum{
         margin-bottom: 15px;
     }
 

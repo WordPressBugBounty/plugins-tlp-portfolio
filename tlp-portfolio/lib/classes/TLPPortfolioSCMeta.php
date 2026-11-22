@@ -186,6 +186,10 @@ if ( ! class_exists( 'TLPPortfolioSCMeta' ) ) :
 			$mates = TLPPortfolio()->pfpScMetaFields();
 
 			foreach ( $mates as $metaKey => $field ) {
+				// Section headings have no input; saving one would only store an empty meta row.
+				if ( isset( $field['type'] ) && 'heading' === $field['type'] ) {
+					continue;
+				}
                 $rValue = ! empty( $_REQUEST[ $metaKey ] ) ? wp_unslash($_REQUEST[ $metaKey ]) : null; // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
                 $value  = TLPPortfolio()->sanitize( $field, $rValue );
 				if ( empty( $field['multiple'] ) ) {
@@ -203,6 +207,8 @@ if ( ! class_exists( 'TLPPortfolioSCMeta' ) ) :
 				}
 			}
 
+			// The field list is free's now, so pro must fill in the image keys free never writes.
+			delete_post_meta( $post_id, 'pfp_item_fields_by_pro' );
 			$this->generatorShortCodeCss( $post_id );
 		}
 
@@ -219,23 +225,44 @@ if ( ! class_exists( 'TLPPortfolioSCMeta' ) ) :
 			$upload_basedir = $upload_dir['basedir'];
 			$cssFile        = $upload_basedir . '/tlp-portfolio/portfolio-sc.css';
 
-			if ( $css = TLPPortfolio()->render( 'portfolio-sc-css', compact( 'scID' ), true ) ) {
-				$css = sprintf( '/*sc-%2$d-start*/%1$s/*sc-%2$d-end*/', $css, $scID );
+			$css = TLPPortfolio()->render( 'portfolio-sc-css', compact( 'scID' ), true );
 
-				if ( file_exists( $cssFile ) && ( $oldCss = $wp_filesystem->get_contents( $cssFile ) ) ) {
-					if ( strpos( $oldCss, '/*sc-' . $scID . '-start' ) !== false ) {
-						$oldCss = preg_replace( '/\/\*sc-' . $scID . '-start[\s\S]+?sc-' . $scID . '-end\*\//', '', $oldCss );
-						$oldCss = preg_replace( "/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", '', $oldCss );
-					}
+			// The file now carries this plugin's selectors. Pro reads this option to know it has
+			// to rebuild the file before its own shortcodes can be styled (see maybeReGenerateCss).
+			update_option( 'tlp_portfolio_sc_css_owner', 'free' );
 
-					$css = $oldCss . $css;
-				} elseif ( ! file_exists( $cssFile ) ) {
-					$upload_basedir_trailingslashit = trailingslashit( $upload_basedir );
-					$wp_filesystem->mkdir( $upload_basedir_trailingslashit . 'tlp-portfolio' );
+			// This shortcode's old block has to be dropped even when $css comes back empty.
+			// Wrapping the whole write in `if ( $css )` meant that clearing every style
+			// value left the previous block in the file, so the front end kept serving
+			// colours the editor had already removed while the live preview looked right.
+			$oldCss = '';
+
+			if ( file_exists( $cssFile ) ) {
+				$existing = $wp_filesystem->get_contents( $cssFile );
+				$oldCss   = is_string( $existing ) ? $existing : '';
+			}
+
+			if ( '' !== $oldCss && false !== strpos( $oldCss, '/*sc-' . $scID . '-start' ) ) {
+				$oldCss = preg_replace( '/\/\*sc-' . $scID . '-start[\s\S]+?sc-' . $scID . '-end\*\//', '', $oldCss );
+				$oldCss = preg_replace( "/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", '', $oldCss );
+			}
+
+			$newCss = $oldCss . ( $css ? sprintf( '/*sc-%2$d-start*/%1$s/*sc-%2$d-end*/', $css, $scID ) : '' );
+
+			// Nothing left for any shortcode - drop the file so nothing stale is served.
+			if ( '' === trim( $newCss ) ) {
+				if ( file_exists( $cssFile ) ) {
+					$wp_filesystem->delete( $cssFile );
 				}
 
-				 $wp_filesystem->put_contents( $cssFile, $css );
+				return;
 			}
+
+			if ( ! file_exists( $cssFile ) ) {
+				$wp_filesystem->mkdir( trailingslashit( $upload_basedir ) . 'tlp-portfolio' );
+			}
+
+			$wp_filesystem->put_contents( $cssFile, $newCss );
 		}
 
 		public function admin_enqueue_scripts_settings() {

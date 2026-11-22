@@ -47,6 +47,14 @@ if ( ! class_exists( 'TLPPortfolioOptions' ) ) :
 					'class'   => 'rt-select2',
 					'options' => $this->scLayouts(),
 				],
+				'pfp_image_width'               => [
+					'type'        => 'number',
+					'holderClass' => 'tlp-card-split-item pfp-hidden',
+					'label'       => esc_html__( 'Image area width (%)', 'tlp-portfolio' ),
+					'class'       => 'small-text',
+					'default'     => 40,
+					'description' => __( 'Layout 2, Isotope 2 and Carousel 2 only. Percentage of the card taken by the image; the content takes the rest. Default 40 (so the content is 60). Ignored on mobile, where the card stacks.', 'tlp-portfolio' ),
+				],
 				'pfp_isotope_filter_taxonomy'   => [
 					'type'        => 'select',
 					'label'       => __( "Isotope filter (Selected item) <span style='color:red;'>Pro feature</span>", 'tlp-portfolio' ),
@@ -86,7 +94,9 @@ if ( ! class_exists( 'TLPPortfolioOptions' ) ) :
 					'multiple'    => true,
 					'alignment'   => 'vertical',
 					'options'     => $this->owlProperty(),
-					'default'     => [ 'autoplay', 'arrows', 'dots', 'responsive', 'infinite' ],
+					// Option keys from owlProperty(). It listed arrows / responsive / infinite, which are not keys, so a new
+					// carousel started with no arrows and no loop: nav and loop are what those names meant.
+					'default'     => [ 'autoplay', 'nav', 'dots', 'loop' ],
 				],
 				'pfp_carousel_autoplay_timeout' => [
 					'label'       => esc_html__( 'Autoplay timeout', 'tlp-portfolio' ),
@@ -198,8 +208,8 @@ if ( ! class_exists( 'TLPPortfolioOptions' ) ) :
 					'holderClass' => 'pfp_link_target pfp-hidden pfp-detail-page-link-item',
 					'alignment'   => 'vertical',
 					'options'     => [
-						'_self'  => 'Same Window',
-						'_blank' => 'New Window',
+						'_self'  => 'Open in Same Tab',
+						'_blank' => 'Open in New Tab',
 					],
 				],
 			];
@@ -333,22 +343,6 @@ if ( ! class_exists( 'TLPPortfolioOptions' ) ) :
 					'label' => esc_html__( 'Overlay color', 'tlp-portfolio' ),
 					'alpha' => true,
 				],
-				'pfp_button_bg_color'         => [
-					'type'  => 'colorpicker',
-					'label' => esc_html__( 'Button background color', 'tlp-portfolio' ),
-				],
-				'pfp_button_hover_bg_color'   => [
-					'type'  => 'colorpicker',
-					'label' => esc_html__( 'Button hover background color', 'tlp-portfolio' ),
-				],
-				'pfp_button_active_bg_color'  => [
-					'type'  => 'colorpicker',
-					'label' => esc_html__( 'Button active background color', 'tlp-portfolio' ),
-				],
-				'pfp_button_text_color'       => [
-					'type'  => 'colorpicker',
-					'label' => esc_html__( 'Button text color', 'tlp-portfolio' ),
-				],
 				'pfp_gutter'                  => [
 					'type'        => 'number',
 					'label'       => esc_html__( 'Padding', 'tlp-portfolio' ),
@@ -373,6 +367,169 @@ if ( ! class_exists( 'TLPPortfolioOptions' ) ) :
 				'pfp_meta_style'              => [
 					'type'  => 'style',
 					'label' => esc_html__( 'Meta style', 'tlp-portfolio' ),
+				],
+			] + $this->scButtonStyleFields();
+		}
+
+		/**
+		 * The Styling tab's button sections: one "All buttons" set, then a set per kind of button
+		 * the shortcode renders. A colour left empty in a button's own section falls back to the
+		 * matching "All buttons" colour (TLPPortfolioHelper::buttonGroupsCss()), so a shortcode saved
+		 * before the split looks the same. Every key here is shared with pro, which reads the same
+		 * portfolio-sc meta - rename one in both plugins or neither. Free has no Load More button,
+		 * so pro's pfp_lm_btn_* section has no counterpart here.
+		 *
+		 * Headings ('type' => 'heading') render a section title and are never saved.
+		 *
+		 * @return array
+		 */
+		public function scButtonStyleFields() {
+			return [
+				'pfp_btn_all_heading'           => [
+					'type'        => 'heading',
+					'label'       => esc_html__( 'All buttons', 'tlp-portfolio' ),
+					'description' => esc_html__( 'Default colours for every button. A colour set in a button section below wins over these for that button only.', 'tlp-portfolio' ),
+				],
+				'pfp_button_bg_color'           => [
+					'type'        => 'colorpicker',
+					'label'       => esc_html__( 'Button background color', 'tlp-portfolio' ),
+					'description' => esc_html__( 'Page numbers, isotope filter buttons, carousel arrows and dots.', 'tlp-portfolio' ),
+				],
+				'pfp_button_hover_bg_color'     => [
+					'type'        => 'colorpicker',
+					'label'       => esc_html__( 'Button hover background color', 'tlp-portfolio' ),
+					'description' => esc_html__( 'Hover state of page numbers, isotope filter buttons and carousel arrows.', 'tlp-portfolio' ),
+				],
+				'pfp_button_active_bg_color'    => [
+					'type'        => 'colorpicker',
+					'label'       => esc_html__( 'Button active background color', 'tlp-portfolio' ),
+					'description' => esc_html__( 'The current page number, the selected isotope filter button and the active carousel dot.', 'tlp-portfolio' ),
+				],
+				// No default: left empty, the active buttons keep the design's white text. Same key as pro.
+				'pfp_button_active_text_color'  => [
+					'type'        => 'colorpicker',
+					'label'       => esc_html__( 'Button active text color', 'tlp-portfolio' ),
+					'description' => esc_html__( 'Text of the current page number and the selected isotope filter button.', 'tlp-portfolio' ),
+				],
+				'pfp_button_text_color'         => [
+					'type'        => 'colorpicker',
+					'label'       => esc_html__( 'Button text color', 'tlp-portfolio' ),
+					'description' => esc_html__( 'Page numbers, isotope filter buttons and carousel arrows.', 'tlp-portfolio' ),
+				],
+
+				// Isotope filter buttons - isotope layouts only.
+				'pfp_iso_btn_heading'           => [
+					'type'        => 'heading',
+					'holderClass' => 'pfp-isotope-item pfp-hidden',
+					'label'       => esc_html__( 'Isotope filter buttons', 'tlp-portfolio' ),
+					'description' => esc_html__( 'The category buttons above the grid. Leave a colour empty to use the All buttons colour.', 'tlp-portfolio' ),
+				],
+				'pfp_iso_btn_bg_color'          => [
+					'type'        => 'colorpicker',
+					'holderClass' => 'pfp-isotope-item pfp-hidden',
+					'label'       => esc_html__( 'Background color', 'tlp-portfolio' ),
+				],
+				'pfp_iso_btn_text_color'        => [
+					'type'        => 'colorpicker',
+					'holderClass' => 'pfp-isotope-item pfp-hidden',
+					'label'       => esc_html__( 'Text color', 'tlp-portfolio' ),
+				],
+				'pfp_iso_btn_hover_bg_color'    => [
+					'type'        => 'colorpicker',
+					'holderClass' => 'pfp-isotope-item pfp-hidden',
+					'label'       => esc_html__( 'Hover background color', 'tlp-portfolio' ),
+				],
+				'pfp_iso_btn_hover_text_color'  => [
+					'type'        => 'colorpicker',
+					'holderClass' => 'pfp-isotope-item pfp-hidden',
+					'label'       => esc_html__( 'Hover text color', 'tlp-portfolio' ),
+				],
+				'pfp_iso_btn_active_bg_color'   => [
+					'type'        => 'colorpicker',
+					'holderClass' => 'pfp-isotope-item pfp-hidden',
+					'label'       => esc_html__( 'Selected background color', 'tlp-portfolio' ),
+				],
+				'pfp_iso_btn_active_text_color' => [
+					'type'        => 'colorpicker',
+					'holderClass' => 'pfp-isotope-item pfp-hidden',
+					'label'       => esc_html__( 'Selected text color', 'tlp-portfolio' ),
+				],
+
+				// Numbered pagination - free paginates grid layouts only, which is when settings.js shows
+				// the pfp-pagination-item fields.
+				'pfp_page_btn_heading'          => [
+					'type'        => 'heading',
+					'holderClass' => 'pfp-pagination-item pfp-hidden',
+					'label'       => esc_html__( 'Pagination numbers', 'tlp-portfolio' ),
+					'description' => esc_html__( 'The page number buttons. Leave a colour empty to use the All buttons colour.', 'tlp-portfolio' ),
+				],
+				'pfp_page_btn_bg_color'         => [
+					'type'        => 'colorpicker',
+					'holderClass' => 'pfp-pagination-item pfp-hidden',
+					'label'       => esc_html__( 'Background color', 'tlp-portfolio' ),
+				],
+				'pfp_page_btn_text_color'       => [
+					'type'        => 'colorpicker',
+					'holderClass' => 'pfp-pagination-item pfp-hidden',
+					'label'       => esc_html__( 'Text color', 'tlp-portfolio' ),
+				],
+				'pfp_page_btn_hover_bg_color'   => [
+					'type'        => 'colorpicker',
+					'holderClass' => 'pfp-pagination-item pfp-hidden',
+					'label'       => esc_html__( 'Hover background color', 'tlp-portfolio' ),
+				],
+				'pfp_page_btn_hover_text_color' => [
+					'type'        => 'colorpicker',
+					'holderClass' => 'pfp-pagination-item pfp-hidden',
+					'label'       => esc_html__( 'Hover text color', 'tlp-portfolio' ),
+				],
+				'pfp_page_btn_active_bg_color'  => [
+					'type'        => 'colorpicker',
+					'holderClass' => 'pfp-pagination-item pfp-hidden',
+					'label'       => esc_html__( 'Current page background color', 'tlp-portfolio' ),
+				],
+				'pfp_page_btn_active_text_color' => [
+					'type'        => 'colorpicker',
+					'holderClass' => 'pfp-pagination-item pfp-hidden',
+					'label'       => esc_html__( 'Current page text color', 'tlp-portfolio' ),
+				],
+
+				// Carousel arrows and dots - carousel layouts only.
+				'pfp_nav_btn_heading'           => [
+					'type'        => 'heading',
+					'holderClass' => 'pfp-carousel-item pfp-hidden',
+					'label'       => esc_html__( 'Carousel arrows & dots', 'tlp-portfolio' ),
+					'description' => esc_html__( 'Leave a colour empty to use the All buttons colour.', 'tlp-portfolio' ),
+				],
+				'pfp_nav_btn_bg_color'          => [
+					'type'        => 'colorpicker',
+					'holderClass' => 'pfp-carousel-item pfp-hidden',
+					'label'       => esc_html__( 'Arrow background color', 'tlp-portfolio' ),
+				],
+				'pfp_nav_btn_text_color'        => [
+					'type'        => 'colorpicker',
+					'holderClass' => 'pfp-carousel-item pfp-hidden',
+					'label'       => esc_html__( 'Arrow icon color', 'tlp-portfolio' ),
+				],
+				'pfp_nav_btn_hover_bg_color'    => [
+					'type'        => 'colorpicker',
+					'holderClass' => 'pfp-carousel-item pfp-hidden',
+					'label'       => esc_html__( 'Arrow hover background color', 'tlp-portfolio' ),
+				],
+				'pfp_nav_btn_hover_text_color'  => [
+					'type'        => 'colorpicker',
+					'holderClass' => 'pfp-carousel-item pfp-hidden',
+					'label'       => esc_html__( 'Arrow hover icon color', 'tlp-portfolio' ),
+				],
+				'pfp_nav_dot_color'             => [
+					'type'        => 'colorpicker',
+					'holderClass' => 'pfp-carousel-item pfp-hidden',
+					'label'       => esc_html__( 'Dot color', 'tlp-portfolio' ),
+				],
+				'pfp_nav_dot_active_color'      => [
+					'type'        => 'colorpicker',
+					'holderClass' => 'pfp-carousel-item pfp-hidden',
+					'label'       => esc_html__( 'Active dot color', 'tlp-portfolio' ),
 				],
 			];
 		}
@@ -484,7 +641,7 @@ if ( ! class_exists( 'TLPPortfolioOptions' ) ) :
 				'autoplay'           => esc_html__( 'Auto Play', 'tlp-portfolio' ),
 				'autoplayHoverPause' => esc_html__( 'Pause on mouse hover', 'tlp-portfolio' ),
 				'nav'                => esc_html__( 'Nav Button', 'tlp-portfolio' ),
-				'dots'               => esc_html__( 'Pagination', 'tlp-portfolio' ),
+				'dots'               => esc_html__( 'Dot Navigation', 'tlp-portfolio' ),
 				'auto_height'        => esc_html__( 'Auto Height', 'tlp-portfolio' ),
 				'lazy_load'          => esc_html__( 'Lazy Load', 'tlp-portfolio' ),
 				'rtl'                => esc_html__( 'Right to left (RTL)', 'tlp-portfolio' ),
@@ -526,7 +683,7 @@ if ( ! class_exists( 'TLPPortfolioOptions' ) ) :
 			return [
 				'auto_play'   => esc_html__( 'Auto Play', 'tlp-portfolio' ),
 				'navigation'  => esc_html__( 'Navigation', 'tlp-portfolio' ),
-				'pagination'  => esc_html__( 'Pagination', 'tlp-portfolio' ),
+				'pagination'  => esc_html__( 'Dot Navigation', 'tlp-portfolio' ),
 				'stop_hover'  => esc_html__( 'Stop Hover', 'tlp-portfolio' ),
 				'responsive'  => esc_html__( 'Responsive', 'tlp-portfolio' ),
 				'auto_height' => esc_html__( 'Auto Height', 'tlp-portfolio' ),

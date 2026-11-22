@@ -146,7 +146,9 @@ if ( ! class_exists( 'TLPPortfolioHelper' ) ) :
 
 			if ( ! empty( $interSizes ) ) {
 				foreach ( get_intermediate_image_sizes() as $_size ) {
-					if ( in_array( $_size, [ 'thumbnail', 'medium', 'large' ] ) ) {
+					// medium_large (768px wide) is a core size too, read from options like the other three. Without it the
+					// select could not show a saved medium_large: the Layout Preview fell back to medium and Update cleared it.
+					if ( in_array( $_size, [ 'thumbnail', 'medium', 'medium_large', 'large' ] ) ) {
 						$sizes[ $_size ]['width']  = get_option( "{$_size}_size_w" );
 						$sizes[ $_size ]['height'] = get_option( "{$_size}_size_h" );
 						$sizes[ $_size ]['crop']   = (bool) get_option( "{$_size}_crop" );
@@ -308,12 +310,55 @@ if ( ! class_exists( 'TLPPortfolioHelper' ) ) :
 			}
 		}
 
+		/**
+		 * Sanitize a colour coming from the colour-picker field.
+		 *
+		 * The picker is declared with `alpha => true`, so it saves `rgb()` / `rgba()`
+		 * strings as well as hex. sanitize_hex_color() returns an empty string for those,
+		 * which silently discarded the Primary, Overlay and button colours - the control
+		 * looked like it did nothing at all.
+		 *
+		 * Kept in step with the pro plugin's PFProHelper::sanitizeCssColor().
+		 *
+		 * @param string $color Raw stored value.
+		 *
+		 * @return string Empty string when the value is not a colour.
+		 */
+		public function sanitizeCssColor( $color ) {
+			$color = trim( (string) $color );
+
+			if ( '' === $color ) {
+				return '';
+			}
+
+			if ( preg_match( '/^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6})$/', $color ) ) {
+				return $color;
+			}
+
+			if ( preg_match( '/^rgba?\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}\s*(?:,\s*(?:0|1|0?\.\d+)\s*)?\)$/', $color ) ) {
+				return $color;
+			}
+
+			return '';
+		}
+
 		public function TLPhex2rgba( $color, $opacity = false ) {
 			$default = 'rgb(0,0,0)';
 
 			// Return default if no color provided.
 			if ( empty( $color ) ) {
 				return $default;
+			}
+
+			// The picker can hand us rgb()/rgba() rather than hex; reuse the channels.
+			if ( preg_match( '/^rgba?\((\s*\d{1,3}\s*),(\s*\d{1,3}\s*),(\s*\d{1,3}\s*)/', $color, $m ) ) {
+				$r = absint( $m[1] );
+				$g = absint( $m[2] );
+				$b = absint( $m[3] );
+
+				return false !== $opacity
+					? "rgba({$r},{$g},{$b}," . floatval( $opacity ) . ')'
+					: "rgb({$r},{$g},{$b})";
 			}
 
 			// Sanitize $color if "#" is provided.
@@ -366,7 +411,7 @@ if ( ! class_exists( 'TLPPortfolioHelper' ) ) :
 			$html  = null;
 
 			if ( $project_url ) {
-				$html .= '<li><label>' . esc_html__( 'Project URL', 'tlp-portfolio' ) . ':</label> <a  href="' . esc_url( $project_url ) . '" target="_blank">' . esc_html( $project_url ) . '</a></li>';
+				$html .= '<li><label>' . esc_html__( 'Project URL', 'tlp-portfolio' ) . ':</label> <a  href="' . esc_url( $project_url ) . '" target="_blank" rel="noopener noreferrer">' . esc_html( $project_url ) . '</a></li>';
 			}
 
 			if ( $categories ) {
@@ -537,7 +582,12 @@ if ( ! class_exists( 'TLPPortfolioHelper' ) ) :
 			if ( 1 != $pages ) {
 				$li = null;
 
-				if ( apply_filters( 'tlp_portfolio_pagination_page_count', true ) ) {
+				// Chevrons match the shared pagination design; every layout renders through here.
+				$chevron_left  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>';
+				$chevron_right = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>';
+
+				// Off by default so the markup matches the design; filter it back on if wanted.
+				if ( apply_filters( 'tlp_portfolio_pagination_page_count', false ) ) {
 					$li .= sprintf(
 						'<li class="disabled hidden-xs"><span><span aria-hidden="true">%s</span></span></li>',
 						/* translators: %d is the page number */
@@ -545,43 +595,43 @@ if ( ! class_exists( 'TLPPortfolioHelper' ) ) :
 					);
 				}
 
-				if ( $paged > 2 && $paged > $range + 1 && $showitems < $pages ) {
+				// Previous — always rendered, disabled on the first page.
+				if ( $paged > 1 ) {
 					$li .= sprintf(
-						'<li><a href="%1$s" aria-label="%2$s">&laquo;<span class="hidden-xs">%2$s</span></a></li>',
-						get_pagenum_link( 1 ),
-						esc_html__( 'First', 'tlp-portfolio' )
-					);
-				}
-
-				if ( $paged > 1 && $showitems < $pages ) {
-					$li .= sprintf(
-						'<li><a href="%1$s" aria-label="%2$s">&lsaquo;<span class="hidden-xs">%2$s</span></a></li>',
+						'<li class="tlp-prev"><a href="%1$s" aria-label="%2$s">%3$s</a></li>',
 						get_pagenum_link( $paged - 1 ),
-						esc_html__( 'Previous', 'tlp-portfolio' )
+						esc_attr__( 'Previous page', 'tlp-portfolio' ),
+						$chevron_left
+					);
+				} else {
+					$li .= sprintf(
+						'<li class="tlp-prev disabled"><span aria-label="%1$s">%2$s</span></li>',
+						esc_attr__( 'Previous page', 'tlp-portfolio' ),
+						$chevron_left
 					);
 				}
 
 				for ( $i = 1; $i <= $pages; $i++ ) {
 					if ( 1 != $pages && ( ! ( $i >= $paged + $range + 1 || $i <= $paged - $range - 1 ) || $pages <= $showitems ) ) {
-						$li .= $paged == $i ? sprintf( '<li class="active"><span>%d</span></li>', $i )
+						$li .= $paged == $i ? sprintf( '<li class="active"><span aria-current="page">%d</span></li>', $i )
 							: sprintf( '<li><a href="%s">%d</a></li>', get_pagenum_link( $i ), $i );
 
 					}
 				}
 
-				if ( $paged < $pages && $showitems < $pages ) {
+				// Next — always rendered, disabled on the last page.
+				if ( $paged < $pages ) {
 					$li .= sprintf(
-						'<li><a href="%1$s" aria-label="%2$s">&lsaquo;<span class="hidden-xs">%2$s </span></a></li>',
+						'<li class="tlp-next"><a href="%1$s" aria-label="%2$s">%3$s</a></li>',
 						get_pagenum_link( $paged + 1 ),
-						esc_html__( 'Next', 'tlp-portfolio' )
+						esc_attr__( 'Next page', 'tlp-portfolio' ),
+						$chevron_right
 					);
-				}
-
-				if ( $paged < $pages - 1 && $paged + $range - 1 < $pages && $showitems < $pages ) {
+				} else {
 					$li .= sprintf(
-						'<li><a href="%1$s" aria-label="%2$s">&raquo;<span class="hidden-xs">%2$s </span></a></li>',
-						get_pagenum_link( $pages ),
-						esc_html__( 'Last', 'tlp-portfolio' )
+						'<li class="tlp-next disabled"><span aria-label="%1$s">%2$s</span></li>',
+						esc_attr__( 'Next page', 'tlp-portfolio' ),
+						$chevron_right
 					);
 				}
 
@@ -651,6 +701,480 @@ if ( ! class_exists( 'TLPPortfolioHelper' ) ) :
 		public function array_text_sanitization( $input ) {
 			$input = maybe_unserialize( $input );
 			return ! empty( $input ) ? array_map( 'sanitize_text_field', array_filter( $input ) ) : [];
+		}
+
+		/**
+		 * Dynamic CSS for the card grid (layout 1).
+		 *
+		 * Layout 1 is a white card, so the shared rules that paint `.tlp-content` with the
+		 * primary colour and force a 15px content padding would destroy it. Primary is
+		 * re-targeted at the card's own accents instead — the hover overlay and the hover
+		 * shadow — and the controls the card markup would otherwise ignore are wired up.
+		 *
+		 * Kept in step with the pro plugin's PFProHelper::cardLayoutCss().
+		 *
+		 * @param string $layoutID Container id.
+		 * @param string $layout   Selected layout key.
+		 * @param array  $args     primary_color, name_hover_color, icon_size, icon_align,
+		 *                         overlay_color.
+		 *
+		 * @return string
+		 */
+		/**
+		 * Default desktop column count for a layout.
+		 *
+		 * The horizontal card layouts are far too tight three-up, so they default to two.
+		 * Only used when the shortcode has no desktop column saved, so an explicit choice
+		 * is never overridden.
+		 *
+		 * Kept in step with the pro plugin's PFProHelper::defaultColumns().
+		 *
+		 * @param string $layout Selected layout key.
+		 *
+		 * @return int
+		 */
+		public function defaultColumns( $layout ) {
+			switch ( $layout ) {
+				case 'layout2':
+				case 'isotope2':
+				case 'carousel2':
+					return 2;
+
+				default:
+					return 3;
+			}
+		}
+
+		/**
+		 * Icon for a meta row, as inline SVG.
+		 *
+		 * Emitted as raw markup by the caller, never through a kses'd string - wp_kses_post()
+		 * strips <svg> entirely.
+		 *
+		 * Kept in step with the pro plugin's PFProHelper::pfpMetaIcon().
+		 *
+		 * @param string $name One of client, date, category, tool, tag, url.
+		 *
+		 * @return string
+		 */
+		public function pfpMetaIcon( $name ) {
+			$open  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">';
+			$paths = [
+				'client'   => '<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+				'date'     => '<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',
+				'category' => '<path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/>',
+				'tool'     => '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+				'tag'      => '<line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/>',
+				'url'      => '<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>',
+				'globe'    => '<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>',
+			];
+
+			$paths['link'] = $paths['url'];
+
+			return ! empty( $paths[ $name ] ) ? $open . $paths[ $name ] . '</svg>' : '';
+		}
+
+		/**
+		 * The rel attribute for a link that opens in a new tab, with a leading space.
+		 *
+		 * Empty for any other target, so it can be printed straight after the target attribute.
+		 *
+		 * Kept in step with the pro plugin's PFProHelper::pfpLinkRel().
+		 *
+		 * @param string $target Link target.
+		 *
+		 * @return string Fixed markup, safe to print as is.
+		 */
+		public function pfpLinkRel( $target ) {
+			return '_blank' === $target ? ' rel="noopener noreferrer"' : '';
+		}
+
+		/**
+		 * Build the card layouts' meta list.
+		 *
+		 * The markup keeps `.extra-features > ul > li`, the per-field `li` classes and the
+		 * `<label>` element, because the Meta Style control and the Elementor meta selectors
+		 * all target those. The icon tile and the value span are additions the design needs.
+		 *
+		 * The value is deliberately left with no colour of its own so the value colour set
+		 * on the `li` still reaches it.
+		 *
+		 * Kept in step with the pro plugin's PFProHelper::pfpMetaList().
+		 *
+		 * @param array $rows Ordered rows: [ 'class', 'icon', 'label', 'value' ].
+		 *                    `value` is already escaped or safe markup.
+		 *
+		 * @return string Empty string when there is nothing to show.
+		 */
+		public function pfpMetaList( $rows ) {
+			$html = '';
+
+			foreach ( (array) $rows as $row ) {
+				// A row with nothing to show is dropped entirely - label included - so the
+				// card never prints "Project URL :" or "Tools :" with a blank after it. A url
+				// row has no text of its own (the value is the masked link button), so it is
+				// judged on the url rather than on rendered text.
+				$rowUrl  = ! empty( $row['url'] );
+				$rowText = isset( $row['value'] ) ? trim( wp_strip_all_tags( (string) $row['value'] ) ) : '';
+				if ( ! $rowUrl && '' === $rowText ) {
+					continue;
+				}
+
+				// A url row is masked: the address itself is long enough to double the card's
+				// height, so the value is a single link carrying the URL in its href and
+				// title. Hovering shows it, clicking opens it.
+				if ( ! empty( $row['url'] ) ) {
+					$value = '<a class="tlp-meta-link" href="' . esc_url( $row['url'] ) . '"'
+						. ' target="_blank" rel="noopener noreferrer"'
+						. ' title="' . esc_attr( $row['url'] ) . '"'
+						. ' aria-label="' . esc_attr( sprintf( __( 'Open %s in a new tab', 'tlp-portfolio' ), $row['url'] ) ) . '">'
+						. $this->pfpMetaIcon( 'link' ) . '</a>';
+				} else {
+					$value = $row['value'];
+				}
+
+				$html .= '<li class="' . esc_attr( $row['class'] ) . '">'
+					. '<span class="tlp-meta-ico">' . $this->pfpMetaIcon( $row['icon'] ) . '</span>'
+					. '<label>' . esc_html( $row['label'] ) . '</label>'
+					. '<span class="tlp-meta-value">' . $value . '</span>'
+					. '</li>';
+			}
+
+			return $html ? '<div class="extra-features tlp-meta"><ul>' . $html . '</ul></div>' : '';
+		}
+
+		/**
+		 * Dynamic CSS for the shortcode's buttons: the isotope filter pills, the numbered pagination
+		 * and the carousel arrows and dots.
+		 *
+		 * Each kind has its own colour section in the Styling tab (TLPPortfolioOptions::scButtonStyleFields()).
+		 * A colour left empty there falls back to the matching "All buttons" colour - the pfp_button_* keys
+		 * every shortcode had before the split - so an older shortcode renders as it did. Primary still fills
+		 * the selected pill and the current page when neither colour is set. The Primary rules for the
+		 * carousel arrow hover and the active dot stay in the generators, before this call, so these
+		 * colours win over them by order.
+		 *
+		 * Called from both generators - lib/templates/portfolio-sc-css.php and the Layout Preview's
+		 * TLPportShortCode::customStyle(). Pro's PFProHelper::buttonGroupsCss() is the same logic on its
+		 * own markup, plus the Load More button free does not have.
+		 *
+		 * @param string $layoutID     Container id, e.g. `tlp-portfolio-container-12`.
+		 * @param array  $meta         Shortcode values: get_post_meta() shape (value at [0]) or the preview's flat $_REQUEST.
+		 * @param string $primaryColor Resolved Primary colour, or null.
+		 *
+		 * @return string
+		 */
+		public function buttonGroupsCss( $layoutID, $meta, $primaryColor = null ) {
+			$get = function ( $key, $fallback = '' ) use ( $meta ) {
+				$value = isset( $meta[ $key ] ) ? $meta[ $key ] : '';
+				if ( is_array( $value ) ) {
+					$value = isset( $value[0] ) ? $value[0] : '';
+				}
+				$value = $this->sanitizeCssColor( $value );
+
+				return '' !== $value ? $value : $fallback;
+			};
+
+			$id  = "#{$layoutID}";
+			$css = '';
+
+			// All buttons - the default for every section below.
+			$allBg        = $get( 'pfp_button_bg_color' );
+			$allTxt       = $get( 'pfp_button_text_color' );
+			$allHoverBg   = $get( 'pfp_button_hover_bg_color' );
+			$allActiveBg  = $get( 'pfp_button_active_bg_color' );
+			$allActiveTxt = $get( 'pfp_button_active_text_color' );
+
+			/* Isotope filter buttons */
+			$isoBg        = $get( 'pfp_iso_btn_bg_color', $allBg );
+			$isoTxt       = $get( 'pfp_iso_btn_text_color', $allTxt );
+			$isoHoverBg   = $get( 'pfp_iso_btn_hover_bg_color', $allHoverBg );
+			$isoHoverTxt  = $get( 'pfp_iso_btn_hover_text_color' );
+			$isoActiveBg  = $get( 'pfp_iso_btn_active_bg_color', $allActiveBg );
+			$isoActiveTxt = $get( 'pfp_iso_btn_active_text_color', $allActiveTxt );
+			$pill         = "{$id} .tlp-portfolio-isotope-button button";
+
+			// A background reaches every pill, the selected one too, until a selected colour is set.
+			if ( $isoBg ) {
+				$css .= "{$pill}{background:{$isoBg};}";
+			}
+			if ( $isoTxt ) {
+				$css .= "{$pill}{color:{$isoTxt};}";
+			}
+			// Hover leaves the selected pill alone, like the stylesheet's own hover.
+			if ( $isoHoverBg ) {
+				$css .= "{$pill}:not(.selected):hover{background:{$isoHoverBg};}";
+			}
+			if ( $isoHoverTxt ) {
+				$css .= "{$pill}:not(.selected):hover{color:{$isoHoverTxt};}";
+			}
+			if ( $isoActiveBg ) {
+				$css .= "{$pill}.selected{background:{$isoActiveBg};}";
+			}
+			// Not the pill's count: it sits on its own badge.
+			if ( $isoActiveTxt ) {
+				$css .= "{$pill}.selected{color:{$isoActiveTxt};}";
+			}
+			// The selected pill lifts on a tint of whichever colour fills it.
+			$pillShadow = $isoActiveBg ? $isoActiveBg : $isoBg;
+			if ( $pillShadow ) {
+				$css .= "{$pill}.selected{box-shadow:0 6px 16px " . $this->TLPhex2rgba( $pillShadow, 0.32 ) . ';}';
+			} elseif ( $primaryColor ) {
+				$css .= "{$pill}.selected{background:{$primaryColor};box-shadow:0 6px 16px " . $this->TLPhex2rgba( $primaryColor, 0.32 ) . ';}';
+			}
+
+			/* Pagination numbers */
+			$pageBg        = $get( 'pfp_page_btn_bg_color', $allBg );
+			$pageTxt       = $get( 'pfp_page_btn_text_color', $allTxt );
+			$pageHoverBg   = $get( 'pfp_page_btn_hover_bg_color', $allHoverBg );
+			$pageHoverTxt  = $get( 'pfp_page_btn_hover_text_color' );
+			$pageActiveBg  = $get( 'pfp_page_btn_active_bg_color', $allActiveBg );
+			$pageActiveTxt = $get( 'pfp_page_btn_active_text_color', $allActiveTxt );
+			$pageList      = "{$id} .tlp-pagination";
+			// The active page is kept out of every resting rule: it is the filled pill in the design.
+			$pageRest      = "{$pageList} li:not(.active) span, {$pageList} li:not(.active) a";
+			$pageRestHover = "{$pageList} li:not(.active) span:hover, {$pageList} li:not(.active) a:hover";
+			$pageCurrent   = "{$pageList} li.active span, {$pageList} li.active a";
+
+			// A filled page would otherwise keep the design's pale outline as a ring round the fill.
+			if ( $pageBg ) {
+				$css .= "{$pageRest}{background:{$pageBg};border-color:{$pageBg};}";
+			}
+			if ( $pageTxt ) {
+				$css .= "{$pageRest}{color:{$pageTxt};}";
+			}
+			if ( $pageHoverBg ) {
+				$css .= "{$pageRestHover}{background:{$pageHoverBg};border-color:{$pageHoverBg};}";
+			}
+			if ( $pageHoverTxt ) {
+				$css .= "{$pageRestHover}{color:{$pageHoverTxt};}";
+			}
+			// The current page takes its own colour, else Primary; the outline and shadow follow the fill.
+			$pageFill = $pageActiveBg ? $pageActiveBg : $primaryColor;
+			if ( $pageFill ) {
+				$css .= "{$pageCurrent}{background:{$pageFill};border-color:{$pageFill};box-shadow:0 6px 16px " . $this->TLPhex2rgba( $pageFill, 0.26 ) . ';}';
+			}
+			if ( $pageActiveTxt ) {
+				$css .= "{$pageCurrent}{color:{$pageActiveTxt};}";
+			}
+			// A resting page turns the accent colour on hover, while no pagination colour owns the hover.
+			if ( $primaryColor && ! $pageBg && ! $pageTxt && ! $pageHoverBg && ! $pageHoverTxt ) {
+				$css .= "{$pageList} li:not(.active) a:hover{color:{$primaryColor};}";
+			}
+
+			/* Carousel arrows and dots */
+			$arrowBg       = $get( 'pfp_nav_btn_bg_color', $allBg );
+			$arrowTxt      = $get( 'pfp_nav_btn_text_color', $allTxt );
+			$arrowHoverBg  = $get( 'pfp_nav_btn_hover_bg_color', $allHoverBg );
+			$arrowHoverTxt = $get( 'pfp_nav_btn_hover_text_color' );
+			$dotBg         = $get( 'pfp_nav_dot_color', $allBg );
+			$dotActiveBg   = $get( 'pfp_nav_dot_active_color', $allActiveBg );
+			$arrow         = "{$id} .owl-theme .owl-nav [class*=owl-]";
+
+			if ( $arrowBg ) {
+				$css .= "{$arrow}{background:{$arrowBg};}";
+			}
+			if ( $dotBg ) {
+				$css .= "{$id} .owl-theme .owl-dots .owl-dot span{background:{$dotBg};}";
+			}
+			if ( $arrowTxt ) {
+				$css .= "{$arrow}{color:{$arrowTxt};}";
+			}
+			// The arrow lifts on a tinted shadow of its own colour, so the shadow follows the fill.
+			if ( $arrowHoverBg ) {
+				$css .= "{$arrow}:hover{background:{$arrowHoverBg};border-color:{$arrowHoverBg};box-shadow:0 10px 22px " . $this->TLPhex2rgba( $arrowHoverBg, 0.32 ) . ';}';
+			}
+			if ( $arrowHoverTxt ) {
+				$css .= "{$arrow}:hover{color:{$arrowHoverTxt};}";
+			}
+			if ( $dotActiveBg ) {
+				$css .= "{$id} .owl-theme .owl-dots .owl-dot.active span{background:{$dotActiveBg};}";
+			}
+
+			return $css;
+		}
+
+		public function cardLayoutCss( $layoutID, $layout, $args = [] ) {
+
+			// The card layouts share the same overlay / content markup, so they share this
+			// block. layout1 is the vertical card and isotope1 the same card in isotope mode,
+			// layout2 the horizontal one, layout3 the hover card whose overlay carries the
+			// title and description.
+			if ( ! in_array( $layout, [ 'layout1', 'isotope1', 'carousel1', 'layout2', 'isotope2', 'carousel2', 'layout3', 'isotope3', 'carousel3' ], true ) ) {
+				return '';
+			}
+
+			// layout1, isotope1 and carousel1 are the same design in three modes.
+			$isVerticalCard = in_array( $layout, [ 'layout1', 'isotope1', 'carousel1' ], true );
+
+			// layout3, isotope3 and carousel3 are the same hover card in three modes.
+			$isHoverCard = in_array( $layout, [ 'layout3', 'isotope3', 'carousel3' ], true );
+
+			// A slider carries no per-item lift shadow - inside a carousel the cards sit flat
+			// on the page, so the card's hover shadow is left off. See the carousel1 block in
+			// the stylesheet, which drops the resting shadow for the same reason.
+			$isSlider = in_array( $layout, [ 'carousel1', 'carousel3' ], true );
+
+			$css        = '';
+			$scope      = "#{$layoutID} .{$layout}";
+			$primary    = ! empty( $args['primary_color'] ) ? $args['primary_color'] : '';
+			$nameHover  = ! empty( $args['name_hover_color'] ) ? $args['name_hover_color'] : '';
+			$nameColor  = ! empty( $args['name_color'] ) ? $args['name_color'] : '';
+			$iconSize   = ! empty( $args['icon_size'] ) ? absint( $args['icon_size'] ) : 0;
+			$iconAlign  = ! empty( $args['icon_align'] ) ? $args['icon_align'] : '';
+			$iconColor  = ! empty( $args['icon_color'] ) ? $args['icon_color'] : '';
+			$imageWidth = isset( $args['image_width'] ) && '' !== $args['image_width'] ? absint( $args['image_width'] ) : 0;
+
+			// Image / content split. The stylesheet reads --tlp-card-img-w inside the desktop
+			// media query, so the card still stacks on mobile whatever this is set to.
+			// layout1, isotope1, carousel1, layout3 and isotope3 are vertical cards and have no split.
+			if ( ! $isVerticalCard && ! $isHoverCard && $imageWidth > 0 && $imageWidth < 100 ) {
+				$css .= "{$scope}{--tlp-card-img-w:{$imageWidth}%;}";
+			}
+
+			if ( $primary ) {
+				// Undo the shared primary rules, which assume a solid content block.
+				$css .= "{$scope} .tlp-portfolio-item .tlp-content{background:transparent;}";
+				if ( $isVerticalCard ) {
+					$padding = '22px 24px 26px';
+				} elseif ( $isHoverCard ) {
+					$padding = '20px 24px 22px';
+				} else {
+					$padding = '24px 26px';
+				}
+				$css .= "{$scope} .tlp-portfolio-item .tlp-content .tlp-content-holder{padding:{$padding};}";
+
+				// Primary drives the hover overlay and the hover shadow, unless an explicit
+				// overlay colour is set — that control is the more specific intent.
+				if ( empty( $args['overlay_color'] ) ) {
+					if ( $isHoverCard ) {
+						// Layout 3's overlay is a gradient, so primary has to drive both stops
+						// or the flat colour would flatten the design. Set in every state, not only
+						// :hover - the overlay is invisible at rest but fades out after the pointer
+						// leaves, and a hover-only colour snapped back to the stylesheet's blue for
+						// the length of that fade. Same as pro's layout 3.
+						$css .= "{$scope} .tlp-portfolio-item .tlp-overlay{background:linear-gradient(165deg,"
+							. TLPPortfolio()->TLPhex2rgba( $primary, 0.92 ) . ","
+							. TLPPortfolio()->TLPhex2rgba( $primary, 0.95 ) . ");}";
+					} else {
+						// Layout 1's and layout 2's wash is a gradient that fades out after the
+						// pointer leaves. A hover-only flat colour dropped the gradient and snapped
+						// back to the stylesheet's blue for the length of that fade, so the colour is
+						// held at rest too (the overlay is invisible at rest). Same as pro's layout 1 / 2.
+						$css .= "{$scope} .tlp-portfolio-item .tlp-overlay{background:linear-gradient(180deg,"
+							. TLPPortfolio()->TLPhex2rgba( $primary, 0.28 ) . ","
+							. TLPPortfolio()->TLPhex2rgba( $primary, 0.82 ) . ");}";
+					}
+				}
+				if ( ! $isSlider ) {
+					$css .= "{$scope} .tlp-portfolio-item:hover{box-shadow:0 18px 40px "
+						. TLPPortfolio()->TLPhex2rgba( $primary, 0.28 ) . ";}";
+				}
+
+				// Badge and the "view project" link have no control of their own. The icon and
+				// the title hover deliberately do not follow primary — they have dedicated
+				// controls that must win.
+				// The caption title turns primary when the card is hovered. The stylesheet
+				// hardcodes #004bff for that, so it has to be restated here or the title keeps
+				// the stock blue whatever Primary is set to. Name Hover is emitted after this
+				// and still wins.
+				$css .= "{$scope} .tlp-portfolio-item:hover .tlp-content h3, {$scope} .tlp-portfolio-item:hover .tlp-content h3 a{color:{$primary};}";
+
+				if ( $isHoverCard ) {
+					// Layout 3 has no badge and no "view project" link. Its accent is the icon
+					// hover, which sits on the primary gradient - so it inverts instead of
+					// filling with primary.
+					$css .= "{$scope} .tlp-overlay .link-icon a:hover{background:#fff;color:{$primary};border-color:#fff;}";
+				} else {
+					$css .= "{$scope} .tlp-badge{color:{$primary};}";
+					if ( ! $isVerticalCard ) {
+						// The horizontal card's badge sits on the card, not on the image, so it
+						// needs a tinted background rather than layout1's translucent white.
+						$css .= "{$scope} .tlp-badge{background:" . TLPPortfolio()->TLPhex2rgba( $primary, 0.10 ) . ";}";
+					}
+					$css .= "{$scope} .tlp-more{color:{$primary};}";
+					// The overlay icon sits in a white disc and the stylesheet pins its glyph to
+					// #004bff, which clashes once Primary is anything else. Primary drives it -
+					// unless the Icon Colour control has a value, which must win.
+					if ( ! $iconColor ) {
+						$css .= "{$scope} .tlp-overlay .link-icon a{color:{$primary};}";
+					}
+					$css .= "{$scope} .tlp-overlay .link-icon a:hover{background:{$primary};color:#fff;}";
+				}
+
+				// The meta list is the card's most visible brand surface at rest - the icon
+				// tiles and the masked project-URL button. Without these the Primary control
+				// only changes hover states and looks like it does nothing.
+				$css .= "{$scope} .extra-features .tlp-meta-ico{background:"
+					. TLPPortfolio()->TLPhex2rgba( $primary, 0.10 ) . ";color:{$primary};}";
+				$css .= "{$scope} .extra-features a.tlp-meta-link{color:{$primary};}";
+				$css .= "{$scope} .extra-features a.tlp-meta-link:hover{background:{$primary};border-color:{$primary};color:#fff;}";
+			}
+
+			// Layout 1's and layout 2's overlay is a tint over the photo that fades in on hover. A plain
+			// hex Overlay colour painted it solid, so hovering a card hid the photo completely. A hex
+			// colour gets pro's default 80% - the same shortcode then looks the same in both tiers - while
+			// a colour picked with the alpha slider (rgba) keeps the alpha it was given. The alpha
+			// picker saves a fully opaque colour as rgb(), not hex, so both count as opaque. Layout 3's
+			// overlay carries the caption text, so it is left as the user set it.
+			$overlayColor = ! empty( $args['overlay_color'] ) ? $args['overlay_color'] : '';
+
+			if ( ! $isHoverCard && $overlayColor && ( '#' === $overlayColor[0] || 0 === strpos( $overlayColor, 'rgb(' ) ) ) {
+				$css .= "{$scope} .tlp-portfolio-item .tlp-overlay{background:" . TLPPortfolio()->TLPhex2rgba( $overlayColor, 0.8 ) . ';}';
+			}
+
+			// Layout 3 / isotope 3 repeat the title inside the overlay, on a dark gradient. The Name
+			// colour control owns the caption title; the overlay copy stays white so it
+			// cannot disappear into the overlay.
+			if ( $isHoverCard && $nameColor ) {
+				$css .= "{$scope} .tlp-overlay h3, {$scope} .tlp-overlay h3 a{color:#fff;}";
+			}
+
+			// Name hover colour should apply on card hover, not only on hovering the text.
+			if ( $nameHover ) {
+				$css .= "{$scope} .tlp-portfolio-item:hover .tlp-content h3, {$scope} .tlp-portfolio-item:hover .tlp-content h3 a{color:{$nameHover};}";
+			}
+
+			// The icons are inline SVG sized in em, so drive them from the anchor font-size.
+			if ( $iconSize ) {
+				$css .= "{$scope} .tlp-overlay .link-icon a{font-size:{$iconSize}px;}";
+			}
+
+			// The icon row is a flex box, so text-align has no effect.
+			if ( $iconAlign ) {
+				$map     = [ 'left' => 'flex-start', 'center' => 'center', 'right' => 'flex-end' ];
+				$justify = isset( $map[ $iconAlign ] ) ? $map[ $iconAlign ] : 'center';
+				$css    .= "{$scope} .tlp-overlay .link-icon{justify-content:{$justify};}";
+			}
+
+			return $css;
+		}
+
+		/**
+		 * Sanitize a shortcode's item-field list and make pro-written lists usable.
+		 *
+		 * Both plugins write the same `pfp_item_fields` meta on the shared `portfolio-sc`
+		 * post type but disagree on the values: pro stores the zoom control as `zoom` where
+		 * this plugin expects `zoom_image`. A shortcode configured under pro and then opened
+		 * here would lose its zoom icon. Pro also stores `featured_image`, which has no
+		 * meaning here because the layouts always render the thumbnail when one exists.
+		 *
+		 * @param mixed $input Raw meta value.
+		 *
+		 * @return array
+		 */
+		public function normalize_sc_item_fields( $input ) {
+			$fields = $this->array_text_sanitization( $input );
+
+			if ( empty( $fields ) ) {
+				return $fields;
+			}
+
+			if ( in_array( 'zoom', $fields, true ) && ! in_array( 'zoom_image', $fields, true ) ) {
+				$fields[] = 'zoom_image';
+			}
+
+			return $fields;
 		}
 
 		/**

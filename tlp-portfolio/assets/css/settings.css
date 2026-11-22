@@ -16,9 +16,16 @@
     transform: translateX(-50%);
 }
 
-#pfp-preview-container button {
-    font-size: 14px;
+/* The nav buttons sit 72px above the slider. Inside the preview metabox the carousel
+   starts at the top of the box, so without this clearance they ride up into the metabox
+   header and collide with WordPress's collapse toggle. Keep in step with .owl-nav's top. */
+div#pfp-preview-container .pfp-carousel {
+    margin-top: 72px;
 }
+
+/* No font-size override for the preview's buttons: every button the shortcode renders (isotope filters,
+   carousel arrows) sets its own size in tlpportfolio.css, and forcing 14px here made the Layout Preview's
+   buttons smaller than the page's. */
 
 /* Start metabox style */
 #tlp_portfolio_sc_settings_meta h2.hndle,
@@ -657,6 +664,25 @@ ul.rt-tab-nav li a:focus {
     border-bottom: 1px solid #e7e7e7;
     padding: 10px 0;
     display: flex;
+}
+
+/* Section title inside a tab (the 'heading' field type) - e.g. the Styling tab's button sections.
+   display:block on the class itself, so the editor script's .show() restores it as a block. */
+.rt-field-wrapper.rt-field-heading {
+    display: block;
+    padding: 22px 15px 12px;
+    background: #f6f7f7;
+    border-top: 1px solid #e7e7e7;
+}
+
+.rt-field-wrapper.rt-field-heading .rt-field-heading-title {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.rt-field-wrapper.rt-field-heading .description {
+    margin: 4px 0 0;
 }
 
 .rt-label {

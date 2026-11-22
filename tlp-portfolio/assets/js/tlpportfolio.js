@@ -76,6 +76,7 @@
                                 isoHolder.isotope();
                             }, 10);
                             var $isotopeButtonGroup = container.find('.tlp-portfolio-isotope-button');
+                            isoFilterCounter(isoHolder, $isotopeButtonGroup);
                             $isotopeButtonGroup.on('click', 'button', function (e) {
                                 e.preventDefault();
                                 var filterValue = $(this).attr('data-filter');
@@ -133,7 +134,7 @@
                     loop: loop ? true : false,
                     nav: nav ? true : false,
                     dots: dots ? true : false,
-                    navText: ["<i class=\'demo-icon icon-left-open\'></i>", "<i class=\'demo-icon icon-right-open\'></i>"],
+                    navText: ["<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><polyline points=\"15 18 9 12 15 6\"></polyline></svg>", "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><polyline points=\"9 18 15 12 9 6\"></polyline></svg>"],
                     autoplay: autoplay ? true : false,
                     autoplayHoverPause: autoPlayHoverPause ? true : false,
                     autoplayTimeout: autoPlayTimeOut ? autoPlayTimeOut : 5000,
@@ -275,6 +276,32 @@
             }
         });
     }
+    /**
+     * Write each filter button's item count into data-filter-counter.
+     *
+     * The count badge in the filter bar is rendered from that attribute in CSS, so this
+     * runs on init and again whenever the item set changes. Counted from the rendered
+     * items rather than the term archive, so it stays right under pagination and search.
+     *
+     * Kept in step with the pro plugin's isoFilterCounter().
+     *
+     * @param {jQuery} $isoHolder   The isotope container.
+     * @param {jQuery} $buttonGroup The filter button wrapper.
+     */
+    function isoFilterCounter($isoHolder, $buttonGroup) {
+        if (!$isoHolder.length || !$buttonGroup.length) {
+            return;
+        }
+        $buttonGroup.find('button').each(function () {
+            var $btn = $(this),
+                filter = $btn.attr('data-filter'),
+                total = filter === '*'
+                    ? $isoHolder.find('.tlp-isotope-item').length
+                    : $isoHolder.find(filter).length;
+            $btn.attr('data-filter-counter', total);
+        });
+    }
+
     /**
      * Replace isotope layout content with AJAX search results.
      *
